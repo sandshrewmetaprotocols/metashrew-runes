@@ -9,18 +9,17 @@ import { encodeHexFromBuffer, encodeHex } from "metashrew-as/assembly/utils/hex"
 import { Inscription } from "metashrew-as/assembly/blockdata/inscription";
 import { subsidy } from "metashrew-as/assembly/utils/ordinals";
 import { Height } from "metashrew-as/assembly/blockdata/height";
-import { Sat } from "metashrew-as/assembly/blockdata/sat";
+import { Sat, SatPoint } from "metashrew-as/assembly/blockdata/sat";
 
-const HEIGHT_TO_HASH = String.UTF8.encode("/block/byheight");
-const HASH_TO_HEIGHT = String.UTF8.encode("/block/byhash");
-const ORDINAL_TO_SATPOINT = String.UTF8.encode("/satpoint/byordinal");
-const ORDINAL_TO_INSCRIPTION_ID = String.UTF8.encode("/inscription/byordinal");
-
-const TRANSACTION_BY_ID = String.UTF8.encode("/tx/byid");
+const HEIGHT_TO_BLOCKHASH = String.UTF8.encode("/block/byheight");
+const BLOCKHASH_TO_HEIGHT = String.UTF8.encode("/height/byhash");
+const SAT_TO_SATPOINT = String.UTF8.encode("/satpoint/byordinal");
+const SAT_TO_INSCRIPTION_ID = String.UTF8.encode("/inscription/byordinal");
+const INSCRIPTION_TO_SATPOINT = String.UTF8.encode("/satpoint/byinscription");
+const SATPOINT_TO_INSCRIPTION = String.UTF8.encode("/inscription/bysatpoint");
+const OUTPOINT_TO_SATRANGE = String.UTF8.encode("/sat/byoutpoint");
 const OUTPOINT_TO_VALUE = String.UTF8.encode("/outpoint/tovalue");
-const HEIGHT_TO_INSCRIPTION_ID = String.UTF8.encode("/inscription/byheight");
-const SAT_RANGE_BY_OUTPOINT = String.UTF8.encode("/satrange/byoutpoint");
-const OUTPOINT_TO_ORDINALS_RANGE = String.UTF8.encode("/ordinals/byoutpoint");
+
 
 class Table {
   keyPrefix: ArrayBuffer;
@@ -37,25 +36,109 @@ class Table {
     set(Index.keyFor(this.keyPrefix, key), value);
   }
 
+  remove(key: ArrayBuffer): void {
+    set(Index.keyFor(this.keyPrefix, key), new ArrayBuffer(0));
+  }
+
   get(key: ArrayBuffer): ArrayBuffer {
     return get(Index.keyFor(this.keyPrefix, key));
   }
 }
-
 
 class Index {
   static keyFor(table: ArrayBuffer, key: ArrayBuffer): ArrayBuffer {
     return Box.concat([Box.from(table), Box.from(key)]);
   }
 
+  // TODO: this is a simple naive implementation should be replaced with
+  // fn()::indexInscriptions
+  static indexTransactionInscriptions(
+    tx: Transaction,
+    txid: ArrayBuffer
+  ): void {
+    let inscriptionToSatpoint = Table.open(INSCRIPTION_TO_SATPOINT);
+    let satpointToInscription = Table.open(SATPOINT_TO_INSCRIPTION);
+
+    let inscribed = tx.parseInscriptions();
+
+    if (inscribed.length > 0) {
+
+      let satpoint = new SatPoint(
+        OutPoint.from(txid, 0),
+        <u64>0
+      );
+
+      inscriptionToSatpoint.insert(txid, satpoint.toBuffer());
+      satpointToInscription.insert(satpoint.toBuffer(), txid);
+    }
+
+    for (let i = 0; i < tx.ins.length; i++) {
+      let outpoint = tx.ins[i].previousOutput();
+
+      for (let i: u64 = 0; i < u64.MAX_VALUE; i++) {
+        let oldSatpoint = new SatPoint(
+          outpoint,
+          i
+        );
+
+        let inscriptionId = satpointToInscription.get(oldSatpoint.toBuffer());
+
+        if (inscriptionId.byteLength == 0) { continue }
+
+        let newSatpoint = new SatPoint(
+          OutPoint.from(txid, 0),
+          <u64>0
+        );
+
+        satpointToInscription.remove(oldSatpoint.toBuffer());
+        satpointToInscription.insert(newSatpoint.toBuffer(), inscriptionId);
+        inscriptionToSatpoint.insert(inscriptionId, newSatpoint.toBuffer());
+      }
+    }
+  }
+
+  static indexInscriptions(
+    tx: Transaction,
+    txid: ArrayBuffer
+    height: u32,
+  ): void {
+    let inscriptionToSatpoint = Table.open(INSCRIPTION_TO_SATPOINT);
+    let satpointToInscription = Table.open(SATPOINT_TO_INSCRIPTION);
+
+    let totalInputValue: u64 = 0;
+    let totalOutputValue: u64 = tx.outs.reduce<u64>((acc, output) => <u64>acc + output.value, <u64>0);
+    let inscriptions = tx.parseInscriptions();
+
+    if (inscriptions.length == 0) { return }
+
+    for ( let i = 0; i < tx.ins.length; i++ ) {
+      let input = tx.ins[i];
+
+      if (input.previousOutput().isNull()) {
+        totalInputValue += new Height(height).subsidy();
+      }
+
+      Index.inscriptionsOnOutput(
+
+      );
+    }
+
+    // TODO: handle inscripion transfers
+    // `get` inscriptions on previousOutput's 
+  }
+
   static indexBlock(height: u32, block: Block): void {
     // open tables
-    let heightToHash = Table.open(HEIGHT_TO_HASH);
-    let ordinalToOutpoint = Table.open(ORDINAL_TO_SATPOINT);
-    let ordinalToInscription = Table.open(ORDINAL_TO_INSCRIPTION_ID);
+    let hashToHeight = Table.open(BLOCKHASH_TO_HEIGHT);
+    let heightToHash = Table.open(HEIGHT_TO_BLOCKHASH);
+    let satToSatpoint = Table.open(SAT_TO_SATPOINT);
+    let outpointToSatRanges = Table.open(OUTPOINT_TO_SATRANGE);
+    let outpointToValue = Table.open(OUTPOINT_TO_VALUE);
+
+
 
     // insert height to hash index
-    heightToHash.insert(primitiveToBuffer<u32>(height), block.blockhash());
+    
 
     let coinbase_inputs = new Array<Array<u64>>();
 
@@ -73,14 +156,14 @@ class Index {
       for (let i = 0; i < tx.ins.length; i++) {
         let input = tx.ins[i];
         // encode key from transaction outpoint
-        let key: ArrayBuffer = input.previousOutput().toBuffer();
+        let previousOutpoint: ArrayBuffer = input.previousOutput().toBuffer();
 
-        let response = get(Index.keyFor(OUTPOINT_TO_ORDINALS_RANGE, key));
-        let ordinalRanges = Box.from(response);
-        let numOfOrdinals = parsePrimitive<u32>(ordinalRanges);
+        let response = outpointToSatRanges.get(previousOutpoint);
+        let satRange = Box.from(response);
+        let numOfOrdinals = parsePrimitive<u32>(satRange);
         for ( let i = 0; i < <i32>numOfOrdinals; i++ ) {
-          let start = parsePrimitive<u64>(ordinalRanges);
-          let end = parsePrimitive<u64>(ordinalRanges);
+          let start = parsePrimitive<u64>(satRange);
+          let end = parsePrimitive<u64>(satRange);
           inputOrdinalsRange.push([start, end])
         }
       }
@@ -88,14 +171,17 @@ class Index {
       Index.indexTransactions(
         tx.txid(),
         tx,
-        ordinalToOutpoint,
-        ordinalToInscription,
+        satToSatpoint,
+        outpointToSatRanges,
+        outpointToValue,
         inputOrdinalsRange
       );
 
       for (let i = 0; i < inputOrdinalsRange.length; i++) {
         coinbase_inputs.push(inputOrdinalsRange[i]);
       }
+
+      Index.indexTransactionInscriptions(tx, tx.txid()); 
     }
 
     let coinbase = block.coinbase();
@@ -104,21 +190,24 @@ class Index {
     Index.indexTransactions(
       coinbase.txid(),
       coinbase,
-      ordinalToOutpoint,
-      ordinalToInscription,
+      satToSatpoint,
+      outpointToSatRanges,
+      outpointToValue,
       coinbase_inputs
     );
 
+    heightToHash.insert(primitiveToBuffer<u32>(height), block.blockhash());
+    hashToHeight.insert(block.blockhash(), primitiveToBuffer<u32>(height));
   }
 
   static indexTransactions(
     txid: ArrayBuffer,
     tx: Transaction,
-    ordinalToSatpoint: Table,
-    ordinalToInscription: Table,
+    satToSatpoint: Table,
+    outpointToSatRanges: Table,
+    outpointToValue: Table,
     inputOrdinalsRange: Array<Array<u64>>,
   ): void {
-    let outpointToOrdinalsRange = Table.open(OUTPOINT_TO_ORDINALS_RANGE);
     // transaction outputs
     for (let i = 0; i < tx.outs.length; i++) {
       let key = OutPoint.from(txid, i).toBuffer();
@@ -131,6 +220,19 @@ class Index {
           break;
         } 
         let range = inputOrdinalsRange.shift();
+
+        // ordinal to satpoint
+
+        if (!(new Sat(range[0])).isCommon()) {
+          satToSatpoint.insert(
+            primitiveToBuffer<u64>(range[0]),
+            (new SatPoint(
+              OutPoint.from(txid, i),
+              <u64>(output.value - remaining)
+            )).toBuffer()
+          );
+        }
+
         let count = range[1] - range[0];
         let assigned: Array<u64> = new Array();
         if (count > remaining) {
@@ -152,7 +254,9 @@ class Index {
         primitiveToBuffer<u32>(<u32>ordinals.length)
       );
       let ords = concat(ordinals);
-      outpointToOrdinalsRange.insert(key, ords);
+
+      outpointToSatRanges.insert(key, ords);
+      outpointToValue.insert(key, primitiveToBuffer<u64>(output.value));
     }
   }
 
