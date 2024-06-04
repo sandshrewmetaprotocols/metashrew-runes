@@ -1,12 +1,16 @@
 import { IndexPointer } from "metashrew-as/assembly/indexer/tables";
 import { Block } from "metashrew-as/assembly/blockdata/block";
 import { RunesTransaction } from "./RunesTransaction";
+import { console } from "metashrew-as/assembly/utils/logging";
+import { encodeHexFromBuffer } from "metashrew-as/assembly/utils/hex";
+import { HEIGHT_TO_TRANSACTION_IDS } from "./constants";
 
 @final
 export class RunesBlock extends Block {
-  saveTransactions(index: IndexPointer): void {
+  saveTransactions(height: u32): void {
+    const ptr = HEIGHT_TO_TRANSACTION_IDS.selectValue<u32>(height);
     for (let i: i32 = 0; i < this.transactions.length; i++) {
-      index.append(this.getTransaction(i).txid());
+      ptr.append(this.getTransaction(i).txid());
     }
   }
   @inline
