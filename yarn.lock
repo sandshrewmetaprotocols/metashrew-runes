@@ -1223,6 +1223,10 @@ memorystream@^0.3.1:
     fast-sha256-as "https://github.com/sandshrewmetaprotocols/fast-sha256-as"
     lodash "^4.17.21"
 
+"metashrew-spendables@https://github.com/sandshrewmetaprotocols/metashrew-spendables":
+  version "0.1.0"
+  resolved "https://github.com/sandshrewmetaprotocols/metashrew-spendables#df7415215a061b896bfa7586e45bc4ba1ff6603b"
+
 "metashrew-test@https://github.com/sandshrewmetaprotocols/metashrew-test":
   version "0.1.0"
   resolved "https://github.com/sandshrewmetaprotocols/metashrew-test#55e465dc51c3d9f001a501e9880450b7b178bc82"
