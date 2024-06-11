@@ -8481,6 +8481,17 @@
   (local $i i32)
   (local $itemPointer i32)
   (local $item i32)
+  (local $vl i32)
+  (local $vr i32)
+  (local $n i32)
+  (local $vl|11 i32)
+  (local $vr|12 i32)
+  (local $n|13 i32)
+  (local $a i32)
+  (local $b i32)
+  (local $16 i32)
+  (local $a|17 i32)
+  (local $b|18 i32)
   global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
   local.get $output
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
@@ -8523,9 +8534,152 @@
      i32.const 0
      i32.gt_s
      if
-      local.get $item
-      call $~lib/fast-sha256-as/assembly/sha256/sha256
-      local.get $hash
+      block $~lib/memory/memory.compare|inlined.0 (result i32)
+       local.get $item
+       local.set $vl
+       local.get $hash
+       local.set $vr
+       local.get $item
+       call $~lib/arraybuffer/ArrayBuffer#get:byteLength
+       local.set $n
+       block $~lib/util/memory/memcmp|inlined.0 (result i32)
+        local.get $vl
+        local.set $vl|11
+        local.get $vr
+        local.set $vr|12
+        local.get $n
+        local.set $n|13
+        local.get $vl|11
+        local.get $vr|12
+        i32.eq
+        if
+         i32.const 0
+         br $~lib/util/memory/memcmp|inlined.0
+        end
+        i32.const 0
+        i32.const 2
+        i32.lt_s
+        drop
+        local.get $vl|11
+        i32.const 7
+        i32.and
+        local.get $vr|12
+        i32.const 7
+        i32.and
+        i32.eq
+        if
+         loop $while-continue|1
+          local.get $vl|11
+          i32.const 7
+          i32.and
+          if
+           local.get $n|13
+           i32.eqz
+           if
+            i32.const 0
+            br $~lib/util/memory/memcmp|inlined.0
+           end
+           local.get $vl|11
+           i32.load8_u
+           local.set $a
+           local.get $vr|12
+           i32.load8_u
+           local.set $b
+           local.get $a
+           local.get $b
+           i32.ne
+           if
+            local.get $a
+            local.get $b
+            i32.sub
+            br $~lib/util/memory/memcmp|inlined.0
+           end
+           local.get $n|13
+           i32.const 1
+           i32.sub
+           local.set $n|13
+           local.get $vl|11
+           i32.const 1
+           i32.add
+           local.set $vl|11
+           local.get $vr|12
+           i32.const 1
+           i32.add
+           local.set $vr|12
+           br $while-continue|1
+          end
+         end
+         block $while-break|2
+          loop $while-continue|2
+           local.get $n|13
+           i32.const 8
+           i32.ge_u
+           if
+            local.get $vl|11
+            i64.load
+            local.get $vr|12
+            i64.load
+            i64.ne
+            if
+             br $while-break|2
+            end
+            local.get $vl|11
+            i32.const 8
+            i32.add
+            local.set $vl|11
+            local.get $vr|12
+            i32.const 8
+            i32.add
+            local.set $vr|12
+            local.get $n|13
+            i32.const 8
+            i32.sub
+            local.set $n|13
+            br $while-continue|2
+           end
+          end
+         end
+        end
+        loop $while-continue|3
+         local.get $n|13
+         local.tee $16
+         i32.const 1
+         i32.sub
+         local.set $n|13
+         local.get $16
+         if
+          local.get $vl|11
+          i32.load8_u
+          local.set $a|17
+          local.get $vr|12
+          i32.load8_u
+          local.set $b|18
+          local.get $a|17
+          local.get $b|18
+          i32.ne
+          if
+           local.get $a|17
+           local.get $b|18
+           i32.sub
+           br $~lib/util/memory/memcmp|inlined.0
+          end
+          local.get $vl|11
+          i32.const 1
+          i32.add
+          local.set $vl|11
+          local.get $vr|12
+          i32.const 1
+          i32.add
+          local.set $vr|12
+          br $while-continue|3
+         end
+        end
+        i32.const 0
+        br $~lib/util/memory/memcmp|inlined.0
+       end
+       br $~lib/memory/memory.compare|inlined.0
+      end
+      i32.const 0
       i32.eq
       if
        local.get $itemPointer
