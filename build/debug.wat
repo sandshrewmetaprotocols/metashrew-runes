@@ -26998,11 +26998,6 @@
   i32.const 0
   call $~lib/array/Array<assembly/indexer/BalanceSheet/BalanceSheet>#constructor
   local.set $balanceSheets
-  global.get $~lib/metashrew-as/assembly/utils/logging/console
-  local.get $i
-  i32.const 10
-  call $~lib/number/I32#toString
-  call $~lib/metashrew-as/assembly/utils/logging/Console#log
   loop $while-continue|0
    local.get $i
    i32.const 0
