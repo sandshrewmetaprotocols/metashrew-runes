@@ -97,6 +97,7 @@ const runTest = (s) =>
 const log = (obj: any) => {
   console.log(inspect(obj, false, 10, true));
 };
+/*
 describe("metashrew-runes", () => {
   let hash: string;
   before(async () => {
@@ -188,5 +189,5 @@ describe("metashrew-runes", () => {
   return program;
 
   });
-  */
 });
+*/

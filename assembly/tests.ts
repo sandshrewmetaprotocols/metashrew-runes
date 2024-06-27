@@ -10,6 +10,7 @@ import { parsePrimitive } from "metashrew-as/assembly/utils/utils";
 import { u128 } from "as-bignum/assembly";
 import { console } from "metashrew-as/assembly/utils/logging";
 
+/*
 export function testCommitment(): void {
   const data = input();
   const box = Box.from(data);
@@ -21,6 +22,15 @@ export function testCommitment(): void {
     block,
     298,
   );
+}
+*/
+
+export function test_commitment(): void {
+  const data = input();
+  const box = Box.from(data);
+  const height = parsePrimitive<u32>(box);
+  const transaction = new Transaction(box);
+  console.log(transaction.locktime.toString(16));
 }
 
 export function testFieldToName(): void {

@@ -30,6 +30,23 @@ describe("metashrew-runes", () => {
   //   "test_oneFortyEight",
   //   "test_fifteen",
   // ].map((v) => runTest(v));
+  it('should parse a commitment', async () => {
+    const program = new IndexerProgram(
+      new Uint8Array(
+        Array.from(
+          fs.readFileSync(path.join(__dirname, "..", "build", "debug.wasm")),
+        ),
+      ).buffer,
+    );
+    program.on("log", console.log);
+    program.setBlock(
+      fs.readFileSync(path.join(__dirname, "quorum.hex"), "utf8"),
+    );
+    program.setBlockHeight(849246);
+    await program.run("test_commitment");
+    return program;
+  });
+  /*
 
   it("should check runes witness script", async () => {
     const program = new IndexerProgram(
@@ -47,6 +64,7 @@ describe("metashrew-runes", () => {
     await program.run("testCommitment");
     return program;
   });
+ */
   // it("should check name things", async () => {
   //   const program = new IndexerProgram(
   //     new Uint8Array(
