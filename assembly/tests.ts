@@ -1,7 +1,8 @@
 import { _flush, input, get, set } from "metashrew-as/assembly/indexer/index";
 import { Index } from "./indexer";
 import { Block } from "metashrew-as/assembly/blockdata/block";
-import { Transaction } from "metashrew-as/assembly/blockdata/transaction";
+import { Transaction, Input } from "metashrew-as/assembly/blockdata/transaction";
+import { Inscription } from "metashrew-as/assembly/blockdata/inscription";
 import { Box } from "metashrew-as/assembly/utils/box";
 import { decodeHex } from "metashrew-as/assembly";
 import { GENESIS, TWENTY_SIX } from "./indexer/constants";
@@ -25,12 +26,32 @@ export function testCommitment(): void {
 }
 */
 
+function coerceToEmpty(v: Inscription | null): ArrayBuffer {
+  if (v === null) return new ArrayBuffer(0);
+  const body = v.body();
+  if (body === null) return new ArrayBuffer(0);
+  return body;
+}
+
+function max<T>(a: T, b: T): T {
+  if (a < b) return b;
+  return a;
+}
+
+function truncate(v: string, n: i32): string {
+  if (v.length > n) return v.substring(0, (max(n, 3) - 3)) + '...';
+  return v;
+}
+
 export function test_commitment(): void {
   const data = input();
   const box = Box.from(data);
   const height = parsePrimitive<u32>(box);
   const transaction = new Transaction(box);
-  console.log(transaction.locktime.toString(16));
+  transaction.ins.forEach((v: Input, i: i32, ary: Array<Input>) => {
+    console.log('input: ' + i.toString(10));
+    console.log('inscription: ' + truncate(Box.from(coerceToEmpty(v.inscription())).toHexString(), 180));
+  });
 }
 
 export function testFieldToName(): void {
