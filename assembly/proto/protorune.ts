@@ -252,7 +252,7 @@ namespace __proto {
         // Something went beyond our capability to understand
         default:
           throw new Error(
-            `Invalid wire type ${wireType} at offset ${this.pos}`
+            `Invalid wire type ${wireType} at offset ${this.pos}`,
           );
       }
     }
@@ -408,22 +408,22 @@ namespace __proto {
       return value < 128
         ? 1 // 2^7
         : value < 16384
-        ? 2 // 2^14
-        : value < 2097152
-        ? 3 // 2^21
-        : value < 268435456
-        ? 4 // 2^28
-        : value < 34359738368
-        ? 5 // 2^35
-        : value < 4398046511104
-        ? 6 // 2^42
-        : value < 562949953421312
-        ? 7 // 2^49
-        : value < 72057594037927936
-        ? 8 // 2^56
-        : value < 9223372036854775808
-        ? 9 // 2^63
-        : 10;
+          ? 2 // 2^14
+          : value < 2097152
+            ? 3 // 2^21
+            : value < 268435456
+              ? 4 // 2^28
+              : value < 34359738368
+                ? 5 // 2^35
+                : value < 4398046511104
+                  ? 6 // 2^42
+                  : value < 562949953421312
+                    ? 7 // 2^49
+                    : value < 72057594037927936
+                      ? 8 // 2^56
+                      : value < 9223372036854775808
+                        ? 9 // 2^63
+                        : 10;
     }
 
     @inline
@@ -516,13 +516,13 @@ export namespace metashrew_runes {
     // Encodes RuneId to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes RuneId to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -567,8 +567,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -628,13 +628,13 @@ export namespace metashrew_runes {
     // Encodes Rune to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes Rune to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -697,8 +697,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -742,13 +742,13 @@ export namespace metashrew_runes {
     // Encodes BalanceSheetItem to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes BalanceSheetItem to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -799,9 +799,9 @@ export namespace metashrew_runes {
                 new DataView(
                   decoder.view.buffer,
                   decoder.pos + decoder.view.byteOffset,
-                  length
-                )
-              )
+                  length,
+                ),
+              ),
             );
             decoder.skip(length);
 
@@ -833,13 +833,13 @@ export namespace metashrew_runes {
     // Encodes BalanceSheet to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes BalanceSheet to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -908,13 +908,13 @@ export namespace metashrew_runes {
     // Encodes Outpoint to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes Outpoint to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -983,13 +983,13 @@ export namespace metashrew_runes {
     // Encodes Output to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes Output to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1035,8 +1035,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1048,8 +1048,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1061,8 +1061,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1124,13 +1124,13 @@ export namespace metashrew_runes {
     // Encodes OutpointResponse to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes OutpointResponse to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1231,13 +1231,13 @@ export namespace metashrew_runes {
     // Encodes PaginationInput to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes PaginationInput to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1299,13 +1299,13 @@ export namespace metashrew_runes {
     // Encodes WalletRequest to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes WalletRequest to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1345,9 +1345,9 @@ export namespace metashrew_runes {
                 new DataView(
                   decoder.view.buffer,
                   decoder.pos + decoder.view.byteOffset,
-                  length
-                )
-              )
+                  length,
+                ),
+              ),
             );
             decoder.skip(length);
 
@@ -1359,8 +1359,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1401,13 +1401,13 @@ export namespace metashrew_runes {
     // Encodes WalletResponse to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes WalletResponse to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1462,9 +1462,9 @@ export namespace metashrew_runes {
                 new DataView(
                   decoder.view.buffer,
                   decoder.pos + decoder.view.byteOffset,
-                  length
-                )
-              )
+                  length,
+                ),
+              ),
             );
             decoder.skip(length);
 
@@ -1496,13 +1496,13 @@ export namespace metashrew_runes {
     // Encodes RunesResponse to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes RunesResponse to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1573,13 +1573,13 @@ export namespace metashrew_runes {
     // Encodes ProtoBurn to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes ProtoBurn to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1645,13 +1645,13 @@ export namespace metashrew_runes {
     // Encodes uint128 to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes uint128 to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1693,8 +1693,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1706,8 +1706,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1749,13 +1749,13 @@ export namespace metashrew_runes {
     // Encodes Clause to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes Clause to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1812,9 +1812,9 @@ export namespace metashrew_runes {
                 new DataView(
                   decoder.view.buffer,
                   decoder.pos + decoder.view.byteOffset,
-                  length
-                )
-              )
+                  length,
+                ),
+              ),
             );
             decoder.skip(length);
 
@@ -1846,13 +1846,13 @@ export namespace metashrew_runes {
     // Encodes Predicate to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes Predicate to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
@@ -1901,8 +1901,8 @@ export namespace metashrew_runes {
               new DataView(
                 decoder.view.buffer,
                 decoder.pos + decoder.view.byteOffset,
-                length
-              )
+                length,
+              ),
             );
             decoder.skip(length);
 
@@ -1956,13 +1956,13 @@ export namespace metashrew_runes {
     // Encodes ProtoMessage to the ArrayBuffer
     encode(): ArrayBuffer {
       return changetype<ArrayBuffer>(
-        StaticArray.fromArray<u8>(this.encodeU8Array())
+        StaticArray.fromArray<u8>(this.encodeU8Array()),
       );
     }
 
     // Encodes ProtoMessage to the Array<u8>
     encodeU8Array(
-      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>()),
     ): Array<u8> {
       const buf = encoder.buf;
 
