@@ -8,6 +8,7 @@ import { expect } from "chai";
 import bitcoinjs = require("bitcoinjs-lib");
 import { encodeRunestone } from "@magiceden-oss/runestone-lib";
 import { MetashrewRunes } from "../lib/rpc";
+import { error } from "node:console";
 
 const EMPTY_BUFFER = Buffer.allocUnsafe(0);
 const EMPTY_WITNESS = [];
@@ -165,11 +166,16 @@ const initCompleteBlockWithRuneEtching = (
   premineAmount: bigint = 2100000005000000n,
   runeName: string = "GENESIS•RUNE•FR",
   symbol: string = "G",
-
+  block?: bitcoinjs.Block
 ): bitcoinjs.Block => {
-  const block = buildDefaultBlock();
-  const coinbase = buildCoinbaseToAddress(TEST_BTC_ADDRESS1);
-  block.transactions?.push(coinbase);
+  let coinbase;
+  if (block == undefined) {
+    block = buildDefaultBlock()
+    coinbase = buildCoinbaseToAddress(TEST_BTC_ADDRESS1);
+    block.transactions?.push(coinbase);
+  } else {
+    coinbase = block.transactions?.at(0)
+  }
   const runesGenesis = encodeRunestone({
     etching: {
       divisibility: divisibility,
@@ -200,6 +206,45 @@ const initCompleteBlockWithRuneEtching = (
   return block;
 }
 
+const buildCompleteBlockWithRuneTransfer = (
+  inputs: any,
+  outputs: any,
+  edicts: {
+    id: {
+      block: bigint;
+      tx: number;
+    };
+    amount: bigint;
+    output: number;
+  }[] | undefined,
+  pointer: number,
+  block?: bitcoinjs.Block
+): bitcoinjs.Block => {
+  if (block == undefined) {
+    block = buildDefaultBlock()
+    const coinbase = buildCoinbaseToAddress(TEST_BTC_ADDRESS1);
+    block.transactions?.push(coinbase);
+  }
+  const runesGenesis = encodeRunestone({
+    edicts: edicts,
+    pointer: pointer,
+  }).encodedRunestone;
+  const transaction = buildTransaction(
+    [
+      ...inputs
+    ],
+    [
+      {
+        script: runesGenesis,
+        value: 0,
+      },
+      ...outputs
+    ],
+  );
+  block.transactions?.push(transaction);
+  return block;
+}
+
 describe("metashrew-runes", () => {
   it("should check if duplicate keys are not being set", async () => {
     const program = buildProgram();
@@ -214,6 +259,36 @@ describe("metashrew-runes", () => {
         d.includes("/etching/byruneid"),
       ).length,
     ).to.be.equal(2);
+  });
+  it("should not index before 840000", async () => {
+    const program = buildProgram();
+    program.setBlockHeight(839000);
+    const premineAmount = 2100000005000000n
+    const outputs = [{
+      script: bitcoinjs.payments.p2pkh({
+        address: TEST_BTC_ADDRESS1,
+        network: bitcoinjs.networks.bitcoin,
+      }).output,
+      value: 1,
+    },
+    {
+      script: bitcoinjs.payments.p2pkh({
+        network: bitcoinjs.networks.bitcoin,
+        address: TEST_BTC_ADDRESS2,
+      }).output,
+      value: 624999999,
+    }]
+    const block = initCompleteBlockWithRuneEtching(outputs, 1, undefined, premineAmount)
+    program.setBlock(block.toHex());
+    await program.run("_start");
+
+    const resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log("runesbyaddress output", resultAddress1);
+    expect(resultAddress1.balanceSheet.length == 0);
+
+    const resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log("runesbyaddress2 output", resultAddress2);
+    expect(resultAddress2.balanceSheet.length == 0);
   });
   it("index Runestone on etching and premine", async () => {
     const program = buildProgram();
@@ -244,5 +319,45 @@ describe("metashrew-runes", () => {
     const resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
     console.log("runesbyaddress2 output", resultAddress2);
     expect(resultAddress2.balanceSheet.length == 0);
+  });
+  it("index Runestone on transfer", async () => {
+    const program = buildProgram();
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n
+    const outputWithRune = {
+      script: bitcoinjs.payments.p2pkh({
+        address: TEST_BTC_ADDRESS1,
+        network: bitcoinjs.networks.bitcoin,
+      }).output,
+      value: 1,
+    }
+    const outputWithoutRune = {
+      script: bitcoinjs.payments.p2pkh({
+        network: bitcoinjs.networks.bitcoin,
+        address: TEST_BTC_ADDRESS1,
+      }).output,
+      value: 624999999,
+    }
+    const outputs = [outputWithRune, outputWithoutRune]
+    const block = initCompleteBlockWithRuneEtching(outputs, 1, undefined, premineAmount)
+
+
+    const inputs = [
+      {
+        hash: TEST_BTC_ADDRESS1,
+        index: 0,
+        witness: [],
+        script: EMPTY_BUFFER
+      }
+    ]
+    buildCompleteBlockWithRuneTransfer(inputs,)
+
+    program.setBlock(block.toHex());
+
+    await program.run("_start");
+
+    const resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log("runesbyaddress output", resultAddress1);
+    expect(resultAddress1.balanceSheet[0].balance == premineAmount);
   });
 });
