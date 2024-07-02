@@ -9,6 +9,16 @@ import bitcoinjs = require("bitcoinjs-lib");
 import { encodeRunestone } from "@magiceden-oss/runestone-lib";
 import { MetashrewRunes } from "../lib/rpc";
 
+const EMPTY_BUFFER = Buffer.allocUnsafe(0);
+const EMPTY_WITNESS = [];
+
+const TEST_BTC_ADDRESS1 = "16aE44Au1UQ5XqKMUhCMXTX7ZxbmAcQNA1";
+const TEST_BTC_ADDRESS2 = "1AdAhGdUgGF6ip7bBcVvuWYuuCxAeonNaK";
+
+const DEBUG_WASM = fs.readFileSync(
+  path.join(__dirname, "..", "build", "debug.wasm"),
+);
+
 const log = (obj: any) => {
   console.log(inspect(obj, false, 10, true));
 };
@@ -63,10 +73,6 @@ const formatKv = (kv: any) => {
   );
 };
 
-const DEBUG_WASM = fs.readFileSync(
-  path.join(__dirname, "..", "build", "debug.wasm"),
-);
-
 const buildProgram = () => {
   const program = new IndexerProgram(
     new Uint8Array(Array.from(DEBUG_WASM)).buffer,
@@ -76,12 +82,6 @@ const buildProgram = () => {
 };
 
 const buildBytes32 = () => Buffer.allocUnsafe(32);
-
-const EMPTY_BUFFER = Buffer.allocUnsafe(0);
-const EMPTY_WITNESS = [];
-
-const TEST_BTC_ADDRESS1 = "16aE44Au1UQ5XqKMUhCMXTX7ZxbmAcQNA1";
-const TEST_BTC_ADDRESS2 = "1AdAhGdUgGF6ip7bBcVvuWYuuCxAeonNaK";
 
 const buildCoinbase = (outputs) => {
   const tx = new bitcoinjs.Transaction();
@@ -112,11 +112,11 @@ const buildTransaction = (ins, outs) => {
   return tx;
 };
 
-const buildCoinbaseToTestAddress = () =>
+const buildCoinbaseToAddress = (address: string) =>
   buildCoinbase([
     {
       script: bitcoinjs.payments.p2pkh({
-        address: TEST_BTC_ADDRESS1,
+        address: address,
         network: bitcoinjs.networks.bitcoin,
       }).output,
       value: 625000000,
@@ -158,6 +158,48 @@ const runesbyaddress = async (
   return result;
 };
 
+const initCompleteBlockWithRuneEtching = (
+  outputs: any,
+  pointer: number,
+  divisibility: number = 8,
+  premineAmount: bigint = 2100000005000000n,
+  runeName: string = "GENESIS•RUNE•FR",
+  symbol: string = "G",
+
+): bitcoinjs.Block => {
+  const block = buildDefaultBlock();
+  const coinbase = buildCoinbaseToAddress(TEST_BTC_ADDRESS1);
+  block.transactions?.push(coinbase);
+  const runesGenesis = encodeRunestone({
+    etching: {
+      divisibility: divisibility,
+      premine: premineAmount,
+      runeName: runeName,
+      symbol: symbol,
+    },
+    pointer: pointer,
+  }).encodedRunestone;
+  const transaction = buildTransaction(
+    [
+      {
+        hash: coinbase.getHash(),
+        index: 0,
+        witness: EMPTY_WITNESS,
+        script: EMPTY_BUFFER,
+      },
+    ],
+    [
+      {
+        script: runesGenesis,
+        value: 0,
+      },
+      ...outputs
+    ],
+  );
+  block.transactions?.push(transaction);
+  return block;
+}
+
 describe("metashrew-runes", () => {
   it("should check if duplicate keys are not being set", async () => {
     const program = buildProgram();
@@ -173,58 +215,34 @@ describe("metashrew-runes", () => {
       ).length,
     ).to.be.equal(2);
   });
-  it("should index Runestone", async () => {
+  it("index Runestone on etching and premine", async () => {
     const program = buildProgram();
     program.setBlockHeight(840001);
-    const block = buildDefaultBlock();
-    const coinbase = buildCoinbaseToTestAddress();
-    block.transactions?.push(coinbase);
-    const premineAmount = 2100000005000000n;
-    const runesGenesis = encodeRunestone({
-      etching: {
-        divisibility: 8,
-        premine: premineAmount,
-        runeName: "GENESIS•RUNE•FR",
-        symbol: "G",
-      },
-      pointer: 1,
-    }).encodedRunestone;
-    const transaction = buildTransaction(
-      [
-        {
-          hash: coinbase.getHash(),
-          index: 0,
-          witness: EMPTY_WITNESS,
-          script: EMPTY_BUFFER,
-        },
-      ],
-      [
-        {
-          script: runesGenesis,
-          value: 0,
-        },
-        {
-          script: bitcoinjs.payments.p2pkh({
-            address: TEST_BTC_ADDRESS1,
-            network: bitcoinjs.networks.bitcoin,
-          }).output,
-          value: 1,
-        },
-        {
-          script: bitcoinjs.payments.p2pkh({
-            network: bitcoinjs.networks.bitcoin,
-            address: TEST_BTC_ADDRESS1,
-          }).output,
-          value: 624999999,
-        },
-      ],
-    );
-    block.transactions?.push(transaction);
+    const premineAmount = 2100000005000000n
+    const outputs = [{
+      script: bitcoinjs.payments.p2pkh({
+        address: TEST_BTC_ADDRESS1,
+        network: bitcoinjs.networks.bitcoin,
+      }).output,
+      value: 1,
+    },
+    {
+      script: bitcoinjs.payments.p2pkh({
+        network: bitcoinjs.networks.bitcoin,
+        address: TEST_BTC_ADDRESS2,
+      }).output,
+      value: 624999999,
+    }]
+    const block = initCompleteBlockWithRuneEtching(outputs, 1, undefined, premineAmount)
     program.setBlock(block.toHex());
     await program.run("_start");
-    const result = await runesbyaddress(program, TEST_BTC_ADDRESS1);
 
-    console.log("runesbyaddress output", result);
-    expect(result.balanceSheet[0].balance == premineAmount);
+    const resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log("runesbyaddress output", resultAddress1);
+    expect(resultAddress1.balanceSheet[0].balance == premineAmount);
+
+    const resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log("runesbyaddress2 output", resultAddress2);
+    expect(resultAddress2.balanceSheet.length == 0);
   });
 });
