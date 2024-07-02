@@ -179,10 +179,11 @@ describe("metashrew-runes", () => {
     const block = buildDefaultBlock();
     const coinbase = buildCoinbaseToTestAddress();
     block.transactions?.push(coinbase);
+    const premineAmount = 2100000005000000n;
     const runesGenesis = encodeRunestone({
       etching: {
         divisibility: 8,
-        premine: 2100000000000000n,
+        premine: premineAmount,
         runeName: "GENESIS•RUNE•FR",
         symbol: "G",
       },
@@ -221,6 +222,9 @@ describe("metashrew-runes", () => {
     block.transactions?.push(transaction);
     program.setBlock(block.toHex());
     await program.run("_start");
-    console.log(await runesbyaddress(program, TEST_BTC_ADDRESS1));
+    const result = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+
+    console.log("runesbyaddress output", result);
+    expect(result.balanceSheet[0].balance == premineAmount);
   });
 });
