@@ -10,13 +10,13 @@ export const TEST_BTC_ADDRESS1 = "16aE44Au1UQ5XqKMUhCMXTX7ZxbmAcQNA1";
 export const TEST_BTC_ADDRESS2 = "1AdAhGdUgGF6ip7bBcVvuWYuuCxAeonNaK";
 
 function findRootDir(currentDir: string): string {
-  const parentDir = path.resolve(currentDir, '..');
+  const parentDir = path.resolve(currentDir, "..");
 
-  if (fs.existsSync(path.join(currentDir, 'package.json'))) {
+  if (fs.existsSync(path.join(currentDir, "package.json"))) {
     return currentDir;
   } else if (currentDir === parentDir) {
     // If we reach the root directory of the file system, throw an error.
-    throw new Error('Root directory not found');
+    throw new Error("Root directory not found");
   } else {
     // Recur with the parent directory.
     return findRootDir(parentDir);
