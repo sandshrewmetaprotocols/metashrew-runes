@@ -2,7 +2,7 @@
 import bitcoinjs = require("bitcoinjs-lib");
 import { encodeRunestone } from "@magiceden-oss/runestone-lib";
 import { IndexerProgram, readArrayBufferAsHex } from "metashrew-test";
-import { MetashrewRunes } from "../../lib/rpc";
+import { MetashrewRunes } from "../../src.ts/rpc";
 import {
   buildCoinbaseToAddress,
   buildDefaultBlock,
