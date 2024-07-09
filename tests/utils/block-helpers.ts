@@ -4,7 +4,6 @@ import {
   EMPTY_BUFFER,
   EMPTY_WITNESS,
   buildBytes32,
-  buildProgram,
 } from "./general";
 
 export const buildCoinbase = (outputs) => {
@@ -55,11 +54,3 @@ export const buildDefaultBlock = () => {
   block.transactions = [];
   return block;
 };
-
-export const runTest = (s) =>
-  it(s, async () => {
-    const program = buildProgram();
-    await program.run(s);
-    await new Promise((r) => setTimeout(r, 2000));
-    return program;
-  });
