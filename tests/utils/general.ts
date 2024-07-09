@@ -81,10 +81,8 @@ export const formatKv = (kv: any) => {
   );
 };
 
-export const buildProgram = () => {
-  const program = new IndexerProgram(
-    new Uint8Array(Array.from(DEBUG_WASM)).buffer,
-  );
+export const buildProgram = (wasm: Buffer) => {
+  const program = new IndexerProgram(new Uint8Array(Array.from(wasm)).buffer);
   program.on("log", (v) => console.log(v.replace(/\0/g, "").trim()));
   return program;
 };

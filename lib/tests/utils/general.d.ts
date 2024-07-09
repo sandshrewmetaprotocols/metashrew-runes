@@ -11,5 +11,5 @@ export declare const split: (ary: any, sym: any) => any;
 export declare const formatKey: (key: string) => any;
 export declare const formatValue: (v: any) => any;
 export declare const formatKv: (kv: any) => any;
-export declare const buildProgram: () => IndexerProgram;
+export declare const buildProgram: (wasm: Buffer) => IndexerProgram;
 export declare const buildBytes32: () => Buffer;
