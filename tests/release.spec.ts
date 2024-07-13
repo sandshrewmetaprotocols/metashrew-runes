@@ -442,4 +442,65 @@ describe("metashrew-runes", () => {
     console.log(resultAddress2.balanceSheet)
     expect(resultAddress2.balanceSheet[0].balance).equals(leftover);
   });
+  it("multiple runes in one block", async () => {
+    const program = buildProgram();
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n;
+    const outputs = [
+      {
+        script: bitcoinjs.payments.p2pkh({
+          address: TEST_BTC_ADDRESS1,
+          network: bitcoinjs.networks.bitcoin,
+        }).output,
+        value: 1,
+      },
+    ];
+    const pointer1 = 1;
+    let block1 = initCompleteBlockWithRuneEtching(
+      outputs,
+      pointer1,
+      undefined,
+      premineAmount,
+    );
+
+    program.setBlock(block1.toHex());
+
+    await program.run("_start");
+
+    let resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1)
+    let resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2)
+
+    console.log(formatKv(program.kv))
+
+    program.setBlockHeight(840001);
+
+    const block2 = initCompleteBlockWithRuneEtching(
+      [
+        {
+          script: bitcoinjs.payments.p2pkh({
+            address: TEST_BTC_ADDRESS2,
+            network: bitcoinjs.networks.bitcoin,
+          }).output,
+          value: 1,
+        },
+      ],
+      pointer1,
+      undefined,
+      10n,
+      "TEST•RUNE",
+      "T"
+    );
+    program.setBlock(block2.toHex());
+
+    await program.run("_start");
+
+    resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1)
+    resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2)
+
+    console.log(formatKv(program.kv))
+  });
 });
