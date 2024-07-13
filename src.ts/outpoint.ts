@@ -3,6 +3,7 @@ import {
   Outpoint,
   BalanceSheet,
 } from "./proto/metashrew-runes";
+import { stripHexPrefix } from "./utils";
 
 export type Rune = {
   id: string;
@@ -93,7 +94,7 @@ export function decodeOutpointViewBase(op: OutpointResponse): OutPoint {
 }
 
 export function decodeOutpointView(hex: string): OutPoint {
-  const bytes = Uint8Array.from(Buffer.from(hex, "hex"));
+  const bytes = Uint8Array.from(Buffer.from(stripHexPrefix(hex), "hex"));
   const op = OutpointResponse.fromBinary(bytes);
   return decodeOutpointViewBase(op);
 }

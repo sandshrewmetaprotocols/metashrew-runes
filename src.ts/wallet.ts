@@ -1,8 +1,8 @@
 import { WalletResponse, WalletRequest } from "./proto/metashrew-runes";
 import { decodeOutpointViewBase } from "./outpoint";
 import { decodeRunes, OutPoint, RuneOutput } from "./outpoint";
+import { stripHexPrefix } from "./utils";
 
-const stripHexPrefix = (s) => s.substr(0, 2) === '0x' ? s.substr(2) : s;
 
 export function decodeWalletOutput(hex: string): {
   outpoints: OutPoint[];
