@@ -5,8 +5,8 @@
  (type $3 (func (param i32 i32 i32 i32) (result i32)))
  (type $4 (func (result i32)))
  (type $5 (func))
- (type $6 (func (param i32 i32)))
- (type $7 (func (param i32 i32 i32)))
+ (type $6 (func (param i32 i32 i32)))
+ (type $7 (func (param i32 i32)))
  (type $8 (func (param i32)))
  (type $9 (func (param i32) (result i64)))
  (type $10 (func (param i32 i32 i32 i32)))
@@ -2119,14 +2119,14 @@
     if (result i32)
      i32.const 0
     else
-     block $__inlined_func$~lib/string/String.__eq$2124 (result i32)
+     block $__inlined_func$~lib/string/String.__eq$2115 (result i32)
       i32.const 1
       local.get $5
       i32.load
       local.tee $2
       local.get $1
       i32.eq
-      br_if $__inlined_func$~lib/string/String.__eq$2124
+      br_if $__inlined_func$~lib/string/String.__eq$2115
       drop
       i32.const 0
       local.get $1
@@ -2134,7 +2134,7 @@
       local.get $2
       i32.eqz
       i32.or
-      br_if $__inlined_func$~lib/string/String.__eq$2124
+      br_if $__inlined_func$~lib/string/String.__eq$2115
       drop
       i32.const 0
       local.get $2
@@ -2151,7 +2151,7 @@
       i32.const 1
       i32.shr_u
       i32.ne
-      br_if $__inlined_func$~lib/string/String.__eq$2124
+      br_if $__inlined_func$~lib/string/String.__eq$2115
       drop
       local.get $1
       local.set $3
@@ -4200,7 +4200,7 @@
   local.get $2
   call $~lib/metashrew-as/assembly/utils/box/Box.concat
  )
- (func $~lib/metashrew-as/assembly/utils/box/Box#toHexString (param $0 i32) (result i32)
+ (func $~lib/metashrew-as/assembly/indexer/index/hash (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -4208,6 +4208,12 @@
   (local $5 i32)
   (local $6 i32)
   local.get $0
+  local.get $0
+  i32.const 20
+  i32.sub
+  i32.load offset=16
+  call $~lib/metashrew-as/assembly/utils/box/Box#constructor
+  local.tee $0
   i32.load
   local.set $2
   local.get $0
@@ -4619,25 +4625,6 @@
    local.get $3
    i32.store
   end
- )
- (func $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set (param $0 i32) (param $1 i32)
-  (local $2 i32)
-  local.get $0
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  call $~lib/metashrew-as/assembly/utils/box/Box#constructor
-  call $~lib/metashrew-as/assembly/utils/box/Box#toHexString
-  local.set $2
-  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
-  local.get $2
-  local.get $1
-  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
-  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
-  local.get $2
-  local.get $0
-  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
  )
  (func $~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#constructor (result i32)
   (local $0 i32)
@@ -6731,14 +6718,14 @@
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
-  block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1804
+  block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1799
    local.get $0
    i32.load
    local.tee $4
    i32.load offset=4
    i32.const 25
    i32.ne
-   br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1804
+   br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1799
    i32.const 1
    local.set $1
    local.get $4
@@ -6785,7 +6772,7 @@
    else
     i32.const 0
    end
-   br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1804
+   br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2pkh$1799
    i32.const 0
    local.set $1
   end
@@ -6833,14 +6820,14 @@
   else
    i32.const 0
    local.set $1
-   block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1806
+   block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1801
     local.get $0
     i32.load
     local.tee $4
     i32.load offset=4
     i32.const 23
     i32.ne
-    br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1806
+    br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1801
     i32.const 1
     local.set $1
     local.get $4
@@ -6867,7 +6854,7 @@
     else
      i32.const 0
     end
-    br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1806
+    br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_p2sh$1801
     i32.const 0
     local.set $1
    end
@@ -6913,7 +6900,7 @@
     local.get $2
     call $~lib/metashrew-as/assembly/blockdata/address/Address.toBase58Check
    else
-    block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$46 (result i32)
+    block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$45 (result i32)
      i32.const 0
      local.get $0
      i32.load
@@ -6926,7 +6913,7 @@
      i32.const 42
      i32.gt_u
      i32.or
-     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$46
+     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$45
      drop
      local.get $1
      i32.load
@@ -6959,7 +6946,7 @@
       i32.const 0
      end
      i32.eqz
-     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$46
+     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$45
      drop
      i32.const 0
      local.get $4
@@ -6969,7 +6956,7 @@
      i32.const 40
      i32.gt_u
      i32.or
-     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$46
+     br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$45
      drop
      i32.const 1
     end
@@ -7117,12 +7104,7 @@
  (func $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#get (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
-  local.get $0
-  i32.const 20
-  i32.sub
-  i32.load offset=16
-  call $~lib/metashrew-as/assembly/utils/box/Box#constructor
-  call $~lib/metashrew-as/assembly/utils/box/Box#toHexString
+  call $~lib/metashrew-as/assembly/indexer/index/hash
   local.set $1
   global.get $~lib/metashrew-as/assembly/indexer/index/_updates
   local.get $1
@@ -7416,6 +7398,7 @@
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
+  (local $4 i32)
   i32.const 1
   global.set $~argumentsLength
   local.get $0
@@ -7423,21 +7406,29 @@
   i32.const 0
   call $~lib/string/String.UTF8.encode@varargs
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-  local.tee $2
+  local.tee $1
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#getValue<u32>
-  local.set $1
+  local.set $2
   i32.const 4
   call $~lib/arraybuffer/ArrayBuffer#constructor
-  local.tee $3
-  local.get $1
+  local.tee $4
+  local.get $2
   i32.const 1
   i32.add
   i32.store
-  local.get $2
-  local.get $3
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-  local.get $0
   local.get $1
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $3
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $3
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $3
+  local.get $1
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  local.get $0
+  local.get $2
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectIndex
  )
  (func $~lib/metashrew-spendables/assembly/indexer/Index.indexBlock (param $0 i32)
@@ -7510,9 +7501,21 @@
       global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
       local.get $5
       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+      local.set $4
       i32.const 0
       call $~lib/arraybuffer/ArrayBuffer#constructor
-      call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+      local.set $5
+      local.get $4
+      call $~lib/metashrew-as/assembly/indexer/index/hash
+      local.set $6
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+      local.get $6
+      local.get $5
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+      local.get $6
+      local.get $4
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
       local.get $1
       i32.const 1
       i32.add
@@ -7522,37 +7525,37 @@
     end
     local.get $3
     call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#txid
-    local.set $5
+    local.set $4
     i32.const 0
     local.set $1
     loop $for-loop|2
      local.get $1
      local.get $3
      i32.load offset=16
-     local.tee $4
+     local.tee $5
      i32.load offset=12
      i32.lt_s
      if
-      local.get $4
+      local.get $5
       local.get $1
       call $~lib/array/Array<~lib/array/Array<u8>>#__get
-      local.set $6
-      local.get $5
+      local.set $5
+      local.get $4
       local.get $1
       call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint.from
       i32.load
-      local.tee $7
+      local.tee $6
       i32.load offset=4
       call $~lib/arraybuffer/ArrayBuffer#constructor
-      local.tee $4
-      local.get $7
+      local.tee $7
+      local.get $6
       i32.load
-      local.get $7
+      local.get $6
       i32.load offset=4
       memory.copy
-      local.get $6
+      local.get $5
       i32.load offset=16
-      local.set $7
+      local.set $6
       i32.const 8
       i32.const 42
       call $~lib/rt/stub/__new
@@ -7563,7 +7566,7 @@
       i32.const 0
       i32.store offset=4
       local.get $8
-      local.get $7
+      local.get $6
       i32.store
       local.get $8
       i32.const -1
@@ -7572,7 +7575,7 @@
        i32.const 0
        local.get $8
        i32.load
-       local.tee $7
+       local.tee $6
        i32.load offset=4
        local.tee $9
        i32.const 4
@@ -7583,29 +7586,29 @@
        i32.or
        br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/Script#is_witness_program$52
        drop
-       local.get $7
+       local.get $6
        i32.load
-       local.tee $7
+       local.tee $6
        i32.load8_u offset=1
        local.set $9
        i32.const 0
        block $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/valid_witness_version_from_opcode$456 (result i32)
         i32.const 1
-        local.get $7
+        local.get $6
         i32.load8_u
-        local.tee $7
+        local.tee $6
         i32.const 96
         i32.le_u
-        local.get $7
+        local.get $6
         i32.const 82
         i32.ge_u
         i32.or
         br_if $__inlined_func$~lib/metashrew-as/assembly/utils/yabsp/valid_witness_version_from_opcode$456
         drop
         i32.const 1
-        local.get $7
+        local.get $6
         i32.eqz
-        local.get $7
+        local.get $6
         i32.const 81
         i32.eq
         i32.or
@@ -7637,38 +7640,64 @@
       end
       local.get $8
       call $~lib/metashrew-as/assembly/blockdata/address/Address.from
-      local.set $7
+      local.set $6
       global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_TO_OUTPUT
-      local.get $4
+      local.get $7
       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
       local.set $8
-      local.get $6
+      local.get $5
       i32.load
-      local.tee $6
+      local.tee $5
       i32.load offset=4
       call $~lib/arraybuffer/ArrayBuffer#constructor
       local.tee $9
-      local.get $6
+      local.get $5
       i32.load
-      local.get $6
+      local.get $5
       i32.load offset=4
       memory.copy
       local.get $8
+      call $~lib/metashrew-as/assembly/indexer/index/hash
+      local.set $5
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+      local.get $5
       local.get $9
-      call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-      local.get $7
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+      local.get $5
+      local.get $8
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+      local.get $6
       if
        global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINTS_FOR_ADDRESS
-       local.get $7
+       local.get $6
        call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
        call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
-       local.get $4
-       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-       global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
-       local.get $4
-       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+       local.tee $5
+       call $~lib/metashrew-as/assembly/indexer/index/hash
+       local.set $8
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+       local.get $8
        local.get $7
-       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+       local.get $8
+       local.get $5
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+       global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
+       local.get $7
+       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+       local.tee $5
+       call $~lib/metashrew-as/assembly/indexer/index/hash
+       local.set $7
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+       local.get $7
+       local.get $6
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+       local.get $7
+       local.get $5
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
       end
       local.get $1
       i32.const 1
@@ -7962,6 +7991,271 @@
   local.get $1
   i32.store offset=8
   local.get $2
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage.etchGenesisRune
+  (local $0 i32)
+  (local $1 i64)
+  (local $2 i64)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  i32.const 8112
+  call $assembly/utils/nameToArrayBuffer
+  local.set $0
+  i64.const 1
+  i32.const 0
+  call $assembly/indexer/RuneId/RuneId#constructor
+  local.tee $3
+  i64.load
+  local.set $1
+  local.get $3
+  i64.load32_u offset=8
+  local.set $2
+  i32.const 16
+  i32.const 9
+  call $~lib/rt/stub/__new
+  local.tee $3
+  local.get $1
+  i64.store
+  local.get $3
+  local.get $2
+  i64.store offset=8
+  local.get $3
+  call $assembly/utils/toArrayBuffer
+  local.set $3
+  global.get $assembly/indexer/constants/index/ETCHING_TO_RUNE_ID
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.tee $4
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/RUNE_ID_TO_ETCHING
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.tee $4
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $0
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/RUNE_ID_TO_HEIGHT
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 4
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  local.tee $4
+  i32.const 840000
+  i32.store
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/DIVISIBILITY
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 1
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  local.tee $4
+  i32.const 1
+  i32.store8
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/AMOUNT
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 16
+  i32.const 9
+  call $~lib/rt/stub/__new
+  local.tee $4
+  i64.const 1
+  i64.store
+  local.get $4
+  i64.const 0
+  i64.store offset=8
+  local.get $4
+  call $assembly/utils/toArrayBuffer
+  local.set $4
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/CAP
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 16
+  i32.const 9
+  call $~lib/rt/stub/__new
+  local.tee $4
+  i64.const -1
+  i64.store
+  local.get $4
+  i64.const -1
+  i64.store offset=8
+  local.get $4
+  call $assembly/utils/toArrayBuffer
+  local.set $4
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/MINTS_REMAINING
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 16
+  i32.const 9
+  call $~lib/rt/stub/__new
+  local.tee $4
+  i64.const -1
+  i64.store
+  local.get $4
+  i64.const -1
+  i64.store offset=8
+  local.get $4
+  call $assembly/utils/toArrayBuffer
+  local.set $4
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/OFFSETEND
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 8
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  local.tee $4
+  i64.const 210000
+  i64.store
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/SPACERS
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 4
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  local.tee $4
+  i32.const 128
+  i32.store
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/SYMBOL
+  local.get $0
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.set $3
+  i32.const 8156
+  i32.load
+  i32.const 1
+  i32.shr_u
+  if (result i32)
+   i32.const 8160
+   i32.load16_u
+  else
+   i32.const -1
+  end
+  local.set $4
+  i32.const 1
+  call $~lib/arraybuffer/ArrayBuffer#constructor
+  local.tee $5
+  local.get $4
+  i32.store8
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $4
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $4
+  local.get $5
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $4
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $assembly/indexer/constants/index/ETCHINGS
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
+  local.tee $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $4
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $4
+  local.get $0
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $4
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
  )
  (func $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectValue<u32> (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
@@ -8641,7 +8935,7 @@
   i32.add
   i32.load
   local.set $3
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1839"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1834"
    loop $while-continue|0
     local.get $3
     if
@@ -8658,7 +8952,7 @@
       local.get $1
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1839"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1834"
      local.get $4
      i32.const -2
      i32.and
@@ -8929,7 +9223,7 @@
   i32.add
   i32.load
   local.set $0
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1840"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1835"
    loop $while-continue|0
     local.get $0
     if
@@ -8946,7 +9240,7 @@
       local.get $1
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1840"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1835"
      local.get $2
      i32.const -2
      i32.and
@@ -9252,7 +9546,7 @@
      i32.add
      i32.load
      local.set $0
-     block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1847"
+     block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1842"
       loop $while-continue|01
        local.get $0
        if
@@ -9269,7 +9563,7 @@
          i64.load
          i64.eq
         end
-        br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1847"
+        br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1842"
         local.get $6
         i32.const -2
         i32.and
@@ -10127,7 +10421,7 @@
   i32.add
   i32.load
   local.set $3
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1876"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1871"
    loop $while-continue|0
     local.get $3
     if
@@ -10144,7 +10438,7 @@
       i64.const 20
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1876"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1871"
      local.get $5
      i32.const -2
      i32.and
@@ -10222,7 +10516,7 @@
      br $for-loop|0
     end
    end
-   block $__inlined_func$assembly/indexer/RuneId/RuneId.fromBytes$66
+   block $__inlined_func$assembly/indexer/RuneId/RuneId.fromBytes$80
     block $folding-inner0
      local.get $3
      i32.const 0
@@ -10299,7 +10593,7 @@
      i32.wrap_i64
      call $assembly/indexer/RuneId/RuneId#constructor
      local.set $0
-     br $__inlined_func$assembly/indexer/RuneId/RuneId.fromBytes$66
+     br $__inlined_func$assembly/indexer/RuneId/RuneId.fromBytes$80
     end
     i32.const 0
     i32.const 8400
@@ -10452,10 +10746,20 @@
      local.get $5
      local.get $4
      i64.store offset=8
-     local.get $1
      local.get $5
      call $assembly/utils/toArrayBuffer
-     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+     local.set $5
+     local.get $1
+     call $~lib/metashrew-as/assembly/indexer/index/hash
+     local.set $6
+     global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+     local.get $6
+     local.get $5
+     call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+     global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+     local.get $6
+     local.get $1
+     call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
      local.get $2
      local.get $0
      global.get $assembly/indexer/constants/index/AMOUNT
@@ -10488,7 +10792,7 @@
   i32.add
   i32.load
   local.set $2
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1890"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1885"
    loop $while-continue|0
     local.get $2
     if
@@ -10505,7 +10809,7 @@
       i64.const 2
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1890"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1885"
      local.get $3
      i32.const -2
      i32.and
@@ -10522,7 +10826,7 @@
    i32.const 0
    return
   end
-  block $__inlined_func$assembly/utils/fieldToU128$69
+  block $__inlined_func$assembly/utils/fieldToU128$84
    local.get $0
    i32.load
    i64.const 2
@@ -10540,7 +10844,7 @@
     local.get $0
     i64.const 0
     i64.store offset=8
-    br $__inlined_func$assembly/utils/fieldToU128$69
+    br $__inlined_func$assembly/utils/fieldToU128$84
    end
    local.get $0
    i32.const 0
@@ -11413,7 +11717,7 @@
   i32.add
   i32.load
   local.set $4
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1893"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1888"
    loop $while-continue|0
     local.get $4
     if
@@ -11430,7 +11734,7 @@
       i64.const 4
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1893"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1888"
      local.get $5
      i32.const -2
      i32.and
@@ -11694,13 +11998,31 @@
   global.get $assembly/indexer/constants/index/RUNE_ID_TO_ETCHING
   local.get $4
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.tee $2
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $7
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $7
   local.get $5
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $7
+  local.get $2
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   global.get $assembly/indexer/constants/index/ETCHING_TO_RUNE_ID
   local.get $5
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.tee $2
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $7
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $7
   local.get $4
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $7
+  local.get $2
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   global.get $assembly/indexer/constants/index/RUNE_ID_TO_HEIGHT
   local.get $4
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
@@ -11711,8 +12033,16 @@
   local.get $1
   i64.store32
   local.get $2
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $10
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $10
   local.get $7
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $10
+  local.get $2
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   local.get $0
   i32.load
   local.tee $2
@@ -11726,7 +12056,7 @@
   i32.add
   i32.load
   local.set $2
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1896"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1891"
    loop $while-continue|03
     local.get $2
     if
@@ -11743,7 +12073,7 @@
       i64.const 1
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1896"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1891"
      local.get $7
      i32.const -2
      i32.and
@@ -11775,8 +12105,16 @@
    local.get $7
    i32.store8
    local.get $2
+   call $~lib/metashrew-as/assembly/indexer/index/hash
+   local.set $7
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+   local.get $7
    local.get $10
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+   local.get $7
+   local.get $2
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   end
   local.get $0
   i32.load
@@ -11791,7 +12129,7 @@
   i32.add
   i32.load
   local.set $2
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1898"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1893"
    loop $while-continue|04
     local.get $2
     if
@@ -11808,7 +12146,7 @@
       i64.const 6
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1898"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1893"
      local.get $7
      i32.const -2
      i32.and
@@ -11821,7 +12159,7 @@
   end
   local.get $2
   if
-   block $__inlined_func$assembly/utils/fieldToU128$76
+   block $__inlined_func$assembly/utils/fieldToU128$95
     local.get $0
     i32.load
     i64.const 6
@@ -11839,7 +12177,7 @@
      local.get $2
      i64.const 0
      i64.store offset=8
-     br $__inlined_func$assembly/utils/fieldToU128$76
+     br $__inlined_func$assembly/utils/fieldToU128$95
     end
     local.get $2
     i32.const 0
@@ -11900,9 +12238,21 @@
    global.get $assembly/indexer/constants/index/PREMINE
    local.get $5
    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+   local.set $2
    local.get $4
    call $assembly/utils/toArrayBuffer
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+   local.set $3
+   local.get $2
+   call $~lib/metashrew-as/assembly/indexer/index/hash
+   local.set $4
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+   local.get $4
+   local.get $3
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+   local.get $4
+   local.get $2
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   end
   local.get $0
   i64.const 1
@@ -11921,7 +12271,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1900"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1895"
     loop $while-continue|05
      local.get $2
      if
@@ -11938,7 +12288,7 @@
        i64.const 10
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1900"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1895"
       local.get $3
       i32.const -2
       i32.and
@@ -11955,7 +12305,7 @@
     local.get $5
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
     local.set $3
-    block $__inlined_func$assembly/utils/fieldToU128$78
+    block $__inlined_func$assembly/utils/fieldToU128$98
      local.get $0
      i32.load
      i64.const 10
@@ -11973,17 +12323,27 @@
       local.get $2
       i64.const 0
       i64.store offset=8
-      br $__inlined_func$assembly/utils/fieldToU128$78
+      br $__inlined_func$assembly/utils/fieldToU128$98
      end
      local.get $2
      i32.const 0
      call $~lib/array/Array<~lib/array/Array<u8>>#__get
      local.set $2
     end
-    local.get $3
     local.get $2
     call $assembly/utils/toArrayBuffer
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    local.set $2
+    local.get $3
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $3
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
    local.get $0
    i32.load
@@ -11998,7 +12358,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1901"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1896"
     loop $while-continue|06
      local.get $2
      if
@@ -12015,7 +12375,7 @@
        i64.const 8
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1901"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1896"
       local.get $3
       i32.const -2
       i32.and
@@ -12032,7 +12392,7 @@
     local.get $5
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
     local.set $3
-    block $__inlined_func$assembly/utils/fieldToU128$80
+    block $__inlined_func$assembly/utils/fieldToU128$101
      local.get $0
      i32.load
      i64.const 8
@@ -12050,20 +12410,31 @@
       local.get $2
       i64.const 0
       i64.store offset=8
-      br $__inlined_func$assembly/utils/fieldToU128$80
+      br $__inlined_func$assembly/utils/fieldToU128$101
      end
      local.get $2
      i32.const 0
      call $~lib/array/Array<~lib/array/Array<u8>>#__get
      local.set $2
     end
-    local.get $3
     local.get $2
     call $assembly/utils/toArrayBuffer
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    local.set $2
+    local.get $3
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $3
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
     global.get $assembly/indexer/constants/index/MINTS_REMAINING
     local.get $5
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+    local.set $2
     local.get $0
     i32.load
     i64.const 8
@@ -12071,7 +12442,18 @@
     i32.const 8576
     call $~lib/array/Array<~lib/arraybuffer/ArrayBuffer>#map<~lib/metashrew-as/assembly/utils/box/Box>
     call $~lib/metashrew-as/assembly/utils/box/Box.concat
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    local.set $3
+    local.get $2
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
+    local.get $3
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
    local.get $0
    i32.load
@@ -12086,7 +12468,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1902"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1897"
     loop $while-continue|07
      local.get $2
      if
@@ -12103,7 +12485,7 @@
        i64.const 12
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1902"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1897"
       local.get $3
       i32.const -2
       i32.and
@@ -12134,8 +12516,16 @@
     local.get $1
     i64.store
     local.get $2
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
     local.get $3
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
    local.get $0
    i32.load
@@ -12150,7 +12540,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1904"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1899"
     loop $while-continue|08
      local.get $2
      if
@@ -12167,7 +12557,7 @@
        i64.const 14
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1904"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1899"
       local.get $3
       i32.const -2
       i32.and
@@ -12198,8 +12588,16 @@
     local.get $1
     i64.store
     local.get $2
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
     local.get $3
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
    local.get $0
    i32.load
@@ -12214,7 +12612,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1906"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1901"
     loop $while-continue|09
      local.get $2
      if
@@ -12231,7 +12629,7 @@
        i64.const 16
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1906"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1901"
       local.get $3
       i32.const -2
       i32.and
@@ -12262,8 +12660,16 @@
     local.get $1
     i64.store
     local.get $2
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
     local.get $3
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
    local.get $0
    i32.load
@@ -12278,7 +12684,7 @@
    i32.add
    i32.load
    local.set $2
-   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1908"
+   block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1903"
     loop $while-continue|010
      local.get $2
      if
@@ -12295,7 +12701,7 @@
        i64.const 18
        i64.eq
       end
-      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1908"
+      br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1903"
       local.get $3
       i32.const -2
       i32.and
@@ -12326,8 +12732,16 @@
     local.get $1
     i64.store
     local.get $2
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $4
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $4
     local.get $3
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $4
+    local.get $2
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
    end
   end
   local.get $0
@@ -12343,7 +12757,7 @@
   i32.add
   i32.load
   local.set $2
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1910"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1905"
    loop $while-continue|011
     local.get $2
     if
@@ -12360,7 +12774,7 @@
       i64.const 3
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1910"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1905"
      local.get $3
      i32.const -2
      i32.and
@@ -12392,8 +12806,16 @@
    local.get $3
    i32.store
    local.get $2
+   call $~lib/metashrew-as/assembly/indexer/index/hash
+   local.set $3
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+   local.get $3
    local.get $4
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+   local.get $3
+   local.get $2
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   end
   local.get $0
   i32.load
@@ -12408,7 +12830,7 @@
   i32.add
   i32.load
   local.set $2
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1912"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1907"
    loop $while-continue|012
     local.get $2
     if
@@ -12425,7 +12847,7 @@
       i64.const 5
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1912"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1907"
      local.get $3
      i32.const -2
      i32.and
@@ -12457,13 +12879,30 @@
    local.get $0
    i32.store8
    local.get $2
+   call $~lib/metashrew-as/assembly/indexer/index/hash
+   local.set $0
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+   local.get $0
    local.get $3
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+   global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+   local.get $0
+   local.get $2
+   call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   end
   global.get $assembly/indexer/constants/index/ETCHINGS
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
+  local.tee $0
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $2
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $2
   local.get $5
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $2
+  local.get $0
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
  )
  (func $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get" (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
@@ -12505,7 +12944,7 @@
   i32.add
   i32.load
   local.set $0
-  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1916"
+  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1911"
    loop $while-continue|0
     local.get $0
     if
@@ -12522,7 +12961,7 @@
       local.get $1
       i32.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1916"
+     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1911"
      local.get $2
      i32.const -2
      i32.and
@@ -12596,7 +13035,7 @@
   i32.add
   i32.load
   local.set $1
-  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1919"
+  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1914"
    loop $while-continue|0
     local.get $1
     if
@@ -12613,7 +13052,7 @@
       local.get $3
       i32.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1919"
+     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1914"
      local.get $4
      i32.const -2
      i32.and
@@ -14127,7 +14566,7 @@
     i32.add
     i32.load
     local.set $0
-    block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1915"
+    block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1910"
      loop $while-continue|0
       local.get $0
       if
@@ -14144,7 +14583,7 @@
         local.get $7
         i32.eq
        end
-       br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1915"
+       br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1910"
        local.get $10
        i32.const -2
        i32.and
@@ -14421,7 +14860,7 @@
   i32.add
   i32.load
   local.set $3
-  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1947"
+  block $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1942"
    loop $while-continue|0
     local.get $3
     if
@@ -14438,7 +14877,7 @@
       i64.const 22
       i64.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1947"
+     br_if $"__inlined_func$~lib/map/Map<u64,~lib/array/Array<~lib/as-bignum/assembly/integer/u128/u128>>#find$1942"
      local.get $4
      i32.const -2
      i32.and
@@ -14461,7 +14900,7 @@
    i32.wrap_i64
    local.set $3
   else
-   block $__inlined_func$assembly/indexer/RunesTransaction/RunesTransaction#defaultOutput$2167
+   block $__inlined_func$assembly/indexer/RunesTransaction/RunesTransaction#defaultOutput$2159
     i32.const 0
     local.set $3
     loop $for-loop|01
@@ -14480,7 +14919,7 @@
       i32.load8_u
       i32.const 106
       i32.ne
-      br_if $__inlined_func$assembly/indexer/RunesTransaction/RunesTransaction#defaultOutput$2167
+      br_if $__inlined_func$assembly/indexer/RunesTransaction/RunesTransaction#defaultOutput$2159
       local.get $3
       i32.const 1
       i32.add
@@ -14530,7 +14969,7 @@
   i32.add
   i32.load
   local.set $1
-  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1915"
+  block $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1910"
    loop $while-continue|00
     local.get $1
     if
@@ -14547,7 +14986,7 @@
       local.get $3
       i32.eq
      end
-     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1915"
+     br_if $"__inlined_func$~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#find$1910"
      local.get $4
      i32.const -2
      i32.and
@@ -14768,7 +15207,7 @@
     call $~lib/string/String.UTF8.encode@varargs
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
     local.set $5
-    loop $for-loop|023
+    loop $for-loop|03
      local.get $3
      local.get $1
      i32.load
@@ -14814,8 +15253,17 @@
        local.set $9
        local.get $7
        call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
+       local.tee $10
+       call $~lib/metashrew-as/assembly/indexer/index/hash
+       local.set $11
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+       local.get $11
        local.get $9
-       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+       local.get $11
+       local.get $10
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
        local.get $1
        i32.load offset=4
        local.get $3
@@ -14838,14 +15286,23 @@
        local.set $9
        local.get $5
        call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
+       local.tee $10
+       call $~lib/metashrew-as/assembly/indexer/index/hash
+       local.set $11
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+       local.get $11
        local.get $9
-       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+       global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+       local.get $11
+       local.get $10
+       call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
       end
       local.get $3
       i32.const 1
       i32.add
       local.set $3
-      br $for-loop|023
+      br $for-loop|03
      end
     end
     local.get $0
@@ -14892,7 +15349,7 @@
    local.tee $5
    i32.load offset=12
    local.set $6
-   block $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1951
+   block $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1946
     loop $for-loop|0
      local.get $4
      local.get $6
@@ -14921,7 +15378,7 @@
       i32.const 8288
       i32.load
       call_indirect (type $2)
-      br_if $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1951
+      br_if $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1946
       local.get $4
       i32.const 1
       i32.add
@@ -14957,304 +15414,180 @@
  (func $assembly/indexer/Indexer/Index.indexBlock (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
-  (local $4 i64)
-  (local $5 i64)
+  (local $4 i32)
+  (local $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
-  (local $9 i32)
-  (local $10 i32)
   local.get $0
   i32.const 840000
   i32.eq
   if
-   i32.const 8112
-   call $assembly/utils/nameToArrayBuffer
-   local.set $2
-   i64.const 1
-   i32.const 0
-   call $assembly/indexer/RuneId/RuneId#constructor
-   local.tee $6
-   i64.load
-   local.set $4
-   local.get $6
-   i64.load32_u offset=8
-   local.set $5
-   i32.const 16
-   i32.const 9
-   call $~lib/rt/stub/__new
-   local.tee $6
-   local.get $4
-   i64.store
-   local.get $6
-   local.get $5
-   i64.store offset=8
-   local.get $6
-   call $assembly/utils/toArrayBuffer
-   local.set $6
-   global.get $assembly/indexer/constants/index/ETCHING_TO_RUNE_ID
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.get $6
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/RUNE_ID_TO_ETCHING
-   local.get $6
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/RUNE_ID_TO_HEIGHT
-   local.get $6
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 4
-   call $~lib/arraybuffer/ArrayBuffer#constructor
-   local.tee $7
-   i32.const 840000
-   i32.store
-   local.get $6
-   local.get $7
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/DIVISIBILITY
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 1
-   call $~lib/arraybuffer/ArrayBuffer#constructor
-   local.tee $7
-   i32.const 1
-   i32.store8
-   local.get $6
-   local.get $7
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/AMOUNT
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 16
-   i32.const 9
-   call $~lib/rt/stub/__new
-   local.tee $7
-   i64.const 1
-   i64.store
-   local.get $7
-   i64.const 0
-   i64.store offset=8
-   local.get $6
-   local.get $7
-   call $assembly/utils/toArrayBuffer
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/CAP
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 16
-   i32.const 9
-   call $~lib/rt/stub/__new
-   local.tee $7
-   i64.const -1
-   i64.store
-   local.get $7
-   i64.const -1
-   i64.store offset=8
-   local.get $6
-   local.get $7
-   call $assembly/utils/toArrayBuffer
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/MINTS_REMAINING
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 16
-   i32.const 9
-   call $~lib/rt/stub/__new
-   local.tee $7
-   i64.const -1
-   i64.store
-   local.get $7
-   i64.const -1
-   i64.store offset=8
-   local.get $6
-   local.get $7
-   call $assembly/utils/toArrayBuffer
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/OFFSETEND
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 8
-   call $~lib/arraybuffer/ArrayBuffer#constructor
-   local.tee $7
-   i64.const 210000
-   i64.store
-   local.get $6
-   local.get $7
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/SPACERS
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 4
-   call $~lib/arraybuffer/ArrayBuffer#constructor
-   local.tee $7
-   i32.const 128
-   i32.store
-   local.get $6
-   local.get $7
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/SYMBOL
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-   local.set $6
-   i32.const 8156
-   i32.load
-   i32.const 1
-   i32.shr_u
-   if (result i32)
-    i32.const 8160
-    i32.load16_u
-   else
-    i32.const -1
-   end
-   local.set $7
-   i32.const 1
-   call $~lib/arraybuffer/ArrayBuffer#constructor
-   local.tee $8
-   local.get $7
-   i32.store8
-   local.get $6
-   local.get $8
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-   global.get $assembly/indexer/constants/index/ETCHINGS
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
-   local.get $2
-   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+   call $assembly/indexer/RunestoneMessage/RunestoneMessage.etchGenesisRune
   end
   i32.const 8192
   local.get $0
   call $~lib/util/number/utoa32
   call $~lib/string/String.__concat
-  local.set $2
+  local.set $3
   i32.const 2
   global.set $~argumentsLength
-  local.get $2
+  local.get $3
   i32.const 1
   call $~lib/string/String.UTF8.encode@varargs
   call $~lib/metashrew-as/assembly/utils/logging/__log
   global.get $assembly/indexer/constants/index/HEIGHT_TO_BLOCKHASH
   local.get $0
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectValue<u32>
+  local.set $3
   local.get $1
   call $~lib/metashrew-as/assembly/blockdata/block/Block#blockhash
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  local.set $4
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   global.get $assembly/indexer/constants/index/BLOCKHASH_TO_HEIGHT
   local.get $1
   call $~lib/metashrew-as/assembly/blockdata/block/Block#blockhash
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-  local.set $2
+  local.set $3
   i32.const 4
   call $~lib/arraybuffer/ArrayBuffer#constructor
-  local.tee $6
+  local.tee $4
   local.get $0
   i32.store
-  local.get $2
-  local.get $6
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  local.get $3
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $5
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $5
+  local.get $4
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $5
+  local.get $3
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   global.get $assembly/indexer/constants/index/HEIGHT_TO_TRANSACTION_IDS
   local.get $0
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectValue<u32>
-  local.set $2
+  local.set $3
   loop $for-loop|0
-   local.get $3
+   local.get $2
    local.get $1
    i32.load offset=8
-   local.tee $6
+   local.tee $4
    i32.load offset=12
    i32.lt_s
    if
-    local.get $6
-    local.get $3
+    local.get $4
+    local.get $2
     call $~lib/array/Array<~lib/array/Array<u8>>#__get
     call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#txid
-    local.set $6
-    local.get $2
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
-    local.get $6
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+    local.set $4
     local.get $3
+    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#extend
+    local.tee $5
+    call $~lib/metashrew-as/assembly/indexer/index/hash
+    local.set $6
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+    local.get $6
+    local.get $4
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+    local.get $6
+    local.get $5
+    call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+    local.get $2
     i32.const 1
     i32.add
-    local.set $3
+    local.set $2
     br $for-loop|0
    end
   end
   i32.const 0
-  local.set $3
+  local.set $2
   loop $for-loop|00
-   local.get $3
+   local.get $2
    local.get $1
    i32.load offset=8
-   local.tee $2
+   local.tee $3
    i32.load offset=12
    i32.lt_s
    if
-    local.get $2
     local.get $3
+    local.get $2
     call $~lib/array/Array<~lib/array/Array<u8>>#__get
-    local.tee $7
+    local.tee $4
     call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#txid
-    local.set $8
+    local.set $5
     i32.const 0
-    local.set $2
+    local.set $3
     loop $for-loop|01
-     local.get $2
-     local.get $7
+     local.get $3
+     local.get $4
      i32.load offset=16
      i32.load offset=12
      i32.lt_s
      if
       global.get $assembly/indexer/constants/index/OUTPOINT_TO_HEIGHT
-      local.set $9
-      local.get $8
-      local.get $2
+      local.set $6
+      local.get $5
+      local.get $3
       call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint.from
       i32.load
-      local.tee $6
+      local.tee $7
       i32.load offset=4
       call $~lib/arraybuffer/ArrayBuffer#constructor
-      local.tee $10
-      local.get $6
+      local.tee $8
+      local.get $7
       i32.load
-      local.get $6
+      local.get $7
       i32.load offset=4
       memory.copy
-      local.get $9
-      local.get $10
+      local.get $6
+      local.get $8
       call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
       local.set $6
       i32.const 4
       call $~lib/arraybuffer/ArrayBuffer#constructor
-      local.tee $9
+      local.tee $7
       local.get $0
       i32.store
       local.get $6
-      local.get $9
-      call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
-      local.get $2
+      call $~lib/metashrew-as/assembly/indexer/index/hash
+      local.set $8
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+      local.get $8
+      local.get $7
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+      global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+      local.get $8
+      local.get $6
+      call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+      local.get $3
       i32.const 1
       i32.add
-      local.set $2
+      local.set $3
       br $for-loop|01
      end
     end
-    local.get $7
-    local.get $8
+    local.get $4
+    local.get $5
     local.get $0
-    local.get $3
+    local.get $2
     call $assembly/indexer/Indexer/Index.processRunesTransaction
-    local.get $3
+    local.get $2
     i32.const 1
     i32.add
-    local.set $3
+    local.set $2
     br $for-loop|00
    end
   end
@@ -15626,7 +15959,7 @@
   i32.const 0
   i32.store8 offset=8
   local.get $2
-  block $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/parseEnvelope$96 (result i32)
+  block $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/parseEnvelope$131 (result i32)
    local.get $0
    i32.load
    local.get $0
@@ -15734,7 +16067,7 @@
       local.get $0
       i32.sub
       call $~lib/metashrew-as/assembly/utils/box/Box#constructor
-      br $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/parseEnvelope$96
+      br $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/parseEnvelope$131
      end
      local.get $1
      call $~lib/metashrew-as/assembly/utils/utils/parsePushOp
@@ -15862,7 +16195,7 @@
    i32.lt_s
    if
     block $for-continue|0
-     block $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1973 (result i32)
+     block $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1968 (result i32)
       i32.const 0
       local.get $2
       local.get $6
@@ -15870,11 +16203,11 @@
       i32.load offset=20
       local.tee $4
       i32.eqz
-      br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1973
+      br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1968
       drop
       i32.const 0
       local.set $2
-      block $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2176
+      block $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2168
        local.get $4
        i32.load offset=4
        local.tee $5
@@ -15882,7 +16215,7 @@
        local.tee $7
        i32.const 0
        i32.le_s
-       br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2176
+       br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2168
        local.get $7
        i32.const 2
        i32.ge_s
@@ -15900,7 +16233,7 @@
         local.tee $3
         i32.const 1
         i32.le_s
-        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2176
+        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2168
         local.get $4
         i32.load offset=4
         local.get $3
@@ -15909,7 +16242,7 @@
         call $~lib/array/Array<~lib/array/Array<u8>>#__get
         i32.load8_u offset=5
         i32.eqz
-        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2176
+        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2168
         local.get $4
         i32.load offset=4
         local.get $3
@@ -15931,7 +16264,7 @@
          i32.const 31
          i32.and
         end
-        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2176
+        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness#tapscript$2168
         local.get $4
         i32.load offset=4
         local.get $3
@@ -15953,7 +16286,7 @@
       local.get $2
       local.tee $3
       if (result i32)
-       block $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness.isInscribed$123 (result i32)
+       block $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness.isInscribed$160 (result i32)
         local.get $2
         i32.load
         local.get $2
@@ -16058,7 +16391,7 @@
          i32.const 0
         end
         i32.eqz
-        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness.isInscribed$123
+        br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/witness/Witness.isInscribed$160
         drop
         local.get $2
         call $~lib/metashrew-as/assembly/utils/utils/parsePushOp
@@ -16073,7 +16406,7 @@
        i32.const 0
       end
       i32.eqz
-      br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1973
+      br_if $__inlined_func$~lib/metashrew-as/assembly/blockdata/transaction/Input#inscription$1968
       drop
       local.get $3
       call $~lib/metashrew-as/assembly/blockdata/inscription/Inscription#constructor
@@ -16081,7 +16414,7 @@
      local.tee $3
      i32.eqz
      br_if $for-continue|0
-     block $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/Inscription#field$2177 (result i32)
+     block $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/Inscription#field$2169 (result i32)
       i32.const 0
       local.set $2
       loop $for-loop|00
@@ -16103,7 +16436,7 @@
          local.get $2
          call $~lib/array/Array<~lib/array/Array<u8>>#__get
          i32.load offset=4
-         br $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/Inscription#field$2177
+         br $__inlined_func$~lib/metashrew-as/assembly/blockdata/inscription/Inscription#field$2169
         end
         local.get $2
         i32.const 1
@@ -16231,7 +16564,7 @@
   local.tee $3
   i32.load offset=12
   local.set $5
-  block $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1975
+  block $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1970
    loop $for-loop|0
     local.get $0
     local.get $5
@@ -16260,7 +16593,7 @@
      i32.const 8896
      i32.load
      call_indirect (type $2)
-     br_if $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1975
+     br_if $__inlined_func$~lib/array/Array<~lib/metashrew-as/assembly/utils/box/Box>#findIndex$1970
      local.get $0
      i32.const 1
      i32.add
@@ -16271,16 +16604,16 @@
    i32.const -1
    local.set $0
   end
-  block $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$100
+  block $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$135
    local.get $0
    i32.const -1
    i32.ne
-   br_if $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$100
+   br_if $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$135
    local.get $3
    call $~lib/metashrew-as/assembly/utils/box/Box.concat
    call $assembly/indexer/RunestoneMessage/RunestoneMessage.parse
    i32.eqz
-   br_if $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$100
+   br_if $__inlined_func$assembly/indexer/Indexer/Index.inspectTransaction$135
    local.get $4
    local.get $4
    i32.const 20
@@ -16405,8 +16738,16 @@
   i32.const 10
   i32.store
   local.get $0
+  call $~lib/metashrew-as/assembly/indexer/index/hash
+  local.set $4
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updates
+  local.get $4
   local.get $3
-  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#set
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
+  global.get $~lib/metashrew-as/assembly/indexer/index/_updateKeys
+  local.get $4
+  local.get $0
+  call $"~lib/map/Map<~lib/string/String,~lib/arraybuffer/ArrayBuffer>#set"
   call $~lib/metashrew-as/assembly/indexer/index/_flush
  )
  (func $~lib/string/String.fromCharCode@varargs (param $0 i32) (result i32)
@@ -18296,94 +18637,6 @@
   i32.add
   i32.load8_u
  )
- (func $~lib/util/number/itoa32 (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  local.get $0
-  i32.eqz
-  if
-   i32.const 6496
-   return
-  end
-  i32.const 0
-  local.get $0
-  i32.sub
-  local.get $0
-  local.get $0
-  i32.const 31
-  i32.shr_u
-  i32.const 1
-  i32.shl
-  local.tee $0
-  select
-  local.tee $3
-  i32.const 100000
-  i32.lt_u
-  if (result i32)
-   local.get $3
-   i32.const 100
-   i32.lt_u
-   if (result i32)
-    local.get $3
-    i32.const 10
-    i32.ge_u
-    i32.const 1
-    i32.add
-   else
-    local.get $3
-    i32.const 10000
-    i32.ge_u
-    i32.const 3
-    i32.add
-    local.get $3
-    i32.const 1000
-    i32.ge_u
-    i32.add
-   end
-  else
-   local.get $3
-   i32.const 10000000
-   i32.lt_u
-   if (result i32)
-    local.get $3
-    i32.const 1000000
-    i32.ge_u
-    i32.const 6
-    i32.add
-   else
-    local.get $3
-    i32.const 1000000000
-    i32.ge_u
-    i32.const 8
-    i32.add
-    local.get $3
-    i32.const 100000000
-    i32.ge_u
-    i32.add
-   end
-  end
-  local.tee $2
-  i32.const 1
-  i32.shl
-  local.get $0
-  i32.add
-  i32.const 2
-  call $~lib/rt/stub/__new
-  local.tee $1
-  local.get $0
-  i32.add
-  local.get $3
-  local.get $2
-  call $~lib/util/number/utoa32_dec_lut
-  local.get $0
-  if
-   local.get $1
-   i32.const 45
-   i32.store16
-  end
-  local.get $1
- )
  (func $assembly/proto/metashrew-runes/__proto.Decoder#varint (param $0 i32) (result i64)
   (local $1 i32)
   (local $2 i32)
@@ -18709,7 +18962,88 @@
     i32.const 17892
     local.get $0
     i32.load offset=4
-    call $~lib/util/number/itoa32
+    local.tee $0
+    if (result i32)
+     i32.const 0
+     local.get $0
+     i32.sub
+     local.get $0
+     local.get $0
+     i32.const 31
+     i32.shr_u
+     i32.const 1
+     i32.shl
+     local.tee $0
+     select
+     local.tee $2
+     i32.const 100000
+     i32.lt_u
+     if (result i32)
+      local.get $2
+      i32.const 100
+      i32.lt_u
+      if (result i32)
+       local.get $2
+       i32.const 10
+       i32.ge_u
+       i32.const 1
+       i32.add
+      else
+       local.get $2
+       i32.const 10000
+       i32.ge_u
+       i32.const 3
+       i32.add
+       local.get $2
+       i32.const 1000
+       i32.ge_u
+       i32.add
+      end
+     else
+      local.get $2
+      i32.const 10000000
+      i32.lt_u
+      if (result i32)
+       local.get $2
+       i32.const 1000000
+       i32.ge_u
+       i32.const 6
+       i32.add
+      else
+       local.get $2
+       i32.const 1000000000
+       i32.ge_u
+       i32.const 8
+       i32.add
+       local.get $2
+       i32.const 100000000
+       i32.ge_u
+       i32.add
+      end
+     end
+     local.tee $6
+     i32.const 1
+     i32.shl
+     local.get $0
+     i32.add
+     i32.const 2
+     call $~lib/rt/stub/__new
+     local.tee $7
+     local.get $0
+     i32.add
+     local.get $2
+     local.get $6
+     call $~lib/util/number/utoa32_dec_lut
+     local.get $0
+     if
+      local.get $7
+      i32.const 45
+      i32.store16
+     end
+     local.get $7
+    else
+     i32.const 6496
+    end
     i32.store
     i32.const 0
     local.set $0
@@ -18880,11 +19214,11 @@
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
-  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2039 (result i32)
    i32.const 1
    local.get $0
    i32.load8_u offset=8
-   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044
+   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2039
    drop
    local.get $0
    i32.load offset=4
@@ -18895,7 +19229,7 @@
     i32.const 1
     i32.store8 offset=8
     i32.const 1
-    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044
+    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2039
    end
    i32.const 0
   end
@@ -18968,11 +19302,11 @@
  (func $assembly/proto/metashrew-runes/__proto.SafeDecoder#varint (param $0 i32) (result i64)
   (local $1 i64)
   (local $2 i32)
-  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2045 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2040 (result i32)
    i32.const 1
    local.get $0
    i32.load8_u offset=8
-   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2045
+   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2040
    drop
    local.get $0
    i32.load offset=4
@@ -18983,7 +19317,7 @@
     i32.const 1
     i32.store8 offset=8
     i32.const 1
-    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2045
+    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2040
    end
    i32.const 0
   end
@@ -19368,11 +19702,11 @@
   local.get $1
  )
  (func $assembly/proto/metashrew-runes/__proto.SafeDecoder#skipType (param $0 i32) (param $1 i32)
-  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2047 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2042 (result i32)
    i32.const 1
    local.get $0
    i32.load8_u offset=8
-   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2047
+   br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2042
    drop
    local.get $0
    i32.load offset=4
@@ -19383,7 +19717,7 @@
     i32.const 1
     i32.store8 offset=8
     i32.const 1
-    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2047
+    br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2042
    end
    i32.const 0
   end
@@ -19405,11 +19739,11 @@
         drop
         br $break|0
        end
-       block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2046 (result i32)
+       block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2041 (result i32)
         i32.const 1
         local.get $0
         i32.load8_u offset=8
-        br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2046
+        br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2041
         drop
         local.get $0
         i32.load offset=4
@@ -19420,7 +19754,7 @@
          i32.const 1
          i32.store8 offset=8
          i32.const 1
-         br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2046
+         br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2041
         end
         i32.const 0
        end
@@ -19462,11 +19796,11 @@
       call $assembly/proto/metashrew-runes/__proto.Decoder#varint@override
       i32.wrap_i64
       local.set $1
-      block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20460 (result i32)
+      block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20410 (result i32)
        i32.const 1
        local.get $0
        i32.load8_u offset=8
-       br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20460
+       br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20410
        drop
        local.get $0
        i32.load offset=4
@@ -19477,7 +19811,7 @@
         i32.const 1
         i32.store8 offset=8
         i32.const 1
-        br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20460
+        br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20410
        end
        i32.const 0
       end
@@ -19533,11 +19867,11 @@
      end
      br $break|0
     end
-    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20461 (result i32)
+    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20411 (result i32)
      i32.const 1
      local.get $0
      i32.load8_u offset=8
-     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20461
+     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20411
      drop
      local.get $0
      i32.load offset=4
@@ -19548,7 +19882,7 @@
       i32.const 1
       i32.store8 offset=8
       i32.const 1
-      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20461
+      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$20411
      end
      i32.const 0
     end
@@ -20886,7 +21220,7 @@
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
-  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.Outpoint.decodeDataView$2192 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.Outpoint.decodeDataView$2184 (result i32)
    call $~lib/metashrew-as/assembly/indexer/index/__host_len
    call $~lib/arraybuffer/ArrayBuffer#constructor
    local.tee $0
@@ -20905,11 +21239,11 @@
    call $assembly/proto/metashrew-runes/metashrew_runes.Outpoint#constructor
    local.set $2
    loop $while-continue|0
-    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037 (result i32)
+    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032 (result i32)
      i32.const 1
      local.get $1
      i32.load8_u offset=8
-     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      drop
      local.get $1
      i32.load offset=4
@@ -20920,7 +21254,7 @@
       i32.const 1
       i32.store8 offset=8
       i32.const 1
-      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      end
      i32.const 0
     end
@@ -20975,11 +21309,11 @@
     end
    end
    i32.const 0
-   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2049 (result i32)
+   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044 (result i32)
     i32.const 1
     local.get $1
     i32.load8_u offset=8
-    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2049
+    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044
     drop
     local.get $1
     i32.load offset=4
@@ -20990,11 +21324,11 @@
      i32.const 1
      i32.store8 offset=8
      i32.const 1
-     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2049
+     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2044
     end
     i32.const 0
    end
-   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.Outpoint.decodeDataView$2192
+   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.Outpoint.decodeDataView$2184
    drop
    local.get $2
   end
@@ -21138,7 +21472,7 @@
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
-  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.PaginationInput.decodeDataView$2194 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.PaginationInput.decodeDataView$2186 (result i32)
    call $~lib/metashrew-as/assembly/indexer/index/__host_len
    call $~lib/arraybuffer/ArrayBuffer#constructor
    local.tee $0
@@ -21172,11 +21506,11 @@
    i32.const 0
    i32.store offset=4
    loop $while-continue|0
-    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037 (result i32)
+    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032 (result i32)
      i32.const 1
      local.get $1
      i32.load8_u offset=8
-     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      drop
      local.get $1
      i32.load offset=4
@@ -21187,7 +21521,7 @@
       i32.const 1
       i32.store8 offset=8
       i32.const 1
-      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      end
      i32.const 0
     end
@@ -21242,11 +21576,11 @@
     end
    end
    i32.const 0
-   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2081 (result i32)
+   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2076 (result i32)
     i32.const 1
     local.get $1
     i32.load8_u offset=8
-    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2081
+    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2076
     drop
     local.get $1
     i32.load offset=4
@@ -21257,11 +21591,11 @@
      i32.const 1
      i32.store8 offset=8
      i32.const 1
-     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2081
+     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2076
     end
     i32.const 0
    end
-   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.PaginationInput.decodeDataView$2194
+   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.PaginationInput.decodeDataView$2186
    drop
    local.get $0
   end
@@ -21479,72 +21813,29 @@
   global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINTS_FOR_ADDRESS
   local.get $0
   call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
-  local.set $7
+  local.set $6
   i32.const 0
   call $~lib/array/Array<~lib/arraybuffer/ArrayBuffer>#constructor
-  local.set $8
+  local.set $7
   loop $for-loop|0
    i32.const 1
    global.set $~argumentsLength
-   local.get $7
+   local.get $6
    i32.const 6224
    i32.const 0
    call $~lib/string/String.UTF8.encode@varargs
    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#getValue<u32>
-   local.get $6
+   local.get $5
    i32.gt_u
    if
-    local.get $7
     local.get $6
+    local.get $5
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectIndex
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#get
-    local.tee $1
-    local.get $1
-    i32.const 20
-    i32.sub
-    i32.load offset=16
-    call $~lib/metashrew-as/assembly/utils/box/Box#constructor
-    local.tee $1
-    i32.const 36
-    i32.store offset=4
-    local.get $1
-    i32.load offset=4
-    call $~lib/arraybuffer/ArrayBuffer#constructor
-    local.tee $5
-    local.get $1
-    i32.load
-    local.get $1
-    i32.load offset=4
-    memory.copy
-    local.get $5
-    i32.const 20
-    i32.sub
-    i32.load offset=16
-    call $~lib/util/number/itoa32
-    local.set $1
-    i32.const 2
-    global.set $~argumentsLength
-    local.get $1
-    i32.const 1
-    call $~lib/string/String.UTF8.encode@varargs
-    call $~lib/metashrew-as/assembly/utils/logging/__log
-    local.get $5
-    local.get $5
-    i32.const 20
-    i32.sub
-    i32.load offset=16
-    call $~lib/metashrew-as/assembly/utils/box/Box#constructor
-    call $~lib/metashrew-as/assembly/utils/box/Box#toHexString
-    local.set $1
-    i32.const 2
-    global.set $~argumentsLength
-    local.get $1
-    i32.const 1
-    call $~lib/string/String.UTF8.encode@varargs
-    call $~lib/metashrew-as/assembly/utils/logging/__log
+    local.set $8
     global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
-    local.get $5
+    local.get $8
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#get
     local.set $4
@@ -21671,19 +21962,19 @@
     local.get $3
     i32.eqz
     if
+     local.get $7
      local.get $8
-     local.get $5
      call $~lib/array/Array<~lib/array/Array<u8>>#push
      drop
     end
-    local.get $6
+    local.get $5
     i32.const 1
     i32.add
-    local.set $6
+    local.set $5
     br $for-loop|0
    end
   end
-  local.get $8
+  local.get $7
  )
  (func $assembly/view/wallet/wallet_test (result i32)
   i32.const 1
@@ -21754,7 +22045,7 @@
   i32.const 1073741820
   call $~lib/arraybuffer/ArrayBuffer#slice
   local.set $0
-  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.WalletRequest.decodeDataView$1600 (result i32)
+  block $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.WalletRequest.decodeDataView$1595 (result i32)
    i32.const 1
    global.set $~argumentsLength
    local.get $0
@@ -21777,11 +22068,11 @@
    call $~lib/array/Array<u8>#constructor
    i32.store
    loop $while-continue|0
-    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037 (result i32)
+    block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032 (result i32)
      i32.const 1
      local.get $3
      i32.load8_u offset=8
-     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+     br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      drop
      local.get $3
      i32.load offset=4
@@ -21792,7 +22083,7 @@
       i32.const 1
       i32.store8 offset=8
       i32.const 1
-      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2037
+      br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2032
      end
      i32.const 0
     end
@@ -21832,11 +22123,11 @@
     end
    end
    i32.const 0
-   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2097 (result i32)
+   block $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2088 (result i32)
     i32.const 1
     local.get $3
     i32.load8_u offset=8
-    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2097
+    br_if $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2088
     drop
     local.get $3
     i32.load offset=4
@@ -21847,11 +22138,11 @@
      i32.const 1
      i32.store8 offset=8
      i32.const 1
-     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2097
+     br $__inlined_func$assembly/proto/metashrew-runes/__proto.SafeDecoder#invalid$2088
     end
     i32.const 0
    end
-   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.WalletRequest.decodeDataView$1600
+   br_if $__inlined_func$assembly/proto/metashrew-runes/metashrew_runes.WalletRequest.decodeDataView$1595
    drop
    local.get $0
   end

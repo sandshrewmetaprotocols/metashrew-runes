@@ -269,7 +269,7 @@ arrify@^1.0.0:
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
   integrity sha512-3CYzex9M9FGQjCGMGyi6/31c8GJbgb0qGyrx5HWxPd0aCwh4cB2YjMb2Xf9UuoogrMrlO9cTqnB5rI5GHZTcUA==
 
-as-bignum@^0.3.0:
+as-bignum@^0.3.0, as-bignum@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.3.1.tgz#861a8970de9001b4bf4240031bf48b4af6e71163"
   integrity sha512-/RS4NbSPYUCRTsGNeCNA8aLjiyYlsEYaevY4Jwzj/QlzVk82t4gXdaWb8R3hnqo96g0MSIbhdaq18UcpeyW7gA==
@@ -1302,7 +1302,9 @@ memorystream@^0.3.1:
 
 "metashrew-spendables@https://github.com/sandshrewmetaprotocols/metashrew-spendables":
   version "0.1.0"
-  resolved "https://github.com/sandshrewmetaprotocols/metashrew-spendables#86133efe34e29af99305f5fad74cd16477e10333"
+  resolved "https://github.com/sandshrewmetaprotocols/metashrew-spendables#b8cad71d609920e22321a9781f0a8a1cbea01c75"
+  dependencies:
+    as-bignum "^0.3.1"
 
 "metashrew-test@https://github.com/sandshrewmetaprotocols/metashrew-test":
   version "0.1.0"

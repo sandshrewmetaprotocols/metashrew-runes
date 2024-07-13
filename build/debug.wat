@@ -126,6 +126,7 @@
  (global $~lib/metashrew-spendables/assembly/tables/OUTPOINTS_FOR_ADDRESS (mut i32) (i32.const 0))
  (global $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY (mut i32) (i32.const 0))
  (global $~lib/metashrew-spendables/assembly/tables/OUTPOINT_TO_OUTPUT (mut i32) (i32.const 0))
+ (global $~lib/metashrew-spendables/assembly/protobuf/__proto.MAX_POS i32 (i32.const 4096))
  (global $assembly/proto/metashrew-runes/__proto.MAX_POS i32 (i32.const 4096))
  (global $~lib/builtins/usize.MAX_VALUE i32 (i32.const -1))
  (global $~lib/native/ASC_OPTIMIZE_LEVEL i32 (i32.const 0))
@@ -30790,22 +30791,7 @@
     local.get $i
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectIndex
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#get
-    call $~lib/metashrew-as/assembly/utils/box/Box.from
-    i32.const 36
-    call $~lib/metashrew-as/assembly/utils/box/Box#setLength
-    call $~lib/metashrew-as/assembly/utils/box/Box#toArrayBuffer
     local.set $item
-    global.get $~lib/metashrew-as/assembly/utils/logging/console
-    local.get $item
-    call $~lib/arraybuffer/ArrayBuffer#get:byteLength
-    i32.const 10
-    call $~lib/number/I32#toString
-    call $~lib/metashrew-as/assembly/utils/logging/Console#log
-    global.get $~lib/metashrew-as/assembly/utils/logging/console
-    local.get $item
-    call $~lib/metashrew-as/assembly/utils/box/Box.from
-    call $~lib/metashrew-as/assembly/utils/box/Box#toHexString
-    call $~lib/metashrew-as/assembly/utils/logging/Console#log
     global.get $~lib/metashrew-spendables/assembly/tables/OUTPOINT_SPENDABLE_BY
     local.get $item
     call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
