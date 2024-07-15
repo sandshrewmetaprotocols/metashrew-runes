@@ -140,3 +140,67 @@ export const transferRune = (
   block.transactions?.push(transaction);
   return block;
 };
+
+export const transferRuneMultiple = (
+  inputs: {
+    inputTxHash: Buffer | undefined;
+    inputTxOutputIndex: number;
+  }[],
+  runeId: {
+    block: bigint;
+    tx: number;
+  }[],
+  runeTransferAmount: bigint[],
+  outputIndexToReceiveRunes: number[],
+  outputs: {
+    address: string;
+    btcAmount: number;
+  }[],
+  outputRunePointer: number, // default output for leftover runes
+  block?: bitcoinjs.Block,
+): bitcoinjs.Block => {
+  if (block == undefined) {
+    block = buildDefaultBlock();
+    const coinbase = buildCoinbaseToAddress(TEST_BTC_ADDRESS1);
+    block.transactions?.push(coinbase);
+  }
+
+  const blockInputs = inputs.map((input) => {
+    return {
+      hash: input.inputTxHash,
+      index: input.inputTxOutputIndex,
+      witness: EMPTY_WITNESS,
+      script: EMPTY_BUFFER,
+    };
+  });
+  const blockOutputs = outputs.map((output) => {
+    return {
+      script: bitcoinjs.payments.p2pkh({
+        address: output.address,
+        network: bitcoinjs.networks.bitcoin,
+      }).output,
+      value: output.btcAmount,
+    };
+  });
+  const edicts = runeId.map((d, i) => ({
+    id: d,
+    amount: runeTransferAmount[i],
+    output: outputIndexToReceiveRunes[i],
+  }));
+  const runesTransfer = encodeRunestone({
+    edicts: edicts,
+    pointer: outputRunePointer,
+  }).encodedRunestone;
+  const transaction = buildTransaction(
+    [...blockInputs],
+    [
+      {
+        script: runesTransfer,
+        value: 0,
+      },
+      ...blockOutputs,
+    ],
+  );
+  block.transactions?.push(transaction);
+  return block;
+};

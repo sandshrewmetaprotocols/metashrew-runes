@@ -265,6 +265,7 @@ export class RunestoneMessage {
     const edicts = Edict.fromDeltaSeries(this.edicts);
     for (let e = 0; e < edicts.length; e++) {
       const edict = edicts[e];
+
       const edictOutput = toPrimitive<u32>(edict.output);
 
       const runeId = edict.runeId().toBytes();
@@ -276,9 +277,7 @@ export class RunestoneMessage {
         );
       } else outputBalanceSheet = balancesByOutput.get(edictOutput);
       const amount = min(edict.amount, balanceSheet.get(runeId));
-
-      const canDecrease = balanceSheet.decrease(runeId, amount);
-      if (!canDecrease) isCenotaph = true;
+      balanceSheet.decrease(runeId, amount);
       outputBalanceSheet.increase(runeId, amount);
     }
     return isCenotaph;
@@ -304,14 +303,14 @@ export class RunestoneMessage {
     const unallocatedTo = this.fields.has(Field.POINTER)
       ? fieldTo<u32>(this.fields.get(Field.POINTER))
       : <u32>tx.defaultOutput();
+
+    const isCenotaph = this.processEdicts(balancesByOutput, balanceSheet, txid);
+
     if (balancesByOutput.has(unallocatedTo)) {
       balanceSheet.pipe(balancesByOutput.get(unallocatedTo));
     } else {
       balancesByOutput.set(unallocatedTo, balanceSheet);
     }
-
-    const isCenotaph = this.processEdicts(balancesByOutput, balanceSheet, txid);
-
     const runesToOutputs = balancesByOutput.keys();
 
     for (let x = 0; x < runesToOutputs.length; x++) {

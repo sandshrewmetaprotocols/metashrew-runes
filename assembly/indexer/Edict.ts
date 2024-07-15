@@ -1,5 +1,4 @@
 import { u128 } from "as-bignum/assembly";
-import { fromU128Pair } from "../utils";
 import { RuneId } from "./RuneId";
 
 export class Edict {
@@ -22,7 +21,7 @@ export class Edict {
   static diff(previous: Edict, values: StaticArray<u128>): Edict {
     return new Edict(
       previous.block + values[0],
-      values[0].isZero() ? values[1] : previous.transactionIndex + values[1],
+      !values[0].isZero() ? values[1] : previous.transactionIndex + values[1],
       values[2],
       values[3],
     );
@@ -30,13 +29,13 @@ export class Edict {
   static fromDeltaSeries(deltas: Array<StaticArray<u128>>): Array<Edict> {
     let last = Edict.zero();
     const result = new Array<Edict>(0);
-    deltas.sort((a: StaticArray<u128>, b: StaticArray<u128>): i32 => {
-      const left = fromU128Pair(a[0], a[1]);
-      const right = fromU128Pair(b[0], b[1]);
-      if (left < right) return -1;
-      else if (left == right) return 0;
-      else return 1;
-    });
+    // deltas.sort((a: StaticArray<u128>, b: StaticArray<u128>): i32 => {
+    //   const left = fromU128Pair(a[0], a[1]);
+    //   const right = fromU128Pair(b[0], b[1]);
+    //   if (left < right) return -1;
+    //   else if (left == right) return 0;
+    //   else return 1;
+    // });
     for (let i: i32 = 0; i < deltas.length; i++) {
       last = Edict.diff(last, deltas[i]);
       result.push(last);

@@ -12,3 +12,13 @@ export declare const transferRune: (inputs: {
     address: string;
     btcAmount: number;
 }[], outputRunePointer?: number, block?: bitcoinjs.Block) => bitcoinjs.Block;
+export declare const transferRuneMultiple: (inputs: {
+    inputTxHash: Buffer | undefined;
+    inputTxOutputIndex: number;
+}[], runeId: {
+    block: bigint;
+    tx: number;
+}[], runeTransferAmount: bigint[], outputIndexToReceiveRunes: number[], outputs: {
+    address: string;
+    btcAmount: number;
+}[], outputRunePointer: number, block?: bitcoinjs.Block) => bitcoinjs.Block;
