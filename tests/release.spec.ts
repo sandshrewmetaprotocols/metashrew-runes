@@ -730,7 +730,7 @@ describe("metashrew-runes", () => {
     console.log(resultAddress2.balanceSheet);
     expect(resultAddress2.balanceSheet.length).equals(0);
   });
-  it("multiple runes in one block", async () => {
+  it("multiple runes in one block to different addresses", async () => {
     const program = buildProgram(DEBUG_WASM);
     program.setBlockHeight(840000);
     const premineAmount = 2100000005000000n;
@@ -790,6 +790,72 @@ describe("metashrew-runes", () => {
     expect(resultAddress2.balanceSheet[0].balance).equals(
       premineAmount2,
       "address 2 should be mined premine amount",
+    );
+  });
+  it("multiple runes in one block to the same address", async () => {
+    const program = buildProgram(DEBUG_WASM);
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n;
+    const outputs = [
+      {
+        script: bitcoinjs.payments.p2pkh({
+          address: TEST_BTC_ADDRESS1,
+          network: bitcoinjs.networks.bitcoin,
+        }).output,
+        value: 1,
+      },
+    ];
+    const pointer1 = 1;
+    let block1 = initCompleteBlockWithRuneEtching(
+      outputs,
+      pointer1,
+      undefined,
+      premineAmount,
+    );
+
+    program.setBlock(block1.toHex());
+
+    await program.run("_start");
+
+    program.setBlockHeight(840001);
+
+    const premineAmount2 = 10n;
+
+    const block2 = initCompleteBlockWithRuneEtching(
+      [
+        {
+          script: bitcoinjs.payments.p2pkh({
+            address: TEST_BTC_ADDRESS1,
+            network: bitcoinjs.networks.bitcoin,
+          }).output,
+          value: 1,
+        },
+      ],
+      pointer1,
+      1,
+      premineAmount2,
+      "TEST•RUNE•GENESIS",
+      "T"
+    );
+    program.setBlock(block2.toHex());
+
+    await program.run("_start");
+
+    const resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1)
+    expect(resultAddress1.balanceSheet[0].balance).equals(
+      premineAmount,
+      "address 1 should be mined premine amount rune 1",
+    );
+    expect(resultAddress1.balanceSheet[1].balance).equals(
+      premineAmount2,
+      "address 1 should be mined premine amount rune 1",
+    );
+    const resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2)
+    expect(resultAddress2.balanceSheet.length).equals(
+      0,
+      "address 2 should have nothing",
     );
   });
   it("invalid rune name should not be indexed", async () => {
