@@ -40,6 +40,7 @@ import {
   MINIMUM_NAME,
   TWENTY_SIX,
   RESERVED_NAME,
+  MAX_BYTES_LEB128_INT,
 } from "./constants";
 import { BalanceSheet } from "./BalanceSheet";
 import { RunesTransaction } from "./RunesTransaction";
@@ -47,7 +48,6 @@ import { Input, OutPoint } from "metashrew-as/assembly/blockdata/transaction";
 import {
   encodeHexFromBuffer,
   SUBSIDY_HALVING_INTERVAL,
-  MAX_BYTES_LEB128_INT,
 } from "metashrew-as/assembly/utils";
 import { console } from "metashrew-as/assembly/utils/logging";
 

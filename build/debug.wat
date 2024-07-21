@@ -85,6 +85,7 @@
  (global $assembly/indexer/constants/index/RESERVED_NAME (mut i32) (i32.const 0))
  (global $assembly/indexer/constants/index/SUBSIDY_HALVING_INTERVAL i64 (i64.const 210000))
  (global $assembly/indexer/constants/index/HEIGHT_INTERVAL i64 (i64.const 17500))
+ (global $assembly/indexer/constants/index/MAX_BYTES_LEB128_INT i32 (i32.const 18))
  (global $assembly/indexer/Field/Field.BODY (mut i64) (i64.const 0))
  (global $assembly/indexer/Field/Field.FLAGS (mut i64) (i64.const 2))
  (global $assembly/indexer/Field/Field.RUNE (mut i64) (i64.const 4))
@@ -14391,8 +14392,8 @@
     call $assembly/leb128/readULEB128ToU128
     local.set $size
     local.get $size
-    global.get $~lib/builtins/usize.MAX_VALUE
-    i32.eq
+    global.get $assembly/indexer/constants/index/MAX_BYTES_LEB128_INT
+    i32.gt_u
     if
      i32.const 0
      return
@@ -14404,6 +14405,22 @@
     local.get $fieldKeyHeap
     call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
     local.set $fieldKey
+    local.get $fieldKey
+    i64.const 22
+    i64.gt_u
+    if (result i32)
+     local.get $fieldKey
+     i64.const 2
+     i64.rem_u
+     i64.const 0
+     i64.eq
+    else
+     i32.const 0
+    end
+    if
+     i32.const 0
+     return
+    end
     local.get $fieldKey
     i64.const 0
     i64.eq
@@ -14459,9 +14476,9 @@
          local.get $edictInt
          call $assembly/leb128/readULEB128ToU128
          local.set $size|14
-         global.get $~lib/builtins/usize.MAX_VALUE
          local.get $size|14
-         i32.eq
+         global.get $assembly/indexer/constants/index/MAX_BYTES_LEB128_INT
+         i32.gt_u
          if
           i32.const 0
           return
@@ -14523,9 +14540,9 @@
      local.get $value|17
      call $assembly/leb128/readULEB128ToU128
      local.set $size|18
-     global.get $~lib/builtins/usize.MAX_VALUE
      local.get $size|18
-     i32.eq
+     global.get $assembly/indexer/constants/index/MAX_BYTES_LEB128_INT
+     i32.gt_u
      if
       i32.const 0
       return
