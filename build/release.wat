@@ -9351,8 +9351,8 @@
     local.get $0
     call $assembly/leb128/readULEB128ToU128
     local.tee $4
-    i32.const -1
-    i32.eq
+    i32.const 18
+    i32.gt_u
     if
      i32.const 0
      return
@@ -9369,9 +9369,22 @@
     local.get $4
     i32.sub
     i32.store offset=4
+    i64.const 1
     local.get $0
     i64.load
     local.tee $3
+    i64.const 1
+    i64.and
+    local.get $3
+    i64.const 22
+    i64.le_u
+    select
+    i64.eqz
+    if
+     i32.const 0
+     return
+    end
+    local.get $3
     i64.eqz
     if
      loop $while-continue|1
@@ -9407,8 +9420,8 @@
          local.get $7
          call $assembly/leb128/readULEB128ToU128
          local.tee $4
-         i32.const -1
-         i32.eq
+         i32.const 18
+         i32.gt_u
          if
           i32.const 0
           return
@@ -9476,8 +9489,8 @@
      local.get $4
      call $assembly/leb128/readULEB128ToU128
      local.tee $0
-     i32.const -1
-     i32.eq
+     i32.const 18
+     i32.gt_u
      if
       i32.const 0
       return
