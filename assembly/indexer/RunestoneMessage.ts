@@ -261,14 +261,16 @@ export class RunestoneMessage {
 
   //TODO: This should really be a function in transaction.ts in metashrew-as in class Output
   isNonOpReturnOutput(output: Output): bool {
-    return parsePrimitive<u8>(output.script) != 0x6a;
+    let view = output.script.sliceFrom(0);
+    return parsePrimitive<u8>(view) != 0x6a;
   }
 
   numNonOpReturnOutputs(outputs: Array<Output>): u128 {
     let counter = 0;
     for (let i = 0; i < outputs.length; i++) {
-      if (this.isNonOpReturnOutput(outputs[i]))
+      if (this.isNonOpReturnOutput(outputs[i])) {
         counter++;
+      }
     }
     return new u128(counter, 0)
   }
@@ -327,8 +329,9 @@ export class RunestoneMessage {
       }
       else {
         for (let i = 0; i < outputs.length; i++) {
-          if (this.isNonOpReturnOutput(outputs[i]))
+          if (this.isNonOpReturnOutput(outputs[i])) {
             this.updateBalancesForEdict(balancesByOutput, balanceSheet, edict.amount, i, runeId)
+          }
         }
       }
 

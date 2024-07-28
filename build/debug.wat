@@ -19574,8 +19574,13 @@
   i32.load offset=8
  )
  (func $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput (param $this i32) (param $output i32) (result i32)
+  (local $view i32)
   local.get $output
   call $~lib/metashrew-as/assembly/blockdata/transaction/Output#get:script
+  i32.const 0
+  call $~lib/metashrew-as/assembly/utils/box/Box#sliceFrom
+  local.set $view
+  local.get $view
   call $~lib/metashrew-as/assembly/utils/utils/parsePrimitive<u8>
   i32.const 106
   i32.ne
