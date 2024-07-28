@@ -1324,4 +1324,75 @@ describe("metashrew-runes", () => {
     const resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
     expect(resultAddress2.balanceSheet.length).equals(0);
   });
+  it("cenotaph if runestone targets output > numOutputs", async () => {
+    const program = buildProgram(DEBUG_WASM);
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n;
+    const outputs = [
+      {
+        script: bitcoinjs.payments.p2pkh({
+          address: TEST_BTC_ADDRESS1,
+          network: bitcoinjs.networks.bitcoin,
+        }).output,
+        value: 1,
+      },
+      {
+        script: bitcoinjs.payments.p2pkh({
+          network: bitcoinjs.networks.bitcoin,
+          address: TEST_BTC_ADDRESS2,
+        }).output,
+        value: 624999999,
+      },
+    ];
+    const pointer1 = 1;
+    const block1 = initCompleteBlockWithRuneEtching(
+      outputs,
+      pointer1,
+      undefined,
+      premineAmount,
+    );
+    program.setBlock(block1.toHex());
+    await program.run("_start");
+
+    // Sending entire rune amount to address 2
+    program.setBlockHeight(840001);
+    const input = {
+      inputTxHash: block1.transactions?.at(1)?.getHash(), // 0 is coinbase, 1 is the mint
+      inputTxOutputIndex: pointer1, // index of output in the input tx that has the runes. In this case it is the default pointer of the mint
+    };
+    const runeId = {
+      block: 840000n,
+      tx: 1,
+    };
+    const amount = premineAmount / 3n;
+    const outputIndexToReceiveRunes = 4; // 0 is the script, 1 is output1, 2 is output2. 3 will evenly distribute to 1 and 2
+    const output = {
+      address: TEST_BTC_ADDRESS1,
+      btcAmount: 1,
+    };
+    const refundOutput = {
+      address: TEST_BTC_ADDRESS2,
+      btcAmount: 1,
+    };
+    const outputRunePointer = 0; // burn leftover
+
+    const block2 = transferRune(
+      [input],
+      runeId,
+      amount,
+      outputIndexToReceiveRunes,
+      [output, refundOutput],
+      outputRunePointer,
+    );
+
+    program.setBlock(block2.toHex());
+
+    await program.run("_start");
+    let resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1.balanceSheet);
+    expect(resultAddress1.balanceSheet.length).equals(0);
+    let resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2.balanceSheet);
+    expect(resultAddress2.balanceSheet.length).equals(0);
+  });
 });
