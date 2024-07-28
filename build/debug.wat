@@ -10,8 +10,8 @@
  (type $8 (func (param i32)))
  (type $9 (func (param i32 i64)))
  (type $10 (func (result i32)))
- (type $11 (func (param i32 i32 i32 i32)))
- (type $12 (func (param i32 i32 i32 i32 i32) (result i32)))
+ (type $11 (func (param i32 i32 i32 i32 i32) (result i32)))
+ (type $12 (func (param i32 i32 i32 i32)))
  (type $13 (func (param i64 i64 i64 i64) (result i64)))
  (type $14 (func (param i32 i64 i32) (result i32)))
  (type $15 (func (param i32 i64) (result i32)))
@@ -24,6 +24,7 @@
  (type $22 (func (param i32 i64 i32 i32)))
  (type $23 (func (param i64) (result i64)))
  (type $24 (func (param i32 i64 i32 i32 i32) (result i32)))
+ (type $25 (func (param i32 i32 i32 i32 i32 i32)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (import "env" "__host_len" (func $~lib/metashrew-as/assembly/indexer/index/__host_len (result i32)))
  (import "env" "__load_input" (func $~lib/metashrew-as/assembly/indexer/index/__load_input (param i32)))
@@ -19552,10 +19553,6 @@
   local.get $value
   return
  )
- (func $assembly/indexer/Edict/Edict#get:output (param $this i32) (result i32)
-  local.get $this
-  i32.load offset=12
- )
  (func $assembly/indexer/Edict/Edict#runeId (param $this i32) (result i32)
   i32.const 0
   local.get $this
@@ -19566,6 +19563,60 @@
   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
   i32.wrap_i64
   call $assembly/indexer/RuneId/RuneId#constructor
+  return
+ )
+ (func $assembly/indexer/Edict/Edict#get:output (param $this i32) (result i32)
+  local.get $this
+  i32.load offset=12
+ )
+ (func $assembly/indexer/Edict/Edict#get:amount (param $this i32) (result i32)
+  local.get $this
+  i32.load offset=8
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput (param $this i32) (param $output i32) (result i32)
+  local.get $output
+  call $~lib/metashrew-as/assembly/blockdata/transaction/Output#get:script
+  call $~lib/metashrew-as/assembly/utils/utils/parsePrimitive<u8>
+  i32.const 106
+  i32.ne
+  return
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#numNonOpReturnOutputs (param $this i32) (param $outputs i32) (result i32)
+  (local $counter i32)
+  (local $i i32)
+  i32.const 0
+  local.set $counter
+  i32.const 0
+  local.set $i
+  loop $for-loop|0
+   local.get $i
+   local.get $outputs
+   call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+   i32.lt_s
+   if
+    local.get $this
+    local.get $outputs
+    local.get $i
+    call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
+    call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
+    if
+     local.get $counter
+     i32.const 1
+     i32.add
+     local.set $counter
+    end
+    local.get $i
+    i32.const 1
+    i32.add
+    local.set $i
+    br $for-loop|0
+   end
+  end
+  i32.const 0
+  local.get $counter
+  i64.extend_i32_s
+  i64.const 0
+  call $~lib/as-bignum/assembly/integer/u128/u128#constructor
   return
  )
  (func $~lib/util/hash/HASH<u32> (param $key i32) (result i32)
@@ -20013,10 +20064,6 @@
   call $"~lib/map/MapEntry<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get:value"
   return
  )
- (func $assembly/indexer/Edict/Edict#get:amount (param $this i32) (result i32)
-  local.get $this
-  i32.load offset=8
- )
  (func $assembly/utils/min<~lib/as-bignum/assembly/integer/u128/u128> (param $a i32) (param $b i32) (result i32)
   (local $a|2 i32)
   (local $b|3 i32)
@@ -20138,61 +20185,134 @@
   i32.const 1
   return
  )
- (func $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdicts (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $txid i32) (result i32)
-  (local $isCenotaph i32)
-  (local $edicts i32)
-  (local $e i32)
-  (local $edict i32)
-  (local $edictOutput i32)
-  (local $runeId i32)
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $edictAmount i32) (param $edictOutput i32) (param $runeId i32)
   (local $outputBalanceSheet i32)
   (local $amount i32)
   i32.const 0
-  local.set $isCenotaph
-  local.get $this
-  call $assembly/indexer/RunestoneMessage/RunestoneMessage#get:edicts
-  call $assembly/indexer/Edict/Edict.fromDeltaSeries
-  local.set $edicts
-  i32.const 0
-  local.set $e
-  loop $for-loop|0
-   local.get $e
-   local.get $edicts
-   call $~lib/array/Array<assembly/indexer/Edict/Edict>#get:length
-   i32.lt_s
+  local.set $outputBalanceSheet
+  local.get $balancesByOutput
+  local.get $edictOutput
+  call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#has"
+  i32.eqz
+  if
+   local.get $balancesByOutput
+   local.get $edictOutput
+   i32.const 0
+   call $assembly/indexer/BalanceSheet/BalanceSheet#constructor
+   local.tee $outputBalanceSheet
+   call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#set"
+   drop
+  else
+   local.get $balancesByOutput
+   local.get $edictOutput
+   call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get"
+   local.set $outputBalanceSheet
+  end
+  local.get $edictAmount
+  call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+  i64.const 0
+  i64.eq
+  if (result i32)
+   local.get $edictAmount
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+   i64.const 0
+   i64.eq
+  else
+   i32.const 0
+  end
+  if (result i32)
+   local.get $balanceSheet
+   local.get $runeId
+   call $assembly/indexer/BalanceSheet/BalanceSheet#get
+  else
+   local.get $edictAmount
+   local.get $balanceSheet
+   local.get $runeId
+   call $assembly/indexer/BalanceSheet/BalanceSheet#get
+   call $assembly/utils/min<~lib/as-bignum/assembly/integer/u128/u128>
+  end
+  local.set $amount
+  local.get $balanceSheet
+  local.get $runeId
+  local.get $amount
+  call $assembly/indexer/BalanceSheet/BalanceSheet#decrease
+  drop
+  local.get $outputBalanceSheet
+  local.get $runeId
+  local.get $amount
+  call $assembly/indexer/BalanceSheet/BalanceSheet#increase
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdict (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $edict i32) (param $outputs i32) (result i32)
+  (local $runeId i32)
+  (local $edictOutput i32)
+  (local $numNonOpReturnOuts i32)
+  (local $a i32)
+  (local $b i32)
+  (local $amountSplit i32)
+  (local $amountSplitPlus1 i32)
+  (local $a|12 i32)
+  (local $b|13 i32)
+  (local $numRemainder i32)
+  (local $extraCounter i64)
+  (local $i i32)
+  (local $i|17 i32)
+  local.get $edict
+  call $assembly/indexer/Edict/Edict#get:block
+  call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+  i64.const 0
+  i64.eq
+  if (result i32)
+   local.get $edict
+   call $assembly/indexer/Edict/Edict#get:block
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+   i64.const 0
+   i64.eq
+  else
+   i32.const 0
+  end
+  if (result i32)
+   local.get $edict
+   call $assembly/indexer/Edict/Edict#get:transactionIndex
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+   i64.const 0
+   i64.gt_u
+   if (result i32)
+    i32.const 1
+   else
+    local.get $edict
+    call $assembly/indexer/Edict/Edict#get:transactionIndex
+    call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+    i64.const 0
+    i64.gt_u
+   end
+  else
+   i32.const 0
+  end
+  if
+   i32.const 1
+   return
+  end
+  local.get $edict
+  call $assembly/indexer/Edict/Edict#runeId
+  call $assembly/indexer/RuneId/RuneId#toBytes
+  local.set $runeId
+  local.get $edict
+  call $assembly/indexer/Edict/Edict#get:output
+  call $assembly/utils/toPrimitive<u32>
+  local.set $edictOutput
+  local.get $edictOutput
+  local.get $outputs
+  call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+  i32.gt_u
+  if
+   i32.const 1
+   return
+  else
+   local.get $edictOutput
+   local.get $outputs
+   call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+   i32.eq
    if
-    local.get $edicts
-    local.get $e
-    call $~lib/array/Array<assembly/indexer/Edict/Edict>#__get
-    local.set $edict
-    local.get $edict
-    call $assembly/indexer/Edict/Edict#get:output
-    call $assembly/utils/toPrimitive<u32>
-    local.set $edictOutput
-    local.get $edict
-    call $assembly/indexer/Edict/Edict#runeId
-    call $assembly/indexer/RuneId/RuneId#toBytes
-    local.set $runeId
-    i32.const 0
-    local.set $outputBalanceSheet
-    local.get $balancesByOutput
-    local.get $edictOutput
-    call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#has"
-    i32.eqz
-    if
-     local.get $balancesByOutput
-     local.get $edictOutput
-     i32.const 0
-     call $assembly/indexer/BalanceSheet/BalanceSheet#constructor
-     local.tee $outputBalanceSheet
-     call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#set"
-     drop
-    else
-     local.get $balancesByOutput
-     local.get $edictOutput
-     call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get"
-     local.set $outputBalanceSheet
-    end
     local.get $edict
     call $assembly/indexer/Edict/Edict#get:amount
     call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
@@ -20207,28 +20327,186 @@
     else
      i32.const 0
     end
-    if (result i32)
-     local.get $balanceSheet
-     local.get $runeId
-     call $assembly/indexer/BalanceSheet/BalanceSheet#get
+    if
+     local.get $this
+     local.get $outputs
+     call $assembly/indexer/RunestoneMessage/RunestoneMessage#numNonOpReturnOutputs
+     local.set $numNonOpReturnOuts
+     block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1 (result i32)
+      local.get $balanceSheet
+      local.get $runeId
+      call $assembly/indexer/BalanceSheet/BalanceSheet#get
+      local.set $a
+      local.get $numNonOpReturnOuts
+      local.set $b
+      i32.const 0
+      local.get $a
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+      local.get $a
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+      local.get $b
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+      local.get $b
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+      call $~lib/as-bignum/assembly/globals/__udivmod128
+      global.get $~lib/as-bignum/assembly/globals/__divmod_quot_hi
+      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+      br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1
+     end
+     local.set $amountSplit
+     local.get $amountSplit
+     call $~lib/as-bignum/assembly/integer/u128/u128#preInc@override
+     local.set $amountSplitPlus1
+     block $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0 (result i32)
+      local.get $balanceSheet
+      local.get $runeId
+      call $assembly/indexer/BalanceSheet/BalanceSheet#get
+      local.set $a|12
+      local.get $numNonOpReturnOuts
+      local.set $b|13
+      local.get $a|12
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+      local.get $a|12
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+      local.get $b|13
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+      local.get $b|13
+      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+      call $~lib/as-bignum/assembly/globals/__udivmod128
+      drop
+      i32.const 0
+      global.get $~lib/as-bignum/assembly/globals/__divmod_rem_lo
+      global.get $~lib/as-bignum/assembly/globals/__divmod_rem_hi
+      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+      br $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0
+     end
+     local.set $numRemainder
+     i64.const 0
+     local.set $extraCounter
+     i32.const 0
+     local.set $i
+     loop $for-loop|0
+      local.get $i
+      local.get $outputs
+      call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+      i32.lt_s
+      if
+       local.get $this
+       local.get $outputs
+       local.get $i
+       call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
+       call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
+       if
+        local.get $extraCounter
+        local.get $numRemainder
+        call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+        i64.lt_u
+        if
+         local.get $this
+         local.get $balancesByOutput
+         local.get $balanceSheet
+         local.get $amountSplitPlus1
+         local.get $i
+         local.get $runeId
+         call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+         local.get $extraCounter
+         i64.const 1
+         i64.add
+         local.set $extraCounter
+        else
+         local.get $this
+         local.get $balancesByOutput
+         local.get $balanceSheet
+         local.get $amountSplit
+         local.get $i
+         local.get $runeId
+         call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+        end
+       end
+       local.get $i
+       i32.const 1
+       i32.add
+       local.set $i
+       br $for-loop|0
+      end
+     end
     else
-     local.get $edict
-     call $assembly/indexer/Edict/Edict#get:amount
-     local.get $balanceSheet
-     local.get $runeId
-     call $assembly/indexer/BalanceSheet/BalanceSheet#get
-     call $assembly/utils/min<~lib/as-bignum/assembly/integer/u128/u128>
+     i32.const 0
+     local.set $i|17
+     loop $for-loop|1
+      local.get $i|17
+      local.get $outputs
+      call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+      i32.lt_s
+      if
+       local.get $this
+       local.get $outputs
+       local.get $i|17
+       call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
+       call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
+       if
+        local.get $this
+        local.get $balancesByOutput
+        local.get $balanceSheet
+        local.get $edict
+        call $assembly/indexer/Edict/Edict#get:amount
+        local.get $i|17
+        local.get $runeId
+        call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+       end
+       local.get $i|17
+       i32.const 1
+       i32.add
+       local.set $i|17
+       br $for-loop|1
+      end
+     end
     end
-    local.set $amount
+    i32.const 0
+    return
+   else
+    local.get $this
+    local.get $balancesByOutput
     local.get $balanceSheet
+    local.get $edict
+    call $assembly/indexer/Edict/Edict#get:amount
+    local.get $edictOutput
     local.get $runeId
-    local.get $amount
-    call $assembly/indexer/BalanceSheet/BalanceSheet#decrease
-    drop
-    local.get $outputBalanceSheet
-    local.get $runeId
-    local.get $amount
-    call $assembly/indexer/BalanceSheet/BalanceSheet#increase
+    call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+    i32.const 0
+    return
+   end
+   unreachable
+  end
+  unreachable
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdicts (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $outputs i32) (result i32)
+  (local $edicts i32)
+  (local $e i32)
+  local.get $this
+  call $assembly/indexer/RunestoneMessage/RunestoneMessage#get:edicts
+  call $assembly/indexer/Edict/Edict.fromDeltaSeries
+  local.set $edicts
+  i32.const 0
+  local.set $e
+  loop $for-loop|0
+   local.get $e
+   local.get $edicts
+   call $~lib/array/Array<assembly/indexer/Edict/Edict>#get:length
+   i32.lt_s
+   if
+    local.get $this
+    local.get $balancesByOutput
+    local.get $balanceSheet
+    local.get $edicts
+    local.get $e
+    call $~lib/array/Array<assembly/indexer/Edict/Edict>#__get
+    local.get $outputs
+    call $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdict
+    if
+     i32.const 1
+     return
+    end
     local.get $e
     i32.const 1
     i32.add
@@ -20236,7 +20514,7 @@
     br $for-loop|0
    end
   end
-  local.get $isCenotaph
+  i32.const 0
   return
  )
  (func $~lib/array/Array<u32>#set:buffer (param $this i32) (param $buffer i32)
@@ -20661,7 +20939,8 @@
   local.get $this
   local.get $balancesByOutput
   local.get $balanceSheet
-  local.get $txid
+  local.get $tx
+  call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#get:outs
   call $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdicts
   local.set $isCenotaph
   local.get $balancesByOutput
@@ -22626,7 +22905,7 @@
    i32.eqz
    if
     block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.1 (result i32)
-     block $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0 (result i32)
+     block $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.1 (result i32)
       local.get $v
       local.set $a|11
       global.get $assembly/indexer/constants/index/TWENTY_SIX
@@ -22645,7 +22924,7 @@
       global.get $~lib/as-bignum/assembly/globals/__divmod_rem_lo
       global.get $~lib/as-bignum/assembly/globals/__divmod_rem_hi
       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-      br $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0
+      br $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.1
      end
      local.set $this|13
      local.get $this|13
@@ -22674,7 +22953,7 @@
     local.get $v
     call $~lib/as-bignum/assembly/integer/u128/u128#postDec@override
     local.set $v
-    block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1 (result i32)
+    block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.2 (result i32)
      local.get $v
      local.set $a|15
      global.get $assembly/indexer/constants/index/TWENTY_SIX
@@ -22691,7 +22970,7 @@
      call $~lib/as-bignum/assembly/globals/__udivmod128
      global.get $~lib/as-bignum/assembly/globals/__divmod_quot_hi
      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-     br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1
+     br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.2
     end
     local.set $v
     br $while-continue|0
@@ -23225,7 +23504,7 @@
   i32.const 10
   call $~lib/as-bignum/assembly/integer/u128/u128#toString
   call $~lib/metashrew-as/assembly/utils/logging/Console#log
-  block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.2 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.3 (result i32)
    block $~lib/as-bignum/assembly/integer/u128/u128.from<~lib/string/String>|inlined.3 (result i32)
     i32.const 8336
     local.set $value|5
@@ -23292,7 +23571,7 @@
    call $~lib/as-bignum/assembly/globals/__udivmod128
    global.get $~lib/as-bignum/assembly/globals/__divmod_quot_hi
    call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-   br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.2
+   br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.3
   end
   call $assembly/utils/fieldToName
   local.set $next
