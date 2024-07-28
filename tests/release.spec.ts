@@ -659,6 +659,148 @@ describe("metashrew-runes", () => {
     console.log(resultAddress2.balanceSheet);
     expect(resultAddress2.balanceSheet[0].balance).equals(amount + 2n);
   });
+  it("edicts allocate more runes than input -- should reduce to currently unallocated runes", async () => {
+    const program = buildProgram(DEBUG_WASM);
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n;
+    const outputs = [
+      {
+        script: bitcoinjs.payments.p2pkh({
+          address: TEST_BTC_ADDRESS1,
+          network: bitcoinjs.networks.bitcoin,
+        }).output,
+        value: 1,
+      },
+      {
+        script: bitcoinjs.payments.p2pkh({
+          network: bitcoinjs.networks.bitcoin,
+          address: TEST_BTC_ADDRESS2,
+        }).output,
+        value: 624999999,
+      },
+    ];
+    const pointer1 = 1;
+    const block1 = initCompleteBlockWithRuneEtching(
+      outputs,
+      pointer1,
+      undefined,
+      premineAmount,
+    );
+    program.setBlock(block1.toHex());
+    await program.run("_start");
+
+    // Sending entire rune amount to address 2
+    program.setBlockHeight(840001);
+    const input = {
+      inputTxHash: block1.transactions?.at(1)?.getHash(), // 0 is coinbase, 1 is the mint
+      inputTxOutputIndex: pointer1, // index of output in the input tx that has the runes. In this case it is the default pointer of the mint
+    };
+    const runeId = {
+      block: 840000n,
+      tx: 1,
+    };
+    const amount = 2n * premineAmount / 3n;
+    const outputIndexToReceiveRunes = 1; // 0 is the script
+    const output = {
+      address: TEST_BTC_ADDRESS1,
+      btcAmount: 1,
+    };
+    const refundOutput = {
+      address: TEST_BTC_ADDRESS2,
+      btcAmount: 1,
+    };
+    const outputRunePointer = 2;
+
+    const block2 = transferRuneMultiple(
+      [input],
+      [runeId, runeId],
+      [amount, amount],
+      [outputIndexToReceiveRunes, outputIndexToReceiveRunes + 1],
+      [output, refundOutput],
+      outputRunePointer,
+    );
+
+    program.setBlock(block2.toHex());
+
+    await program.run("_start");
+    let resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1.balanceSheet);
+    expect(resultAddress1.balanceSheet[0].balance).equals(amount);
+    let resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2.balanceSheet);
+    expect(resultAddress2.balanceSheet[0].balance).equals(amount / 2n + 1n);
+  });
+  it("edicts with value 0 should allocate remaining amount", async () => {
+    const program = buildProgram(DEBUG_WASM);
+    program.setBlockHeight(840000);
+    const premineAmount = 2100000005000000n;
+    const outputs = [
+      {
+        script: bitcoinjs.payments.p2pkh({
+          address: TEST_BTC_ADDRESS1,
+          network: bitcoinjs.networks.bitcoin,
+        }).output,
+        value: 1,
+      },
+      {
+        script: bitcoinjs.payments.p2pkh({
+          network: bitcoinjs.networks.bitcoin,
+          address: TEST_BTC_ADDRESS2,
+        }).output,
+        value: 624999999,
+      },
+    ];
+    const pointer1 = 1;
+    const block1 = initCompleteBlockWithRuneEtching(
+      outputs,
+      pointer1,
+      undefined,
+      premineAmount,
+    );
+    program.setBlock(block1.toHex());
+    await program.run("_start");
+
+    // Sending entire rune amount to address 2
+    program.setBlockHeight(840001);
+    const input = {
+      inputTxHash: block1.transactions?.at(1)?.getHash(), // 0 is coinbase, 1 is the mint
+      inputTxOutputIndex: pointer1, // index of output in the input tx that has the runes. In this case it is the default pointer of the mint
+    };
+    const runeId = {
+      block: 840000n,
+      tx: 1,
+    };
+    const amount = 2n * premineAmount / 3n;
+    const outputIndexToReceiveRunes = 1; // 0 is the script
+    const output = {
+      address: TEST_BTC_ADDRESS1,
+      btcAmount: 1,
+    };
+    const refundOutput = {
+      address: TEST_BTC_ADDRESS2,
+      btcAmount: 1,
+    };
+    const outputRunePointer = 1;
+
+    const block2 = transferRuneMultiple(
+      [input],
+      [runeId, runeId],
+      [amount, 0n],
+      [outputIndexToReceiveRunes, outputIndexToReceiveRunes + 1],
+      [output, refundOutput],
+      outputRunePointer,
+    );
+
+    program.setBlock(block2.toHex());
+
+    await program.run("_start");
+    let resultAddress1 = await runesbyaddress(program, TEST_BTC_ADDRESS1);
+    console.log(resultAddress1.balanceSheet);
+    expect(resultAddress1.balanceSheet[0].balance).equals(amount);
+    let resultAddress2 = await runesbyaddress(program, TEST_BTC_ADDRESS2);
+    console.log(resultAddress2.balanceSheet);
+    expect(resultAddress2.balanceSheet[0].balance).equals(premineAmount - amount);
+  });
   it("should test out if invalid edicts are ignored", async () => {
     const program = buildProgram(DEBUG_WASM);
     program.setBlockHeight(840000);

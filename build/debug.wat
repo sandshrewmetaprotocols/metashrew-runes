@@ -20195,10 +20195,30 @@
     end
     local.get $edict
     call $assembly/indexer/Edict/Edict#get:amount
-    local.get $balanceSheet
-    local.get $runeId
-    call $assembly/indexer/BalanceSheet/BalanceSheet#get
-    call $assembly/utils/min<~lib/as-bignum/assembly/integer/u128/u128>
+    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+    i64.const 0
+    i64.eq
+    if (result i32)
+     local.get $edict
+     call $assembly/indexer/Edict/Edict#get:amount
+     call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+     i64.const 0
+     i64.eq
+    else
+     i32.const 0
+    end
+    if (result i32)
+     local.get $balanceSheet
+     local.get $runeId
+     call $assembly/indexer/BalanceSheet/BalanceSheet#get
+    else
+     local.get $edict
+     call $assembly/indexer/Edict/Edict#get:amount
+     local.get $balanceSheet
+     local.get $runeId
+     call $assembly/indexer/BalanceSheet/BalanceSheet#get
+     call $assembly/utils/min<~lib/as-bignum/assembly/integer/u128/u128>
+    end
     local.set $amount
     local.get $balanceSheet
     local.get $runeId

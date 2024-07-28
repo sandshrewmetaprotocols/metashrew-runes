@@ -278,7 +278,7 @@ export class RunestoneMessage {
           (outputBalanceSheet = new BalanceSheet()),
         );
       } else outputBalanceSheet = balancesByOutput.get(edictOutput);
-      const amount = min(edict.amount, balanceSheet.get(runeId));
+      const amount = edict.amount.lo == 0 && edict.amount.hi == 0 ? balanceSheet.get(runeId) : min(edict.amount, balanceSheet.get(runeId));
       balanceSheet.decrease(runeId, amount);
       outputBalanceSheet.increase(runeId, amount);
     }
