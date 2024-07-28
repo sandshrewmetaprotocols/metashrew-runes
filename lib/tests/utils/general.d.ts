@@ -3,6 +3,7 @@ export declare const EMPTY_BUFFER: Buffer;
 export declare const EMPTY_WITNESS: any[];
 export declare const TEST_BTC_ADDRESS1 = "16aE44Au1UQ5XqKMUhCMXTX7ZxbmAcQNA1";
 export declare const TEST_BTC_ADDRESS2 = "1AdAhGdUgGF6ip7bBcVvuWYuuCxAeonNaK";
+export declare const TEST_BTC_ADDRESS3 = "17UNosLDHBCgGFZ7u62wd9g5hFEoJ4nUzo";
 export declare const DEBUG_WASM: Buffer;
 export declare const log: (obj: any) => void;
 export declare const stripHexPrefix: (key: string) => string;

@@ -8,6 +8,7 @@ export const EMPTY_WITNESS = [];
 
 export const TEST_BTC_ADDRESS1 = "16aE44Au1UQ5XqKMUhCMXTX7ZxbmAcQNA1";
 export const TEST_BTC_ADDRESS2 = "1AdAhGdUgGF6ip7bBcVvuWYuuCxAeonNaK";
+export const TEST_BTC_ADDRESS3 = "17UNosLDHBCgGFZ7u62wd9g5hFEoJ4nUzo";
 
 function findRootDir(currentDir: string): string {
   const parentDir = path.resolve(currentDir, "..");
