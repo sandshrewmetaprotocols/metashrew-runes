@@ -20192,6 +20192,7 @@
  )
  (func $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $edictAmount i32) (param $edictOutput i32) (param $runeId i32)
   (local $outputBalanceSheet i32)
+  (local $this|7 i32)
   (local $amount i32)
   i32.const 0
   local.set $outputBalanceSheet
@@ -20213,17 +20214,18 @@
    call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get"
    local.set $outputBalanceSheet
   end
-  local.get $edictAmount
-  call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-  i64.const 0
-  i64.eq
-  if (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.7 (result i32)
    local.get $edictAmount
+   local.set $this|7
+   local.get $this|7
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+   local.get $this|7
    call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+   i64.or
    i64.const 0
-   i64.eq
-  else
-   i32.const 0
+   i64.ne
+   i32.eqz
+   br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.7
   end
   if (result i32)
    local.get $balanceSheet
@@ -20248,48 +20250,53 @@
   call $assembly/indexer/BalanceSheet/BalanceSheet#increase
  )
  (func $assembly/indexer/RunestoneMessage/RunestoneMessage#processEdict (param $this i32) (param $balancesByOutput i32) (param $balanceSheet i32) (param $edict i32) (param $outputs i32) (result i32)
+  (local $this|5 i32)
+  (local $this|6 i32)
   (local $runeId i32)
   (local $edictOutput i32)
+  (local $this|9 i32)
   (local $numNonOpReturnOuts i32)
+  (local $this|11 i32)
   (local $a i32)
   (local $b i32)
   (local $amountSplit i32)
   (local $amountSplitPlus1 i32)
-  (local $a|12 i32)
-  (local $b|13 i32)
+  (local $a|16 i32)
+  (local $b|17 i32)
   (local $numRemainder i32)
   (local $extraCounter i64)
   (local $i i32)
-  (local $i|17 i32)
-  local.get $edict
-  call $assembly/indexer/Edict/Edict#get:block
-  call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-  i64.const 0
-  i64.eq
-  if (result i32)
+  (local $i|21 i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.3 (result i32)
    local.get $edict
    call $assembly/indexer/Edict/Edict#get:block
+   local.set $this|5
+   local.get $this|5
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+   local.get $this|5
    call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+   i64.or
    i64.const 0
-   i64.eq
-  else
-   i32.const 0
+   i64.ne
+   i32.eqz
+   br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.3
   end
   if (result i32)
-   local.get $edict
-   call $assembly/indexer/Edict/Edict#get:transactionIndex
-   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-   i64.const 0
-   i64.gt_u
-   if (result i32)
-    i32.const 1
-   else
+   block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.4 (result i32)
     local.get $edict
     call $assembly/indexer/Edict/Edict#get:transactionIndex
+    local.set $this|6
+    local.get $this|6
+    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+    local.get $this|6
     call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+    i64.or
     i64.const 0
-    i64.gt_u
+    i64.ne
+    i32.eqz
+    br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.4
    end
+   i32.eqz
   else
    i32.const 0
   end
@@ -20318,135 +20325,151 @@
    call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
    i32.eq
    if
-    local.get $edict
-    call $assembly/indexer/Edict/Edict#get:amount
-    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-    i64.const 0
-    i64.eq
-    if (result i32)
+    block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.5 (result i32)
      local.get $edict
      call $assembly/indexer/Edict/Edict#get:amount
+     local.set $this|9
+     local.get $this|9
+     call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+     local.get $this|9
      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+     i64.or
      i64.const 0
-     i64.eq
-    else
-     i32.const 0
+     i64.ne
+     i32.eqz
+     br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.5
     end
     if
      local.get $this
      local.get $outputs
      call $assembly/indexer/RunestoneMessage/RunestoneMessage#numNonOpReturnOutputs
      local.set $numNonOpReturnOuts
-     block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1 (result i32)
-      local.get $balanceSheet
-      local.get $runeId
-      call $assembly/indexer/BalanceSheet/BalanceSheet#get
-      local.set $a
+     block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.6 (result i32)
       local.get $numNonOpReturnOuts
-      local.set $b
-      i32.const 0
-      local.get $a
+      local.set $this|11
+      local.get $this|11
       call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-      local.get $a
+      local.get $this|11
       call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
-      local.get $b
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-      local.get $b
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
-      call $~lib/as-bignum/assembly/globals/__udivmod128
-      global.get $~lib/as-bignum/assembly/globals/__divmod_quot_hi
-      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-      br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1
+      i64.or
+      i64.const 0
+      i64.ne
+      i32.eqz
+      br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.6
      end
-     local.set $amountSplit
-     local.get $amountSplit
-     call $~lib/as-bignum/assembly/integer/u128/u128#preInc@override
-     local.set $amountSplitPlus1
-     block $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0 (result i32)
-      local.get $balanceSheet
-      local.get $runeId
-      call $assembly/indexer/BalanceSheet/BalanceSheet#get
-      local.set $a|12
-      local.get $numNonOpReturnOuts
-      local.set $b|13
-      local.get $a|12
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-      local.get $a|12
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
-      local.get $b|13
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-      local.get $b|13
-      call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
-      call $~lib/as-bignum/assembly/globals/__udivmod128
-      drop
+     i32.eqz
+     if
+      block $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1 (result i32)
+       local.get $balanceSheet
+       local.get $runeId
+       call $assembly/indexer/BalanceSheet/BalanceSheet#get
+       local.set $a
+       local.get $numNonOpReturnOuts
+       local.set $b
+       i32.const 0
+       local.get $a
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+       local.get $a
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+       local.get $b
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+       local.get $b
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+       call $~lib/as-bignum/assembly/globals/__udivmod128
+       global.get $~lib/as-bignum/assembly/globals/__divmod_quot_hi
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.div|inlined.1
+      end
+      local.set $amountSplit
+      local.get $amountSplit
+      call $~lib/as-bignum/assembly/integer/u128/u128#preInc@override
+      local.set $amountSplitPlus1
+      block $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0 (result i32)
+       local.get $balanceSheet
+       local.get $runeId
+       call $assembly/indexer/BalanceSheet/BalanceSheet#get
+       local.set $a|16
+       local.get $numNonOpReturnOuts
+       local.set $b|17
+       local.get $a|16
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+       local.get $a|16
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+       local.get $b|17
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+       local.get $b|17
+       call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
+       call $~lib/as-bignum/assembly/globals/__udivmod128
+       drop
+       i32.const 0
+       global.get $~lib/as-bignum/assembly/globals/__divmod_rem_lo
+       global.get $~lib/as-bignum/assembly/globals/__divmod_rem_hi
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0
+      end
+      local.set $numRemainder
+      i64.const 0
+      local.set $extraCounter
       i32.const 0
-      global.get $~lib/as-bignum/assembly/globals/__divmod_rem_lo
-      global.get $~lib/as-bignum/assembly/globals/__divmod_rem_hi
-      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-      br $~lib/as-bignum/assembly/integer/u128/u128.rem|inlined.0
-     end
-     local.set $numRemainder
-     i64.const 0
-     local.set $extraCounter
-     i32.const 0
-     local.set $i
-     loop $for-loop|0
-      local.get $i
-      local.get $outputs
-      call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
-      i32.lt_s
-      if
-       local.get $this
+      local.set $i
+      loop $for-loop|0
+       local.get $i
        local.get $outputs
-       local.get $i
-       call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
-       call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
+       call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
+       i32.lt_s
        if
-        local.get $extraCounter
-        local.get $numRemainder
-        call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-        i64.lt_u
+        local.get $this
+        local.get $outputs
+        local.get $i
+        call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
+        call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
         if
-         local.get $this
-         local.get $balancesByOutput
-         local.get $balanceSheet
-         local.get $amountSplitPlus1
-         local.get $i
-         local.get $runeId
-         call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
          local.get $extraCounter
-         i64.const 1
-         i64.add
-         local.set $extraCounter
-        else
-         local.get $this
-         local.get $balancesByOutput
-         local.get $balanceSheet
-         local.get $amountSplit
-         local.get $i
-         local.get $runeId
-         call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+         local.get $numRemainder
+         call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+         i64.lt_u
+         if
+          local.get $this
+          local.get $balancesByOutput
+          local.get $balanceSheet
+          local.get $amountSplitPlus1
+          local.get $i
+          local.get $runeId
+          call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+          local.get $extraCounter
+          i64.const 1
+          i64.add
+          local.set $extraCounter
+         else
+          local.get $this
+          local.get $balancesByOutput
+          local.get $balanceSheet
+          local.get $amountSplit
+          local.get $i
+          local.get $runeId
+          call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
+         end
         end
+        local.get $i
+        i32.const 1
+        i32.add
+        local.set $i
+        br $for-loop|0
        end
-       local.get $i
-       i32.const 1
-       i32.add
-       local.set $i
-       br $for-loop|0
       end
      end
     else
      i32.const 0
-     local.set $i|17
+     local.set $i|21
      loop $for-loop|1
-      local.get $i|17
+      local.get $i|21
       local.get $outputs
       call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#get:length
       i32.lt_s
       if
        local.get $this
        local.get $outputs
-       local.get $i|17
+       local.get $i|21
        call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Output>#__get
        call $assembly/indexer/RunestoneMessage/RunestoneMessage#isNonOpReturnOutput
        if
@@ -20455,14 +20478,14 @@
         local.get $balanceSheet
         local.get $edict
         call $assembly/indexer/Edict/Edict#get:amount
-        local.get $i|17
+        local.get $i|21
         local.get $runeId
         call $assembly/indexer/RunestoneMessage/RunestoneMessage#updateBalancesForEdict
        end
-       local.get $i|17
+       local.get $i|21
        i32.const 1
        i32.add
-       local.set $i|17
+       local.set $i|21
        br $for-loop|1
       end
      end
@@ -22894,7 +22917,7 @@
   i32.const 7216
   local.set $str
   loop $while-continue|0
-   block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.3 (result i32)
+   block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.8 (result i32)
     local.get $v
     local.set $this
     local.get $this
@@ -22905,7 +22928,7 @@
     i64.const 0
     i64.ne
     i32.eqz
-    br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.3
+    br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.8
    end
    i32.eqz
    if
@@ -23264,7 +23287,7 @@
    call $~lib/builtins/abort
    unreachable
   end
-  block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.4 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.9 (result i32)
    local.get $this
    local.set $this|2
    local.get $this|2
@@ -23275,7 +23298,7 @@
    i64.const 0
    i64.ne
    i32.eqz
-   br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.4
+   br $~lib/as-bignum/assembly/integer/u128/u128#isZero|inlined.9
   end
   if
    i32.const 5632
