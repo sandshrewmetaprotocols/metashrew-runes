@@ -62,7 +62,6 @@ export class RunesIndex {
       RunestoneMessage.etchGenesisRune();
     }
     const block = changetype<RunesBlock>(_block);
-    console.log("METASHREW_RUNES_LOG::indexing block: " + height.toString());
     HEIGHT_TO_BLOCKHASH.selectValue<u32>(height).set(block.blockhash());
     BLOCKHASH_TO_HEIGHT.select(block.blockhash()).setValue<u32>(height);
     block.saveTransactions(height);

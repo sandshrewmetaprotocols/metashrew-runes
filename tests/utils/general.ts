@@ -3,6 +3,8 @@ import path from "path";
 import { inspect } from "util";
 import fs from "node:fs";
 
+const consoleLog = console.log;
+
 export const EMPTY_BUFFER = Buffer.allocUnsafe(0);
 export const EMPTY_WITNESS = [];
 
@@ -29,7 +31,7 @@ export const DEBUG_WASM = fs.readFileSync(
 );
 
 export const log = (obj: any) => {
-  console.log(inspect(obj, false, 10, true));
+  consoleLog(inspect(obj, false, 10, true));
 };
 
 export const stripHexPrefix = (key: string) => {
@@ -84,7 +86,7 @@ export const formatKv = (kv: any) => {
 
 export const buildProgram = (wasm: Buffer) => {
   const program = new IndexerProgram(new Uint8Array(Array.from(wasm)).buffer);
-  program.on("log", (v) => console.log(v.replace(/\0/g, "").trim()));
+  program.on("log", (v) => consoleLog(v.replace(/\0/g, "").trim()));
   return program;
 };
 

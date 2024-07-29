@@ -28,11 +28,8 @@ export function testOverwrite(): void {
 
 export function testFieldToName(): void {
   const name = fieldToName(u128.from("99246114928149462"));
-  console.log(name);
   const num = fromArrayBuffer(nameToArrayBuffer(name));
-  console.log(num.toString());
   const next = fieldToName(u128.from("99246114928149461") / TWENTY_SIX);
-  console.log(next);
 }
 
 function testTransaction(hex: string): void {
