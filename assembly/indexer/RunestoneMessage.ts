@@ -399,7 +399,7 @@ export class RunestoneMessage {
     txid: ArrayBuffer,
     height: u32,
     txindex: u32,
-  ): void {
+  ): Map<u32, BalanceSheet> {
     let balanceSheet = BalanceSheet.concat(
       tx.ins.map<BalanceSheet>((v: Input, i: i32, ary: Array<Input>) =>
         BalanceSheet.load(
@@ -438,5 +438,6 @@ export class RunestoneMessage {
         isCenotaph,
       );
     }
+    return balancesByOutput;
   }
 }

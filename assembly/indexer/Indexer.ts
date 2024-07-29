@@ -51,10 +51,11 @@ export class RunesIndex {
     }
     return false;
   }
-  processRunestone(tx: RunesTransaction, txid: ArrayBuffer, height: u32, vout: u32): void {
+  processRunestone(block: RunesBlock, tx: RunesTransaction, txid: ArrayBuffer, height: u32, vout: u32): RunestoneMessage {
     const runestone = tx.runestone();
-    if (changetype<usize>(runestone) === 0) return;
+    if (changetype<usize>(runestone) === 0) return changetype<RunestoneMessage>(0);
     runestone.process(tx, txid, height, vout);
+    return runestone;
   } 
   indexBlock(height: u32, _block: Block): void {
     if (height == GENESIS) {
@@ -69,7 +70,7 @@ export class RunesIndex {
       const tx = block.getTransaction(i);
       const txid = tx.txid();
       this.indexOutpoints(tx, txid, height);
-      this.processRunestone(tx, txid, height, i);
+      this.processRunestone(block, tx, txid, height, i);
     }
   }
 }

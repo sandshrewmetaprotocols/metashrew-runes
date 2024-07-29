@@ -19,7 +19,7 @@ export function testOverwrite(): void {
   const block = changetype<RunesBlock>(new Block(box));
   const tx1 = block.getTransaction(142);
   const tx2 = block.getTransaction(158);
-  new RunesIndex().processRunestone(tx1, tx1.txid(), height, 142);
+  new RunesIndex().processRunestone(block, tx1, tx1.txid(), height, 142);
   const testBytes = new RuneId(840000, 158).toBytes();
   RUNE_ID_TO_ETCHING.select(testBytes).setValue<u32>(10);
   // Index.processRunesTransaction(tx2, tx2.txid(), height, 158);
