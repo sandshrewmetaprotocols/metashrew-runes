@@ -15,7 +15,7 @@ import { toRLP, RLPItem } from "metashrew-as/assembly/utils/rlp";
 import { BST } from "metashrew-as/assembly/indexer/bst";
 import { readULEB128ToU128 } from "./leb128";
 import { u256, u128 } from "as-bignum/assembly";
-import { Index } from "./indexer";
+import { RunesIndex } from "./indexer";
 import { GENESIS } from "./indexer/constants";
 import { Index as SpendablesIndex } from "metashrew-spendables/assembly/indexer";
 
@@ -35,7 +35,7 @@ export function _start(): void {
   if (height >= GENESIS) {
     SpendablesIndex.indexBlock(height, block);
   }
-  Index.indexBlock(height, block);
+  new RunesIndex().indexBlock(height, block);
   _flush();
 }
 

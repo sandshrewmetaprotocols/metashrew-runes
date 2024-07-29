@@ -19,8 +19,8 @@ import {
 } from "../utils";
 import { encodeHexFromBuffer } from "metashrew-as/assembly/utils";
 
-export class Index {
-  static indexOutpoints(
+export class RunesIndex {
+  indexOutpoints(
     tx: RunesTransaction,
     txid: ArrayBuffer,
     height: u32,
@@ -31,7 +31,7 @@ export class Index {
       ).setValue<u32>(height);
     }
   }
-  static findCommitment(
+  findCommitment(
     name: ArrayBuffer,
     tx: RunesTransaction,
     height: u32,
@@ -51,60 +51,12 @@ export class Index {
     }
     return false;
   }
-  static inspectTransaction(
-    name: ArrayBuffer,
-    height: u32,
-    _block: Block,
-    txindex: u32,
-  ): void {
-    const block = changetype<RunesBlock>(_block);
-    const tx = block.getTransaction(txindex);
-    tx.processRunestones();
-
-    const runestoneOutputIndex = tx.tags.runestone;
-    const runestoneOutput = tx.outs[runestoneOutputIndex];
-    const parsed = scriptParse(runestoneOutput.script).slice(2);
-    if (
-      parsed.findIndex((v: Box, i: i32, ary: Array<Box>) => {
-        return v.start === usize.MAX_VALUE;
-      }) !== -1
-    )
-      return;
-    const payload = Box.concat(parsed);
-    const message = RunestoneMessage.parse(payload);
-    if (changetype<usize>(message) === 0) return;
-    const commitment = Index.findCommitment(stripNullRight(name), tx, height);
-    /*
-    if (commitment) console.log("no commitment");
-    else console.log("commitment found");
-   */
-  }
-  static processRunesTransaction(
-    tx: RunesTransaction,
-    txid: ArrayBuffer,
-    height: u32,
-    i: u32,
-  ): void {
-    tx.processRunestones();
-    if (height >= GENESIS && tx.tags.runestone !== -1) {
-      const runestoneOutputIndex = tx.tags.runestone;
-      const runestoneOutput = tx.outs[runestoneOutputIndex];
-      const parsed = scriptParse(runestoneOutput.script).slice(2);
-      if (
-        parsed.findIndex((v: Box, i: i32, ary: Array<Box>) => {
-          return v.start === usize.MAX_VALUE;
-        }) !== -1
-      )
-        return; // non-data push: cenotaph
-      const payload = Box.concat(parsed);
-      const message = RunestoneMessage.parse(payload);
-      if (changetype<usize>(message) === 0) return;
-
-      //process message here
-      message.process(tx, txid, height, i);
-    }
-  }
-  static indexBlock(height: u32, _block: Block): void {
+  processRunestone(tx: RunesTransaction, txid: ArrayBuffer, height: u32, vout: u32): void {
+    const runestone = tx.runestone();
+    if (changetype<usize>(runestone) === 0) return;
+    runestone.process(tx, txid, height, vout);
+  } 
+  indexBlock(height: u32, _block: Block): void {
     if (height == GENESIS) {
       RunestoneMessage.etchGenesisRune();
     }
@@ -116,8 +68,8 @@ export class Index {
     for (let i: i32 = 0; i < block.transactions.length; i++) {
       const tx = block.getTransaction(i);
       const txid = tx.txid();
-      Index.indexOutpoints(tx, txid, height);
-      Index.processRunesTransaction(tx, txid, height, i);
+      this.indexOutpoints(tx, txid, height);
+      this.processRunestone(tx, txid, height, i);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { _flush, input, get, set } from "metashrew-as/assembly/indexer/index";
-import { Index } from "./indexer";
+import { RunesIndex } from "./indexer";
 import { Block } from "metashrew-as/assembly/blockdata/block";
 import { Transaction } from "metashrew-as/assembly/blockdata/transaction";
 import { Box } from "metashrew-as/assembly/utils/box";
@@ -12,19 +12,6 @@ import { console } from "metashrew-as/assembly/utils/logging";
 import { RunesBlock } from "./indexer/RunesBlock";
 import { RuneId } from "./indexer/RuneId";
 
-export function testCommitment(): void {
-  const data = input();
-  const box = Box.from(data);
-  const height = parsePrimitive<u32>(box);
-  const block = new Block(box);
-  Index.inspectTransaction(
-    nameToArrayBuffer("QUORUMGENESISPROTORUNE"),
-    height,
-    block,
-    298,
-  );
-}
-
 export function testOverwrite(): void {
   const data = input();
   const box = Box.from(data);
@@ -32,7 +19,7 @@ export function testOverwrite(): void {
   const block = changetype<RunesBlock>(new Block(box));
   const tx1 = block.getTransaction(142);
   const tx2 = block.getTransaction(158);
-  Index.processRunesTransaction(tx1, tx1.txid(), height, 142);
+  new RunesIndex().processRunestone(tx1, tx1.txid(), height, 142);
   const testBytes = new RuneId(840000, 158).toBytes();
   RUNE_ID_TO_ETCHING.select(testBytes).setValue<u32>(10);
   // Index.processRunesTransaction(tx2, tx2.txid(), height, 158);
@@ -58,7 +45,7 @@ function testTransaction(hex: string): void {
   );
   block.transactions = new Array<Transaction>(1);
   block.transactions[0] = new Transaction(Box.from(decodeHex(hex)));
-  Index.indexBlock(GENESIS, block);
+  new RunesIndex().indexBlock(GENESIS, block);
   _flush();
 }
 
