@@ -15,11 +15,11 @@
  (type $13 (func (param i64 i64 i64 i64) (result i64)))
  (type $14 (func (param i32 i64 i32) (result i32)))
  (type $15 (func (param i32 i64) (result i32)))
- (type $16 (func (param i64 i32) (result i32)))
- (type $17 (func (param i64) (result i32)))
- (type $18 (func (param i32 i32) (result f64)))
- (type $19 (func (param i32 i64 i64) (result i32)))
- (type $20 (func (param i32 i32 i32 i32 i32)))
+ (type $16 (func (param i32 i32 i32 i32 i32)))
+ (type $17 (func (param i64 i32) (result i32)))
+ (type $18 (func (param i64) (result i32)))
+ (type $19 (func (param i32 i32) (result f64)))
+ (type $20 (func (param i32 i64 i64) (result i32)))
  (type $21 (func (param i32 i64 i32)))
  (type $22 (func (param i32 i64 i32 i32)))
  (type $23 (func (param i64) (result i64)))
@@ -248,7 +248,7 @@
  (data $106 (i32.const 17260) "\1c\00\00\00\00\00\00\00\00\00\00\00:\00\00\00\08\00\00\00\10\00\00\00\00\00\00\00\00\00\00\00")
  (data $107 (i32.const 17296) "U\00\00\00 \00\00\00 \00\00\00 \00\00\00\00\00\00\00d\00\00\00 \00\00\00\02\01\00\00\10A\82\00 \00\00\00 \00\00\00 \00\00\00 \00\00\00 \00\00\00B\00\00\00A\00\00\00 \00\00\00\02A\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\02A\00\00\00\00\00\00\02A\00\00\02A\00\00 \00\00\00\00\00\00\00\02A\00\00\02\t\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\01\t\00\00\00\00\00\00 \00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\10A\04\00\04A\00\00\02A\00\00\00\00\00\00\00\00\00\00\10\t\82\00\10A\02\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00 \00\00\00\02A\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\04A\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\00\00\00\00")
  (table $0 17 17 funcref)
- (elem $0 (i32.const 1) $~lib/metashrew-as/assembly/indexer/index/_flush~anonymous|0 $~lib/metashrew-as/assembly/utils/utils/concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|1 $assembly/indexer/RunesTransaction/RunesTransaction#runestone~anonymous|0 $assembly/indexer/RunestoneMessage/RunestoneMessage#process~anonymous|0 $assembly/indexer/BalanceSheet/BalanceSheet.concat~anonymous|0 $assembly/utils/fieldToArrayBuffer~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytes~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytesU128~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|1 $assembly/view/runes/runes~anonymous|0~anonymous|0 $assembly/view/runes/runes~anonymous|0 $assembly/view/wallet/runesbyaddress~anonymous|0)
+ (elem $0 (i32.const 1) $~lib/metashrew-as/assembly/indexer/index/_flush~anonymous|0 $~lib/metashrew-as/assembly/utils/utils/concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|1 $assembly/indexer/RunesTransaction/RunesTransaction#runestone~anonymous|0 $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet~anonymous|0 $assembly/indexer/BalanceSheet/BalanceSheet.concat~anonymous|0 $assembly/utils/fieldToArrayBuffer~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytes~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytesU128~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|1 $assembly/view/runes/runes~anonymous|0~anonymous|0 $assembly/view/runes/runes~anonymous|0 $assembly/view/wallet/runesbyaddress~anonymous|0)
  (export "trap" (func $assembly/index/trap))
  (export "_start" (func $assembly/index/_start))
  (export "testOverwrite" (func $assembly/tests/testOverwrite))
@@ -15566,7 +15566,7 @@
   local.get $result
   return
  )
- (func $assembly/indexer/RunestoneMessage/RunestoneMessage#process~anonymous|0 (param $v i32) (param $i i32) (param $ary i32) (result i32)
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet~anonymous|0 (param $v i32) (param $i i32) (param $ary i32) (result i32)
   global.get $assembly/indexer/constants/index/OUTPOINT_TO_RUNES
   local.get $v
   call $~lib/metashrew-as/assembly/blockdata/transaction/Input#previousOutput
@@ -15963,6 +15963,14 @@
   i32.const 0
   call $assembly/indexer/BalanceSheet/BalanceSheet#constructor
   call $~lib/array/Array<assembly/indexer/BalanceSheet/BalanceSheet>#reduce<assembly/indexer/BalanceSheet/BalanceSheet>
+  return
+ )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet (param $this i32) (param $tx i32) (result i32)
+  local.get $tx
+  call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#get:ins
+  i32.const 7648
+  call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Input>#map<assembly/indexer/BalanceSheet/BalanceSheet>
+  call $assembly/indexer/BalanceSheet/BalanceSheet.concat
   return
  )
  (func $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#set:buckets" (param $this i32) (param $buckets i32)
@@ -20918,6 +20926,17 @@
    end
   end
  )
+ (func $assembly/indexer/RunestoneMessage/RunestoneMessage#saveBalanceSheet (param $this i32) (param $sheet i32) (param $txid i32) (param $output i32) (param $isCenotaph i32)
+  local.get $sheet
+  global.get $assembly/indexer/constants/index/OUTPOINT_TO_RUNES
+  local.get $txid
+  local.get $output
+  call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint.from
+  call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint#toArrayBuffer
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
+  local.get $isCenotaph
+  call $assembly/indexer/BalanceSheet/BalanceSheet#save
+ )
  (func $assembly/indexer/RunestoneMessage/RunestoneMessage#process (param $this i32) (param $tx i32) (param $txid i32) (param $height i32) (param $txindex i32) (result i32)
   (local $balanceSheet i32)
   (local $balancesByOutput i32)
@@ -20926,11 +20945,9 @@
   (local $runesToOutputs i32)
   (local $x i32)
   (local $sheet i32)
+  local.get $this
   local.get $tx
-  call $~lib/metashrew-as/assembly/blockdata/transaction/Transaction#get:ins
-  i32.const 7648
-  call $~lib/array/Array<~lib/metashrew-as/assembly/blockdata/transaction/Input>#map<assembly/indexer/BalanceSheet/BalanceSheet>
-  call $assembly/indexer/BalanceSheet/BalanceSheet.concat
+  call $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet
   local.set $balanceSheet
   i32.const 0
   call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#constructor"
@@ -21003,17 +21020,14 @@
     call $~lib/array/Array<u32>#__get
     call $"~lib/map/Map<u32,assembly/indexer/BalanceSheet/BalanceSheet>#get"
     local.set $sheet
+    local.get $this
     local.get $sheet
-    global.get $assembly/indexer/constants/index/OUTPOINT_TO_RUNES
     local.get $txid
     local.get $runesToOutputs
     local.get $x
     call $~lib/array/Array<u32>#__get
-    call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint.from
-    call $~lib/metashrew-as/assembly/blockdata/transaction/OutPoint#toArrayBuffer
-    call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#select
     local.get $isCenotaph
-    call $assembly/indexer/BalanceSheet/BalanceSheet#save
+    call $assembly/indexer/RunestoneMessage/RunestoneMessage#saveBalanceSheet
     local.get $x
     i32.const 1
     i32.add

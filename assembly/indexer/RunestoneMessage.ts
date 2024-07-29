@@ -394,19 +394,35 @@ export class RunestoneMessage {
     }
     return false;
   }
-  process(
-    tx: RunesTransaction,
-    txid: ArrayBuffer,
-    height: u32,
-    txindex: u32,
-  ): Map<u32, BalanceSheet> {
-    let balanceSheet = BalanceSheet.concat(
+  loadBalanceSheet(tx: RunesTransaction): BalanceSheet {
+    return BalanceSheet.concat(
       tx.ins.map<BalanceSheet>((v: Input, i: i32, ary: Array<Input>) =>
         BalanceSheet.load(
           OUTPOINT_TO_RUNES.select(v.previousOutput().toArrayBuffer()),
         ),
       ),
     );
+  }
+  saveBalanceSheet(
+    sheet: BalanceSheet,
+    txid: ArrayBuffer,
+    output: u32,
+    isCenotaph: bool
+  ): void {
+    sheet.save(
+      OUTPOINT_TO_RUNES.select(
+        OutPoint.from(txid, output).toArrayBuffer(),
+      ),
+      isCenotaph
+    );
+  }
+  process(
+    tx: RunesTransaction,
+    txid: ArrayBuffer,
+    height: u32,
+    txindex: u32,
+  ): Map<u32, BalanceSheet> {
+    let balanceSheet = this.loadBalanceSheet(tx);
     const balancesByOutput = new Map<u32, BalanceSheet>();
 
     this.mint(height, balanceSheet);
@@ -431,12 +447,7 @@ export class RunestoneMessage {
 
     for (let x = 0; x < runesToOutputs.length; x++) {
       const sheet = balancesByOutput.get(runesToOutputs[x]);
-      sheet.save(
-        OUTPOINT_TO_RUNES.select(
-          OutPoint.from(txid, runesToOutputs[x]).toArrayBuffer(),
-        ),
-        isCenotaph,
-      );
+      this.saveBalanceSheet(sheet, txid, runesToOutputs[x], isCenotaph);
     }
     return balancesByOutput;
   }
