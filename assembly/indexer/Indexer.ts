@@ -59,9 +59,8 @@ export class Index {
   ): void {
     const block = changetype<RunesBlock>(_block);
     const tx = block.getTransaction(txindex);
-    tx.processRunestones();
+    const runestoneOutputIndex = tx.runestoneOutputIndex();
 
-    const runestoneOutputIndex = tx.tags.runestone;
     const runestoneOutput = tx.outs[runestoneOutputIndex];
     const parsed = scriptParse(runestoneOutput.script).slice(2);
     if (
@@ -85,9 +84,8 @@ export class Index {
     height: u32,
     i: u32,
   ): void {
-    tx.processRunestones();
-    if (height >= GENESIS && tx.tags.runestone !== -1) {
-      const runestoneOutputIndex = tx.tags.runestone;
+    const runestoneOutputIndex = tx.runestoneOutputIndex();
+    if (height >= GENESIS && runestoneOutputIndex !== -1) {
       const runestoneOutput = tx.outs[runestoneOutputIndex];
       const parsed = scriptParse(runestoneOutput.script).slice(2);
       if (
