@@ -57,6 +57,10 @@ export function toPrimitive<T>(v: u128): T {
   return <T>v.lo;
 }
 
+export function isNullPtr<T>(v: T): bool {
+  return changetype<usize>(v) == 0;
+}
+
 export function fieldTo<T>(data: Array<u128>): T {
   return toPrimitive<T>(data[0]);
 }

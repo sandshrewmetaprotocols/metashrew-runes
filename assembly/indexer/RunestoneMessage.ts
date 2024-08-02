@@ -14,6 +14,7 @@ import {
   nameToArrayBuffer,
   getReservedNameFor,
   fieldToName,
+  isNullPtr,
 } from "../utils";
 import { Flag } from "./Flag";
 import { RuneId } from "./RuneId";
@@ -140,10 +141,13 @@ export class RunestoneMessage {
     return new RunestoneMessage(fields, edicts);
   }
 
+  buildRuneIdForMint(bytes: ArrayBuffer): ArrayBuffer {
+    return RuneId.fromBytes(bytes).toBytes();
+  }
+
   mint(height: u32, balanceSheet: BalanceSheet): bool {
     let mintTo = this.mintTo();
     if (changetype<usize>(mintTo) !== 0 && mintTo.byteLength == 32) {
-      mintTo = RuneId.fromBytes(mintTo).toBytes();
       const name = RUNE_ID_TO_ETCHING.select(mintTo).get();
       const remaining = fromArrayBuffer(MINTS_REMAINING.select(name).get());
       if (!remaining.isZero()) {
@@ -187,14 +191,8 @@ export class RunestoneMessage {
     SYMBOL.select(name).setValue<u8>(<u8>"\u{29C9}".charCodeAt(0));
     ETCHINGS.append(name);
   }
-  etch(
-    height: u64,
-    tx: u32,
-    initialBalanceSheet: BalanceSheet,
-    transaction: RunesTransaction,
-  ): bool {
-    if (!this.isEtching()) return false;
-    let name: ArrayBuffer;
+
+  getReservedNameFor(height: u64, tx: u32): ArrayBuffer {
     let nameU128: u128;
     if (this.fields.has(Field.RUNE)) nameU128 = this.fields.get(Field.RUNE)[0];
     else nameU128 = getReservedNameFor(height, tx);
@@ -205,10 +203,26 @@ export class RunestoneMessage {
         minimum_name = --minimum_name / TWENTY_SIX;
         interval--;
       }
-    if (nameU128 < minimum_name || nameU128 >= RESERVED_NAME) return false;
-    name = toArrayBuffer(nameU128);
+    if (nameU128 < minimum_name || nameU128 >= RESERVED_NAME)
+      return changetype<ArrayBuffer>(0);
+    return toArrayBuffer(nameU128);
+  }
+
+  buildRuneId(height: u64, tx: u32): ArrayBuffer {
+    return new RuneId(height, tx).toBytes();
+  }
+
+  etch(
+    height: u64,
+    tx: u32,
+    initialBalanceSheet: BalanceSheet,
+    transaction: RunesTransaction,
+  ): bool {
+    if (!this.isEtching()) return false;
+    const name = this.getReservedNameFor(height, tx);
+    if (isNullPtr<ArrayBuffer>(name)) return false;
     if (ETCHING_TO_RUNE_ID.select(name).get().byteLength !== 0) return false; // already taken / commitment not foun
-    const runeId = new RuneId(height, tx).toBytes();
+    const runeId = this.buildRuneId(height, tx);
     RUNE_ID_TO_ETCHING.select(runeId).set(name);
     ETCHING_TO_RUNE_ID.select(name).set(runeId);
     RUNE_ID_TO_HEIGHT.select(runeId).setValue<u32>(<u32>height);
@@ -407,13 +421,11 @@ export class RunestoneMessage {
     sheet: BalanceSheet,
     txid: ArrayBuffer,
     output: u32,
-    isCenotaph: bool
+    isCenotaph: bool,
   ): void {
     sheet.save(
-      OUTPOINT_TO_RUNES.select(
-        OutPoint.from(txid, output).toArrayBuffer(),
-      ),
-      isCenotaph
+      OUTPOINT_TO_RUNES.select(OutPoint.from(txid, output).toArrayBuffer()),
+      isCenotaph,
     );
   }
   process(
