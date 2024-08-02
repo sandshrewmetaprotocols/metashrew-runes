@@ -242,7 +242,7 @@
  (data $102 (i32.const 16956) "\1c\00\00\00\00\00\00\00\00\00\00\00:\00\00\00\08\00\00\00\0f\00\00\00\00\00\00\00\00\00\00\00")
  (data $103 (i32.const 16992) "U\00\00\00 \00\00\00 \00\00\00 \00\00\00\00\00\00\00d\00\00\00 \00\00\00\02\01\00\00\10A\82\00 \00\00\00 \00\00\00 \00\00\00 \00\00\00 \00\00\00B\00\00\00A\00\00\00 \00\00\00\02A\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\02A\00\00\00\00\00\00\02A\00\00\02A\00\00 \00\00\00\00\00\00\00\02A\00\00\02\t\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\01\t\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\10A\04\00\04A\00\00\02A\00\00\00\00\00\00\00\00\00\00\10\t\82\00\10A\02\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00 \00\00\00\02A\00\00\02A\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\04A\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02A\00\00\00\00\00\00")
  (table $0 16 16 funcref)
- (elem $0 (i32.const 1) $~lib/metashrew-as/assembly/indexer/index/_flush~anonymous|0 $~lib/metashrew-as/assembly/utils/utils/concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|1 $assembly/indexer/RunesTransaction/RunesTransaction#runestone~anonymous|0 $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet~anonymous|0 $assembly/indexer/BalanceSheet/BalanceSheet.concat~anonymous|0 $assembly/utils/fieldToArrayBuffer~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytesU128~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|1 $assembly/view/runes/runes~anonymous|0~anonymous|0 $assembly/view/runes/runes~anonymous|0 $assembly/view/wallet/runesbyaddress~anonymous|0)
+ (elem $0 (i32.const 1) $~lib/metashrew-as/assembly/indexer/index/_flush~anonymous|0 $~lib/metashrew-as/assembly/utils/utils/concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|0 $~lib/metashrew-as/assembly/utils/box/Box.concat~anonymous|1 $assembly/indexer/RunesTransaction/RunesTransaction#runestone~anonymous|0 $assembly/indexer/RunestoneMessage/RunestoneMessage#loadBalanceSheet~anonymous|0 $assembly/indexer/BalanceSheet/BalanceSheet.concat~anonymous|0 $assembly/utils/fieldToArrayBuffer~anonymous|0 $assembly/indexer/RuneId/RuneId.fromBytes~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|0 $assembly/view/outpoint/balanceSheetToProtobuf~anonymous|1 $assembly/view/runes/runes~anonymous|0~anonymous|0 $assembly/view/runes/runes~anonymous|0 $assembly/view/wallet/runesbyaddress~anonymous|0)
  (export "trap" (func $assembly/index/trap))
  (export "_start" (func $assembly/index/_start))
  (export "testOverwrite" (func $assembly/tests/testOverwrite))
@@ -22191,7 +22191,7 @@
   i32.const 0
   drop
  )
- (func $assembly/indexer/RuneId/RuneId.fromBytesU128~anonymous|0 (param $acc i32) (param $c i32) (param $i i32) (param $init i32) (result i32)
+ (func $assembly/indexer/RuneId/RuneId.fromBytes~anonymous|0 (param $acc i32) (param $c i32) (param $i i32) (param $init i32) (result i32)
   local.get $acc
   local.get $i
   local.get $c
@@ -22253,7 +22253,134 @@
   end
   return
  )
- (func $assembly/indexer/RuneId/RuneId.fromBytesU128 (param $ary i32) (result i32)
+ (func $~lib/array/Array<u8>#slice (param $this i32) (param $start i32) (param $end i32) (result i32)
+  (local $len i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  (local $13 i32)
+  (local $slice i32)
+  (local $sliceBase i32)
+  (local $thisBase i32)
+  local.get $this
+  call $~lib/array/Array<u8>#get:length_
+  local.set $len
+  local.get $start
+  i32.const 0
+  i32.lt_s
+  if (result i32)
+   local.get $start
+   local.get $len
+   i32.add
+   local.tee $4
+   i32.const 0
+   local.tee $5
+   local.get $4
+   local.get $5
+   i32.gt_s
+   select
+  else
+   local.get $start
+   local.tee $6
+   local.get $len
+   local.tee $7
+   local.get $6
+   local.get $7
+   i32.lt_s
+   select
+  end
+  local.set $start
+  local.get $end
+  i32.const 0
+  i32.lt_s
+  if (result i32)
+   local.get $end
+   local.get $len
+   i32.add
+   local.tee $8
+   i32.const 0
+   local.tee $9
+   local.get $8
+   local.get $9
+   i32.gt_s
+   select
+  else
+   local.get $end
+   local.tee $10
+   local.get $len
+   local.tee $11
+   local.get $10
+   local.get $11
+   i32.lt_s
+   select
+  end
+  local.set $end
+  local.get $end
+  local.get $start
+  i32.sub
+  local.tee $12
+  i32.const 0
+  local.tee $13
+  local.get $12
+  local.get $13
+  i32.gt_s
+  select
+  local.set $len
+  local.get $len
+  i32.const 0
+  i32.const 13
+  i32.const 0
+  call $~lib/rt/__newArray
+  local.set $slice
+  local.get $slice
+  call $~lib/array/Array<u8>#get:dataStart
+  local.set $sliceBase
+  local.get $this
+  call $~lib/array/Array<u8>#get:dataStart
+  local.get $start
+  i32.const 0
+  i32.shl
+  i32.add
+  local.set $thisBase
+  i32.const 0
+  drop
+  local.get $sliceBase
+  local.get $thisBase
+  local.get $len
+  i32.const 0
+  i32.shl
+  memory.copy
+  local.get $slice
+  return
+ )
+ (func $~lib/array/Array<u8>#slice@varargs (param $this i32) (param $start i32) (param $end i32) (result i32)
+  block $2of2
+   block $1of2
+    block $0of2
+     block $outOfRange
+      global.get $~argumentsLength
+      br_table $0of2 $1of2 $2of2 $outOfRange
+     end
+     unreachable
+    end
+    i32.const 0
+    local.set $start
+   end
+   global.get $~lib/builtins/i32.MAX_VALUE
+   local.set $end
+  end
+  local.get $this
+  local.get $start
+  local.get $end
+  call $~lib/array/Array<u8>#slice
+ )
+ (func $assembly/indexer/RuneId/RuneId.fromBytes (param $ary i32) (result i32)
   (local $_ary i32)
   (local $parsed i32)
   (local $array i32)
@@ -22264,7 +22391,18 @@
   (local $array|8 i32)
   (local $array|9 i32)
   (local $buffer|10 i32)
-  (local $rid i32)
+  (local $this i32)
+  (local $block i64)
+  (local $array|13 i32)
+  (local $bigEndian|14 i32)
+  (local $array|15 i32)
+  (local $array|16 i32)
+  (local $buffer|17 i32)
+  (local $array|18 i32)
+  (local $array|19 i32)
+  (local $buffer|20 i32)
+  (local $this|21 i32)
+  (local $tx i32)
   local.get $ary
   i32.const 0
   i32.const 1
@@ -22280,109 +22418,228 @@
   call $~lib/array/Array<u8>#constructor
   call $~lib/typedarray/Uint8Array#reduce<~lib/array/Array<u8>>
   local.set $parsed
-  block $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.1 (result i32)
-   local.get $parsed
-   local.set $array
-   i32.const 0
-   local.set $bigEndian
-   i32.const 1
-   drop
-   local.get $bigEndian
-   if (result i32)
-    block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.1 (result i32)
-     local.get $array
-     local.set $array|5
-     block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.1 (result i32)
-      local.get $array|5
-      local.set $array|6
-      local.get $array|6
-      call $~lib/typedarray/Uint8Array#get:length
-      if (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU64|inlined.0 (result i64)
+   block $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.1 (result i32)
+    local.get $parsed
+    i32.const 0
+    i32.const 16
+    call $~lib/array/Array<u8>#slice
+    local.set $array
+    i32.const 0
+    local.set $bigEndian
+    i32.const 1
+    drop
+    local.get $bigEndian
+    if (result i32)
+     block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.1 (result i32)
+      local.get $array
+      local.set $array|5
+      block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.1 (result i32)
+       local.get $array|5
+       local.set $array|6
        local.get $array|6
        call $~lib/typedarray/Uint8Array#get:length
-       i32.const 15
-       i32.and
+       if (result i32)
+        local.get $array|6
+        call $~lib/typedarray/Uint8Array#get:length
+        i32.const 15
+        i32.and
+        i32.const 0
+        i32.eq
+       else
+        i32.const 0
+       end
+       i32.eqz
+       if
+        i32.const 0
+        i32.const 7440
+        i32.const 143
+        i32.const 5
+        call $~lib/builtins/abort
+        unreachable
+       end
+       local.get $array|6
+       call $~lib/arraybuffer/ArrayBufferView#get:dataStart
+       local.set $buffer
        i32.const 0
-       i32.eq
-      else
-       i32.const 0
+       local.get $buffer
+       i64.load offset=8
+       call $~lib/polyfills/bswap<u64>
+       local.get $buffer
+       i64.load
+       call $~lib/polyfills/bswap<u64>
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.1
       end
-      i32.eqz
-      if
-       i32.const 0
-       i32.const 7440
-       i32.const 143
-       i32.const 5
-       call $~lib/builtins/abort
-       unreachable
-      end
-      local.get $array|6
-      call $~lib/arraybuffer/ArrayBufferView#get:dataStart
-      local.set $buffer
-      i32.const 0
-      local.get $buffer
-      i64.load offset=8
-      call $~lib/polyfills/bswap<u64>
-      local.get $buffer
-      i64.load
-      call $~lib/polyfills/bswap<u64>
-      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-      br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.1
+      br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.1
      end
-     br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.1
-    end
-   else
-    block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.1 (result i32)
-     local.get $array
-     local.set $array|8
-     block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.1 (result i32)
-      local.get $array|8
-      local.set $array|9
-      local.get $array|9
-      call $~lib/typedarray/Uint8Array#get:length
-      if (result i32)
+    else
+     block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.1 (result i32)
+      local.get $array
+      local.set $array|8
+      block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.1 (result i32)
+       local.get $array|8
+       local.set $array|9
        local.get $array|9
        call $~lib/typedarray/Uint8Array#get:length
-       i32.const 15
-       i32.and
+       if (result i32)
+        local.get $array|9
+        call $~lib/typedarray/Uint8Array#get:length
+        i32.const 15
+        i32.and
+        i32.const 0
+        i32.eq
+       else
+        i32.const 0
+       end
+       i32.eqz
+       if
+        i32.const 0
+        i32.const 7440
+        i32.const 132
+        i32.const 5
+        call $~lib/builtins/abort
+        unreachable
+       end
+       local.get $array|9
+       call $~lib/arraybuffer/ArrayBufferView#get:dataStart
+       local.set $buffer|10
        i32.const 0
-       i32.eq
-      else
-       i32.const 0
+       local.get $buffer|10
+       i64.load
+       local.get $buffer|10
+       i64.load offset=8
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.1
       end
-      i32.eqz
-      if
-       i32.const 0
-       i32.const 7440
-       i32.const 132
-       i32.const 5
-       call $~lib/builtins/abort
-       unreachable
-      end
-      local.get $array|9
-      call $~lib/arraybuffer/ArrayBufferView#get:dataStart
-      local.set $buffer|10
-      i32.const 0
-      local.get $buffer|10
-      i64.load
-      local.get $buffer|10
-      i64.load offset=8
-      call $~lib/as-bignum/assembly/integer/u128/u128#constructor
-      br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.1
+      br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.1
      end
-     br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.1
     end
+    br $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.1
    end
-   br $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.1
+   local.set $this
+   local.get $this
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU64|inlined.0
   end
-  local.set $rid
+  local.set $block
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.1 (result i32)
+   block $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.2 (result i32)
+    local.get $parsed
+    i32.const 16
+    i32.const 1
+    global.set $~argumentsLength
+    i32.const 0
+    call $~lib/array/Array<u8>#slice@varargs
+    local.set $array|13
+    i32.const 0
+    local.set $bigEndian|14
+    i32.const 1
+    drop
+    local.get $bigEndian|14
+    if (result i32)
+     block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.2 (result i32)
+      local.get $array|13
+      local.set $array|15
+      block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.2 (result i32)
+       local.get $array|15
+       local.set $array|16
+       local.get $array|16
+       call $~lib/typedarray/Uint8Array#get:length
+       if (result i32)
+        local.get $array|16
+        call $~lib/typedarray/Uint8Array#get:length
+        i32.const 15
+        i32.and
+        i32.const 0
+        i32.eq
+       else
+        i32.const 0
+       end
+       i32.eqz
+       if
+        i32.const 0
+        i32.const 7440
+        i32.const 143
+        i32.const 5
+        call $~lib/builtins/abort
+        unreachable
+       end
+       local.get $array|16
+       call $~lib/arraybuffer/ArrayBufferView#get:dataStart
+       local.set $buffer|17
+       i32.const 0
+       local.get $buffer|17
+       i64.load offset=8
+       call $~lib/polyfills/bswap<u64>
+       local.get $buffer|17
+       i64.load
+       call $~lib/polyfills/bswap<u64>
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayBE|inlined.2
+      end
+      br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesBE|inlined.2
+     end
+    else
+     block $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.2 (result i32)
+      local.get $array|13
+      local.set $array|18
+      block $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.2 (result i32)
+       local.get $array|18
+       local.set $array|19
+       local.get $array|19
+       call $~lib/typedarray/Uint8Array#get:length
+       if (result i32)
+        local.get $array|19
+        call $~lib/typedarray/Uint8Array#get:length
+        i32.const 15
+        i32.and
+        i32.const 0
+        i32.eq
+       else
+        i32.const 0
+       end
+       i32.eqz
+       if
+        i32.const 0
+        i32.const 7440
+        i32.const 132
+        i32.const 5
+        call $~lib/builtins/abort
+        unreachable
+       end
+       local.get $array|19
+       call $~lib/arraybuffer/ArrayBufferView#get:dataStart
+       local.set $buffer|20
+       i32.const 0
+       local.get $buffer|20
+       i64.load
+       local.get $buffer|20
+       i64.load offset=8
+       call $~lib/as-bignum/assembly/integer/u128/u128#constructor
+       br $~lib/as-bignum/assembly/integer/u128/u128.fromUint8ArrayLE|inlined.2
+      end
+      br $~lib/as-bignum/assembly/integer/u128/u128.fromBytesLE|inlined.2
+     end
+    end
+    br $~lib/as-bignum/assembly/integer/u128/u128.fromBytes<~lib/array/Array<u8>>|inlined.2
+   end
+   local.set $this|21
+   local.get $this|21
+   call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
+   i32.wrap_i64
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.1
+  end
+  local.set $tx
   i32.const 0
-  local.get $rid
-  call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
-  local.get $rid
-  call $~lib/as-bignum/assembly/integer/u128/u128#get:hi
-  i32.wrap_i64
+  local.get $block
+  local.get $tx
   call $assembly/indexer/RuneId/RuneId#constructor
+  return
+ )
+ (func $assembly/indexer/RuneId/RuneId.fromBytesU128 (param $ary i32) (result i32)
+  local.get $ary
+  call $assembly/indexer/RuneId/RuneId.fromBytes
   return
  )
  (func $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#getValue<u8> (param $this i32) (result i32)
@@ -22597,25 +22854,25 @@
   call $assembly/proto/metashrew-runes/metashrew_runes.RuneId#constructor
   local.set $runeId
   local.get $runeId
-  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.1 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.2 (result i32)
    local.get $_runeId
    call $assembly/indexer/RuneId/RuneId#get:block
    local.set $this
    local.get $this
    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
    i32.wrap_i64
-   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.1
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.2
   end
   call $assembly/proto/metashrew-runes/metashrew_runes.RuneId#set:height
   local.get $runeId
-  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.2 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.3 (result i32)
    local.get $_runeId
    call $assembly/indexer/RuneId/RuneId#get:tx
    local.set $this|11
    local.get $this|11
    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
    i32.wrap_i64
-   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.2
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.3
   end
   call $assembly/proto/metashrew-runes/metashrew_runes.RuneId#set:txindex
   local.get $rune
@@ -27392,25 +27649,25 @@
   call $assembly/indexer/RuneId/RuneId.fromBytesU128
   local.set $_runeId
   local.get $runeId
-  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.3 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.4 (result i32)
    local.get $_runeId
    call $assembly/indexer/RuneId/RuneId#get:block
    local.set $this
    local.get $this
    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
    i32.wrap_i64
-   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.3
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.4
   end
   call $assembly/proto/metashrew-runes/metashrew_runes.RuneId#set:height
   local.get $runeId
-  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.4 (result i32)
+  block $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.5 (result i32)
    local.get $_runeId
    call $assembly/indexer/RuneId/RuneId#get:tx
    local.set $this|8
    local.get $this|8
    call $~lib/as-bignum/assembly/integer/u128/u128#get:lo
    i32.wrap_i64
-   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.4
+   br $~lib/as-bignum/assembly/integer/u128/u128#toU32|inlined.5
   end
   call $assembly/proto/metashrew-runes/metashrew_runes.RuneId#set:txindex
   local.get $rune

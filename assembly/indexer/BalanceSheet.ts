@@ -16,7 +16,7 @@ export class BalanceSheet {
   inspect(): string {
     let base = "runes: [\n";
     for (let i = 0; i < this.runes.length; i++) {
-      base += "  " + RuneId.fromBytesU128(this.runes[i]).inspect() + "\n";
+      base += "  " + RuneId.fromBytes(this.runes[i]).inspect() + "\n";
     }
 
     base += "]\nbalances: [\n";
