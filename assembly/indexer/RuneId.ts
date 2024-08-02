@@ -24,14 +24,7 @@ export class RuneId {
     return this.block.toString() + ":" + this.tx.toString();
   }
   static fromBytesU128(ary: ArrayBuffer): RuneId {
-    const _ary = Uint8Array.wrap(ary);
-
-    const parsed = _ary.reduce<Array<u8>>((acc, c, i, init) => {
-      acc[i] = c;
-      return acc;
-    }, new Array<u8>(_ary.byteLength));
-    const rid = u128.fromBytes(parsed);
-    return new RuneId(rid.lo, <u32>rid.hi);
+    return RuneId.fromBytes(ary);
   }
 
   static fromBytes(ary: ArrayBuffer): RuneId {
