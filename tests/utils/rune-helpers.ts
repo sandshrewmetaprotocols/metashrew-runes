@@ -36,6 +36,7 @@ export const initCompleteBlockWithRuneEtching = (
   runeName: string = "GENESIS•RUNE•FR",
   symbol: string = "G",
   block?: bitcoinjs.Block,
+  skipTx: number = 0,
 ): bitcoinjs.Block => {
   let coinbase;
   if (block == undefined) {
@@ -45,6 +46,29 @@ export const initCompleteBlockWithRuneEtching = (
   } else {
     coinbase = block.transactions?.at(0);
   }
+  let prevTx = coinbase;
+  Array.from(new Array(skipTx)).map((d, i) => {
+    prevTx = buildTransaction(
+      [
+        {
+          hash: prevTx.getHash(),
+          index: i,
+          witness: EMPTY_WITNESS,
+          script: EMPTY_BUFFER,
+        },
+      ],
+      [
+        {
+          script: bitcoinjs.payments.p2pkh({
+            address: TEST_BTC_ADDRESS1,
+            network: bitcoinjs.networks.bitcoin,
+          }).output,
+          value: coinbase.outs[0].value,
+        },
+      ],
+    );
+    block.transactions.push(prevTx);
+  });
   const runesGenesis = encodeRunestone({
     etching: {
       divisibility: divisibility,
@@ -57,7 +81,7 @@ export const initCompleteBlockWithRuneEtching = (
   const transaction = buildTransaction(
     [
       {
-        hash: coinbase.getHash(),
+        hash: prevTx.getHash(),
         index: 0,
         witness: EMPTY_WITNESS,
         script: EMPTY_BUFFER,
