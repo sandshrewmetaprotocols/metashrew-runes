@@ -50,8 +50,9 @@ export class RunesTransaction extends Transaction {
       )
         return changetype<RunestoneMessage>(0); // non-data push: cenotaph
       const payload = Box.concat(parsed);
-      const message = RunestoneMessage.parse(payload);
-      if (changetype<usize>(message) === 0) return changetype<RunestoneMessage>(0);
+      const message = RunestoneMessage.parse(payload, this.defaultOutput());
+      if (changetype<usize>(message) === 0)
+        return changetype<RunestoneMessage>(0);
 
       //process message here
       return message;

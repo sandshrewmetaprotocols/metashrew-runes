@@ -60,9 +60,18 @@ import { console } from "metashrew-as/assembly/utils/logging";
 export class RunestoneMessage {
   public fields: Map<u64, Array<u128>>;
   public edicts: Array<StaticArray<u128>>;
-  constructor(fields: Map<u64, Array<u128>>, edicts: Array<StaticArray<u128>>) {
+  public unallocatedTo: u32;
+  constructor(
+    fields: Map<u64, Array<u128>>,
+    edicts: Array<StaticArray<u128>>,
+    defaultOutput: i32,
+  ) {
     this.fields = fields;
     this.edicts = edicts;
+
+    this.unallocatedTo = this.fields.has(Field.POINTER)
+      ? fieldTo<u32>(this.fields.get(Field.POINTER))
+      : <u32>defaultOutput;
   }
   inspect(): string {
     let result = "RunestoneMessage {\n";
@@ -98,7 +107,7 @@ export class RunestoneMessage {
     if (!this.fields.has(Field.MINT)) return changetype<ArrayBuffer>(0);
     return fieldToArrayBuffer(this.fields.get(Field.MINT));
   }
-  static parse(data: ArrayBuffer): RunestoneMessage {
+  static parse(data: ArrayBuffer, defaultOutput: i32): RunestoneMessage {
     const input = Box.from(data);
     let fields = new Map<u64, Array<u128>>();
     let edicts = new Array<StaticArray<u128>>(0);
@@ -138,7 +147,7 @@ export class RunestoneMessage {
         field.push(value);
       }
     }
-    return new RunestoneMessage(fields, edicts);
+    return new RunestoneMessage(fields, edicts, defaultOutput);
   }
 
   buildRuneIdForMint(bytes: ArrayBuffer): ArrayBuffer {
@@ -428,6 +437,20 @@ export class RunestoneMessage {
       isCenotaph,
     );
   }
+
+  handleLeftoverRunes(
+    balanceSheet: BalanceSheet,
+    balancesByOutput: Map<u32, BalanceSheet>,
+  ): void {
+    const unallocatedTo = this.unallocatedTo;
+
+    if (balancesByOutput.has(unallocatedTo)) {
+      balanceSheet.pipe(balancesByOutput.get(unallocatedTo));
+    } else {
+      balancesByOutput.set(unallocatedTo, balanceSheet);
+    }
+  }
+
   process(
     tx: RunesTransaction,
     txid: ArrayBuffer,
@@ -440,21 +463,14 @@ export class RunestoneMessage {
     this.mint(height, balanceSheet);
     this.etch(<u64>height, <u32>txindex, balanceSheet, tx);
 
-    const unallocatedTo = this.fields.has(Field.POINTER)
-      ? fieldTo<u32>(this.fields.get(Field.POINTER))
-      : <u32>tx.defaultOutput();
-
     const isCenotaph = this.processEdicts(
       balancesByOutput,
       balanceSheet,
       tx.outs,
     );
 
-    if (balancesByOutput.has(unallocatedTo)) {
-      balanceSheet.pipe(balancesByOutput.get(unallocatedTo));
-    } else {
-      balancesByOutput.set(unallocatedTo, balanceSheet);
-    }
+    this.handleLeftoverRunes(balanceSheet, balancesByOutput);
+
     const runesToOutputs = balancesByOutput.keys();
 
     for (let x = 0; x < runesToOutputs.length; x++) {
