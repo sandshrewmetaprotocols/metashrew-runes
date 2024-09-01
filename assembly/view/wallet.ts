@@ -2,7 +2,7 @@ import {
   OUTPOINTS_FOR_ADDRESS,
   OUTPOINT_TO_OUTPUT,
 } from "metashrew-spendables/assembly/tables.ts";
-import { Index as SpendablesIndex } from "metashrew-spendables/assembly/indexer";
+import { SpendablesIndex } from "metashrew-spendables/assembly/indexer";
 import { balanceSheetToProtobuf, outpointBase } from "./outpoint";
 import { BalanceSheet } from "../indexer/BalanceSheet";
 import { metashrew_runes as protobuf } from "../proto/metashrew-runes";
@@ -31,7 +31,7 @@ export function wallet_test(): ArrayBuffer {
   const outpoint =
     "a92ba4aab6ac3fe26667665ca6bcd75eff2cd05963ab665d259a31113ae831a401000000";
 
-  SpendablesIndex.findOutpointsForAddress(address);
+  new SpendablesIndex().findOutpointsForAddress(address);
 
   return new ArrayBuffer(0);
 }
@@ -40,7 +40,7 @@ export function runesbyaddress(): ArrayBuffer {
   const _address = protobuf.WalletRequest.decode(input().slice(4)).wallet;
   const address = changetype<Uint8Array>(_address).buffer;
 
-  const _outpoints = SpendablesIndex.findOutpointsForAddress(address);
+  const _outpoints = new SpendablesIndex().findOutpointsForAddress(address);
   const outpoints = new Array<protobuf.OutpointResponse>();
   const balanceSheets = new Array<BalanceSheet>();
   for (let i = 0; i < _outpoints.length; i++) {

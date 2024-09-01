@@ -17,7 +17,7 @@ import { readULEB128ToU128 } from "./leb128";
 import { u256, u128 } from "as-bignum/assembly";
 import { RunesIndex } from "./indexer";
 import { GENESIS } from "./indexer/constants";
-import { Index as SpendablesIndex } from "metashrew-spendables/assembly/indexer";
+import { SpendablesIndex } from "metashrew-spendables/assembly/indexer";
 
 export function trap(): void {
   unreachable();
@@ -35,7 +35,7 @@ export function _start(): void {
  */
   const block = new Block(box);
   if (height >= GENESIS) {
-    SpendablesIndex.indexBlock(height, block);
+    new SpendablesIndex().indexBlock(height, block);
   }
   new RunesIndex().indexBlock(height, block);
   _flush();
