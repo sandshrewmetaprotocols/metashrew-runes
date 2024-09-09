@@ -205,6 +205,7 @@ export class RunestoneMessage {
     let nameU128: u128;
     if (this.fields.has(Field.RUNE)) nameU128 = this.fields.get(Field.RUNE)[0];
     else nameU128 = getReservedNameFor(height, tx);
+    if (height < GENESIS) return toArrayBuffer(nameU128);
     let interval: i64 = (height - GENESIS) / HEIGHT_INTERVAL;
     let minimum_name = MINIMUM_NAME;
     if (interval > 0)

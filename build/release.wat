@@ -11555,6 +11555,14 @@
    local.get $5
    i64.store offset=8
   end
+  local.get $1
+  i64.const 840000
+  i64.lt_u
+  if
+   local.get $0
+   call $assembly/utils/toArrayBuffer
+   return
+  end
   local.get $0
   local.set $2
   global.get $assembly/indexer/constants/index/MINIMUM_NAME
