@@ -57,6 +57,7 @@
  (global $~lib/metashrew-as/assembly/utils/b32/ONE (mut i32) (i32.const 0))
  (global $~lib/metashrew-as/assembly/utils/b32/ALPHABET_MAP i32 (i32.const 1888))
  (global $~lib/metashrew-as/assembly/utils/b32/ALPHABET i32 (i32.const 2176))
+ (global $~lib/metashrew-as/assembly/utils/b32/DEFAULT_LIMIT i32 (i32.const 90))
  (global $~lib/metashrew-as/assembly/utils/b58/ALPHABET i32 (i32.const 2240))
  (global $~lib/metashrew-as/assembly/utils/b58/LEADER (mut i32) (i32.const 0))
  (global $assembly/indexer/Field/Field.BODY (mut i64) (i64.const 0))
@@ -263,6 +264,7 @@
  (export "runes" (func $assembly/view/runes/runes))
  (export "wallet_test" (func $assembly/view/wallet/wallet_test))
  (export "runesbyaddress" (func $assembly/view/wallet/runesbyaddress))
+ (export "blockhash" (func $assembly/view/height/blockhash))
  (export "__new" (func $~lib/rt/stub/__new))
  (export "__pin" (func $~lib/rt/stub/__pin))
  (export "__unpin" (func $~lib/rt/stub/__unpin))
@@ -9681,7 +9683,7 @@
    if
     i32.const 0
     i32.const 4992
-    i32.const 99
+    i32.const 101
     i32.const 25
     call $~lib/builtins/abort
     unreachable
@@ -9696,13 +9698,28 @@
    if
     i32.const 0
     i32.const 4992
-    i32.const 100
+    i32.const 102
     i32.const 45
     call $~lib/builtins/abort
     unreachable
    end
   end
   local.get $result
+  return
+ )
+ (func $~lib/array/Array<u8>#get:length (param $this i32) (result i32)
+  local.get $this
+  call $~lib/array/Array<u8>#get:length_
+  return
+ )
+ (func $~lib/metashrew-as/assembly/utils/b32/fromDataStart<~lib/array/Array<u8>> (param $v i32) (result i32)
+  local.get $v
+  call $~lib/array/Array<u8>#get:dataStart
+  call $~lib/metashrew-as/assembly/utils/box/Box.from
+  local.get $v
+  call $~lib/array/Array<u8>#get:length
+  call $~lib/metashrew-as/assembly/utils/box/Box#setLength
+  call $~lib/metashrew-as/assembly/utils/box/Box#toArrayBuffer
   return
  )
  (func $~lib/metashrew-as/assembly/utils/b32/toWords (param $bytes i32) (result i32)
@@ -9719,6 +9736,25 @@
   i32.const 5
   i32.const 1
   call $~lib/metashrew-as/assembly/utils/b32/convert
+  call $~lib/metashrew-as/assembly/utils/b32/fromDataStart<~lib/array/Array<u8>>
+  return
+ )
+ (func $~lib/metashrew-as/assembly/indexer/index/arrayBufferToArray (param $data i32) (result i32)
+  (local $result i32)
+  i32.const 0
+  local.get $data
+  call $~lib/arraybuffer/ArrayBuffer#get:byteLength
+  call $~lib/array/Array<u8>#constructor
+  local.set $result
+  local.get $result
+  local.get $data
+  i32.store
+  local.get $result
+  i32.const 4
+  i32.add
+  local.get $data
+  i32.store
+  local.get $result
   return
  )
  (func $~lib/array/Array<u8>#unshift (param $this i32) (param $value i32) (result i32)
@@ -9758,9 +9794,14 @@
   local.get $len
   return
  )
- (func $~lib/array/Array<u8>#get:length (param $this i32) (result i32)
-  local.get $this
-  call $~lib/array/Array<u8>#get:length_
+ (func $~lib/metashrew-as/assembly/blockdata/address/arrayToArrayBuffer (param $v i32) (result i32)
+  i32.const 0
+  local.get $v
+  call $~lib/array/Array<u8>#get:dataStart
+  local.get $v
+  call $~lib/array/Array<u8>#get:length
+  call $~lib/metashrew-as/assembly/utils/box/Box#constructor
+  call $~lib/metashrew-as/assembly/utils/box/Box#toArrayBuffer
   return
  )
  (func $~lib/metashrew-as/assembly/utils/b32/prefixChk (param $prefix i32) (result i32)
@@ -9803,7 +9844,7 @@
     if
      i32.const 0
      i32.const 4992
-     i32.const 58
+     i32.const 60
      i32.const 7
      call $~lib/builtins/abort
      unreachable
@@ -10070,7 +10111,7 @@
   local.get $value
   return
  )
- (func $~lib/metashrew-as/assembly/utils/b32/encode (param $prefix i32) (param $words i32) (param $encoding i32) (param $LIMIT i32) (result i32)
+ (func $~lib/metashrew-as/assembly/utils/b32/encode (param $prefix i32) (param $words i32) (param $encoding i32) (param $limit i32) (result i32)
   (local $chk i32)
   (local $result i32)
   (local $ptr i32)
@@ -10092,12 +10133,12 @@
   local.get $words
   call $~lib/array/Array<u8>#get:length
   i32.add
-  local.get $LIMIT
+  local.get $limit
   i32.gt_s
   if
    i32.const 5104
    i32.const 4992
-   i32.const 118
+   i32.const 120
    i32.const 5
    call $~lib/builtins/abort
    unreachable
@@ -10156,7 +10197,7 @@
     if
      i32.const 5168
      i32.const 4992
-     i32.const 133
+     i32.const 135
      i32.const 23
      call $~lib/builtins/abort
      unreachable
@@ -10381,6 +10422,7 @@
  (func $~lib/metashrew-as/assembly/utils/b32/bech32 (param $prefix i32) (param $words i32) (result i32)
   local.get $prefix
   local.get $words
+  call $~lib/metashrew-as/assembly/indexer/index/arrayBufferToArray
   global.get $~lib/metashrew-as/assembly/utils/b32/ENCODING_CONST_BECH32
   i32.const 90
   call $~lib/metashrew-as/assembly/utils/b32/encode
@@ -10389,6 +10431,7 @@
  (func $~lib/metashrew-as/assembly/utils/b32/bech32m (param $prefix i32) (param $words i32) (result i32)
   local.get $prefix
   local.get $words
+  call $~lib/metashrew-as/assembly/indexer/index/arrayBufferToArray
   global.get $~lib/metashrew-as/assembly/utils/b32/ENCODING_CONST_BECH32M
   i32.const 90
   call $~lib/metashrew-as/assembly/utils/b32/encode
@@ -10398,6 +10441,7 @@
   (local $words i32)
   local.get $data
   call $~lib/metashrew-as/assembly/utils/b32/toWords
+  call $~lib/metashrew-as/assembly/indexer/index/arrayBufferToArray
   local.set $words
   local.get $words
   local.get $version
@@ -10411,11 +10455,13 @@
   if
    local.get $prefix
    local.get $words
+   call $~lib/metashrew-as/assembly/blockdata/address/arrayToArrayBuffer
    call $~lib/metashrew-as/assembly/utils/b32/bech32
    return
   else
    local.get $prefix
    local.get $words
+   call $~lib/metashrew-as/assembly/blockdata/address/arrayToArrayBuffer
    call $~lib/metashrew-as/assembly/utils/b32/bech32m
    return
   end
@@ -20704,24 +20750,6 @@
   call $~lib/array/Array<~lib/array/Array<u8>>#set:length_
   local.get $this
  )
- (func $~lib/metashrew-as/assembly/indexer/index/arrayBufferToArray (param $data i32) (result i32)
-  (local $result i32)
-  i32.const 0
-  local.get $data
-  call $~lib/arraybuffer/ArrayBuffer#get:byteLength
-  call $~lib/array/Array<u8>#constructor
-  local.set $result
-  local.get $result
-  local.get $data
-  i32.store
-  local.get $result
-  i32.const 4
-  i32.add
-  local.get $data
-  i32.store
-  local.get $result
-  return
- )
  (func $~lib/array/Array<~lib/array/Array<u8>>#get:length_ (param $this i32) (result i32)
   local.get $this
   i32.load offset=12
@@ -29409,6 +29437,25 @@
   call $assembly/proto/metashrew-runes/metashrew_runes.WalletResponse#set:balances
   local.get $message
   call $assembly/proto/metashrew-runes/metashrew_runes.WalletResponse#encode
+  return
+ )
+ (func $assembly/view/height/blockhash (result i32)
+  (local $data i32)
+  (local $height i32)
+  (local $target i32)
+  call $~lib/metashrew-as/assembly/indexer/index/input
+  call $~lib/metashrew-as/assembly/utils/box/Box.from
+  local.set $data
+  local.get $data
+  call $~lib/metashrew-as/assembly/utils/utils/parsePrimitive<u32>
+  local.set $height
+  local.get $data
+  call $~lib/metashrew-as/assembly/utils/utils/parsePrimitive<u32>
+  local.set $target
+  global.get $assembly/indexer/constants/index/HEIGHT_TO_BLOCKHASH
+  local.get $target
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#selectValue<u32>
+  call $~lib/metashrew-as/assembly/indexer/tables/IndexPointer#get
   return
  )
  (func $~lib/rt/stub/__pin (param $ptr i32) (result i32)
