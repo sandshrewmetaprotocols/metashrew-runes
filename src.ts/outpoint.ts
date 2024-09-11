@@ -4,6 +4,7 @@ import {
   BalanceSheet,
 } from "./proto/metashrew-runes";
 import { stripHexPrefix } from "./utils";
+import { Buffer } from "safe-buffer";
 
 export type Rune = {
   id: string;
@@ -33,8 +34,8 @@ export type OutPoint = {
 };
 
 export function encodeOutpointInput(txid: string, pos: number): string {
-  const input: Outpoint = {
-    txid: Buffer.from(txid, "hex"),
+  const input: any = {
+    txid: (Buffer as any).from(txid, "hex") as Buffer,
     vout: pos,
   };
   const str = Buffer.from(Outpoint.toBinary(input)).toString("hex");
@@ -71,7 +72,7 @@ export function decodeRunes(balances: BalanceSheet): RuneOutput[] {
     };
     return {
       rune,
-      balance: BigInt("0x" + Buffer.from(balance).toString("hex")),
+      balance: BigInt("0x" + (Buffer as any).from(balance).toString("hex") as string),
     };
   });
 }
@@ -79,13 +80,13 @@ export function decodeOutpointViewBase(op: OutpointResponse): OutPoint {
   return {
     runes: decodeRunes(op.balances),
     outpoint: {
-      txid: Buffer.from(op.outpoint.txid).toString("hex"),
+      txid: (Buffer as any).from(op.outpoint.txid).toString("hex"),
       vout: op.outpoint.vout,
     },
     output: op.output
       ? {
           value: op.output.value,
-          script: Buffer.from(op.output.script).toString("hex"),
+          script: (Buffer as any).from(op.output.script).toString("hex") as string
         }
       : { value: "", script: "" },
     height: op.height,
@@ -94,7 +95,7 @@ export function decodeOutpointViewBase(op: OutpointResponse): OutPoint {
 }
 
 export function decodeOutpointView(hex: string): OutPoint {
-  const bytes = Uint8Array.from(Buffer.from(stripHexPrefix(hex), "hex"));
+  const bytes = (Uint8Array as any).from((Buffer as any).from(stripHexPrefix(hex), "hex") as Buffer) as Uint8Array;
   const op = OutpointResponse.fromBinary(bytes);
   return decodeOutpointViewBase(op);
 }
