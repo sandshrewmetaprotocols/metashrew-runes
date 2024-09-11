@@ -19,7 +19,8 @@
     "clean": "rm -rf build lib assembly/proto/metashrew-runes.ts src.ts/proto/metashrew-runes.ts"
   },
   "dependencies": {
-    "@protobuf-ts/runtime": "^2.9.4"
+    "@protobuf-ts/runtime": "^2.9.4",
+    "node": "^22.8.0"
   },
   "devDependencies": {
     "@bitauth/libauth": "^3.0.0",
