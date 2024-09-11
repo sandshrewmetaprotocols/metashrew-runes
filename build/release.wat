@@ -14924,23 +14924,18 @@
   local.get $1
   call $~lib/metashrew-as/assembly/blockdata/block/Block#constructor
   local.set $0
-  local.get $2
-  i32.const 840000
-  i32.ge_u
+  i32.const 0
+  i32.const 32
+  call $~lib/rt/stub/__new
+  i32.eqz
   if
    i32.const 0
-   i32.const 32
+   i32.const 0
    call $~lib/rt/stub/__new
-   i32.eqz
-   if
-    i32.const 0
-    i32.const 0
-    call $~lib/rt/stub/__new
-    drop
-   end
-   local.get $0
-   call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#indexBlock
+   drop
   end
+  local.get $0
+  call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#indexBlock
   i32.const 0
   i32.const 42
   call $~lib/rt/stub/__new

@@ -21223,16 +21223,11 @@
   local.get $box
   call $~lib/metashrew-as/assembly/blockdata/block/Block#constructor
   local.set $block
+  i32.const 0
+  call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#constructor
   local.get $height
-  global.get $assembly/indexer/constants/index/GENESIS
-  i32.ge_u
-  if
-   i32.const 0
-   call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#constructor
-   local.get $height
-   local.get $block
-   call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#indexBlock
-  end
+  local.get $block
+  call $~lib/metashrew-spendables/assembly/indexer/SpendablesIndex#indexBlock
   i32.const 0
   call $assembly/indexer/Indexer/RunesIndex#constructor
   local.get $height
