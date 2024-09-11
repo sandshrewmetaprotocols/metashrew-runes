@@ -2,7 +2,7 @@ import { WalletResponse, WalletRequest } from "./proto/metashrew-runes";
 import { decodeOutpointViewBase } from "./outpoint";
 import { decodeRunes, OutPoint, RuneOutput } from "./outpoint";
 import { stripHexPrefix } from "./utils";
-
+import { Buffer } from "buffer";
 
 export function decodeWalletOutput(hex: string): {
   outpoints: OutPoint[];
