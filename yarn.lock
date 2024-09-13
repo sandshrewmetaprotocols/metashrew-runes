@@ -1287,9 +1287,9 @@ memorystream@^0.3.1:
   resolved "https://registry.yarnpkg.com/memorystream/-/memorystream-0.3.1.tgz#86d7090b30ce455d63fbae12dda51a47ddcaf9b2"
   integrity sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==
 
-"metashrew-as@https://github.com/sandshrewmetaprotocols/metashrew-as":
+"metashrew-as@https://github.com/sandshrewmetaprotocols/metashrew-as#new-encoding":
   version "0.1.0"
-  resolved "https://github.com/sandshrewmetaprotocols/metashrew-as#0b75f54b2330ddfecc54f72e49e993ecc28a3b81"
+  resolved "https://github.com/sandshrewmetaprotocols/metashrew-as#1413205ac69f6cccf3a2a5f132eda1926d9b8b22"
   dependencies:
     as-bignum "^0.3.1"
     fast-sha256-as "https://github.com/sandshrewmetaprotocols/fast-sha256-as"

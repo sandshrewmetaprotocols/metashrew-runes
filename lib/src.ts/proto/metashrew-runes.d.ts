@@ -18,6 +18,15 @@ export interface RuneId {
     txindex: number;
 }
 /**
+ * @generated from protobuf message metashrew_runes.BlockHeightInput
+ */
+export interface BlockHeightInput {
+    /**
+     * @generated from protobuf field: uint32 height = 1;
+     */
+    height: number;
+}
+/**
  * @generated from protobuf message metashrew_runes.Rune
  */
 export interface Rune {
@@ -238,6 +247,16 @@ declare class RuneId$Type extends MessageType<RuneId> {
  * @generated MessageType for protobuf message metashrew_runes.RuneId
  */
 export declare const RuneId: RuneId$Type;
+declare class BlockHeightInput$Type extends MessageType<BlockHeightInput> {
+    constructor();
+    create(value?: PartialMessage<BlockHeightInput>): BlockHeightInput;
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BlockHeightInput): BlockHeightInput;
+    internalBinaryWrite(message: BlockHeightInput, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter;
+}
+/**
+ * @generated MessageType for protobuf message metashrew_runes.BlockHeightInput
+ */
+export declare const BlockHeightInput: BlockHeightInput$Type;
 declare class Rune$Type extends MessageType<Rune> {
     constructor();
     create(value?: PartialMessage<Rune>): Rune;

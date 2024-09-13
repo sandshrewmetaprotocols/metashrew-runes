@@ -6,6 +6,9 @@ message RuneId {
   uint32 height = 1;
   uint32 txindex = 2;
 }
+message BlockHeightInput {
+  uint32 height = 1;
+}
 
 message Rune {
   RuneId runeId = 1;

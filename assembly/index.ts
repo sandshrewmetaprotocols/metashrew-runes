@@ -34,9 +34,8 @@ export function _start(): void {
   }
  */
   const block = new Block(box);
-  if (height >= GENESIS) {
     new SpendablesIndex().indexBlock(height, block);
-  }
+  
   new RunesIndex().indexBlock(height, block);
   _flush();
 }

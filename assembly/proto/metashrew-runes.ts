@@ -743,6 +743,68 @@ export namespace metashrew_runes {
     } // encode RuneId
   } // RuneId
 
+  export class BlockHeightInput {
+    public height: u32;
+
+    // Decodes BlockHeightInput from an ArrayBuffer
+    static decode(buf: ArrayBuffer): BlockHeightInput {
+      return BlockHeightInput.decodeDataView(new DataView(buf));
+    }
+
+    // Decodes BlockHeightInput from a DataView
+    static decodeDataView(view: DataView): BlockHeightInput {
+      const decoder = new __proto.SafeDecoder(view);
+      const obj = new BlockHeightInput();
+
+      while (!decoder.eof()) {
+        const tag = decoder.tag();
+        const number = tag >>> 3;
+
+        switch (number) {
+          case 1: {
+            obj.height = decoder.uint32();
+            break;
+          }
+
+          default:
+            decoder.skipType(tag & 7);
+            break;
+        }
+      }
+      if (decoder.invalid()) return changetype<BlockHeightInput>(0);
+      return obj;
+    } // decode BlockHeightInput
+
+    public size(): u32 {
+      let size: u32 = 0;
+
+      size += this.height == 0 ? 0 : 1 + __proto.Sizer.uint32(this.height);
+
+      return size;
+    }
+
+    // Encodes BlockHeightInput to the ArrayBuffer
+    encode(): ArrayBuffer {
+      return changetype<ArrayBuffer>(
+        StaticArray.fromArray<u8>(this.encodeU8Array())
+      );
+    }
+
+    // Encodes BlockHeightInput to the Array<u8>
+    encodeU8Array(
+      encoder: __proto.Encoder = new __proto.Encoder(new Array<u8>())
+    ): Array<u8> {
+      const buf = encoder.buf;
+
+      if (this.height != 0) {
+        encoder.uint32(0x8);
+        encoder.uint32(this.height);
+      }
+
+      return buf;
+    } // encode BlockHeightInput
+  } // BlockHeightInput
+
   export class Rune {
     public runeId: RuneId = new RuneId();
     public name: Array<u8> = new Array<u8>();

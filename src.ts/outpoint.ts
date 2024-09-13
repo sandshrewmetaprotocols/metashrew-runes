@@ -4,7 +4,8 @@ import {
   BalanceSheet,
 } from "./proto/metashrew-runes";
 import { stripHexPrefix } from "./utils";
-import { Buffer } from "safe-buffer";
+import { RunesResponse, BlockHeightInput } from './proto/metashrew-runes';
+
 
 export type Rune = {
   id: string;
@@ -98,4 +99,42 @@ export function decodeOutpointView(hex: string): OutPoint {
   const bytes = (Uint8Array as any).from((Buffer as any).from(stripHexPrefix(hex), "hex") as Buffer) as Uint8Array;
   const op = OutpointResponse.fromBinary(bytes);
   return decodeOutpointViewBase(op);
+}
+
+export function decodeRunesResponse(hex: string): {
+  runes: Array<{
+    runeId: string;
+    name: string;
+    divisibility: number;
+    spacers: number;
+    symbol: string;
+  }>;
+} {
+  if (!hex || hex === '0x') {
+    return { runes: [] };
+  }
+  const buffer = Buffer.from(stripHexPrefix(hex), "hex");
+  if (buffer.length === 0) {
+    return { runes: [] };
+  }
+  const response = RunesResponse.fromBinary(buffer);
+  
+  return {
+    runes: response.runes.map(rune => ({
+      runeId: `${rune.runeId?.height || 0}:${rune.runeId?.txindex || 0}`,
+      name: Buffer.from(rune.name).toString('utf8'),
+      divisibility: rune.divisibility,
+      spacers: rune.spacers,
+      symbol: String.fromCharCode(rune.symbol)
+    }))
+  };
+}
+
+export function encodeBlockHeightInput(height: number): string {
+  const input: any = {
+    height: height
+  };
+  console.log(input);
+  const str = Buffer.from(BlockHeightInput.toBinary(input)).toString("hex");
+  return "0x" + str;
 }
