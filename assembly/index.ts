@@ -34,12 +34,8 @@ export function _start(): void {
   }
  */
   const block = new Block(box);
-<<<<<<< HEAD
     new SpendablesIndex().indexBlock(height, block);
   
-=======
-  new SpendablesIndex().indexBlock(height, block);
->>>>>>> 7615d99ba51eb00ae30f5ae4106a1f9baa8dfc38
   new RunesIndex().indexBlock(height, block);
   _flush();
 }
