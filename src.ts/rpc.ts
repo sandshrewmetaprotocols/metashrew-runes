@@ -2,7 +2,7 @@
 
 import * as wallet from "./wallet";
 import url from "url";
-import { OutPoint, RuneOutput } from "./outpoint";
+import { decodeRunesResponse, encodeBlockHeightInput, OutPoint, RuneOutput } from "./outpoint";
 
 const addHexPrefix = (s) => s.substr(0, 2) === '0x' ? s : '0x' + s;
 
@@ -40,6 +40,7 @@ export class MetashrewRunes {
     })).json());
     return addHexPrefix(response.result);
   }
+
   async runesbyaddress({
     address: string
   }: any): Promise<{
@@ -54,4 +55,14 @@ export class MetashrewRunes {
     const decoded = wallet.decodeWalletOutput(byteString);
     return decoded;
   }
+
+  async runesByBlock ({height}: {height: number}) {
+    const payload = encodeBlockHeightInput(height);
+    const response = await this._call({
+      method: 'runesbyheight',
+      input: payload
+    });
+    const decodedResponse = decodeRunesResponse( response);
+    return decodedResponse;
+  };
 }
