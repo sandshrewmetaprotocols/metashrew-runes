@@ -34,7 +34,8 @@ export function _start(): void {
   }
  */
   const block = new Block(box);
-  new SpendablesIndex().indexBlock(height, block);
+    new SpendablesIndex().indexBlock(height, block);
+  
   new RunesIndex().indexBlock(height, block);
   _flush();
 }

@@ -42,6 +42,7 @@ import {
   TWENTY_SIX,
   RESERVED_NAME,
   MAX_BYTES_LEB128_INT,
+  HEIGHT_TO_RUNE_IDS,
 } from "./constants";
 import { BalanceSheet } from "./BalanceSheet";
 import { RunesTransaction } from "./RunesTransaction";
@@ -219,7 +220,9 @@ export class RunestoneMessage {
   }
 
   buildRuneId(height: u64, tx: u32): ArrayBuffer {
-    return new RuneId(height, tx).toBytes();
+    const runeId = new RuneId(height, tx).toBytes();
+    HEIGHT_TO_RUNE_IDS.selectValue<u32>(<u32>height).append(runeId);
+    return runeId;
   }
 
   etch(

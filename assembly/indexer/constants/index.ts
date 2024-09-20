@@ -34,3 +34,4 @@ export const RESERVED_NAME = u128.from("6402364363415443603228541259936211926");
 export const SUBSIDY_HALVING_INTERVAL: u64 = 210_000;
 export const HEIGHT_INTERVAL: u64 = 17_500;
 export const MAX_BYTES_LEB128_INT: usize = 18;
+export const HEIGHT_TO_RUNE_IDS = IndexPointer.for("/runeids/byheight");

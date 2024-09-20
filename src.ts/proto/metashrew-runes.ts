@@ -24,6 +24,15 @@ export interface RuneId {
     txindex: number;
 }
 /**
+ * @generated from protobuf message metashrew_runes.BlockHeightInput
+ */
+export interface BlockHeightInput {
+    /**
+     * @generated from protobuf field: uint32 height = 1;
+     */
+    height: number;
+}
+/**
  * @generated from protobuf message metashrew_runes.Rune
  */
 export interface Rune {
@@ -289,6 +298,53 @@ class RuneId$Type extends MessageType<RuneId> {
  * @generated MessageType for protobuf message metashrew_runes.RuneId
  */
 export const RuneId = new RuneId$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BlockHeightInput$Type extends MessageType<BlockHeightInput> {
+    constructor() {
+        super("metashrew_runes.BlockHeightInput", [
+            { no: 1, name: "height", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<BlockHeightInput>): BlockHeightInput {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.height = 0;
+        if (value !== undefined)
+            reflectionMergePartial<BlockHeightInput>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BlockHeightInput): BlockHeightInput {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* uint32 height */ 1:
+                    message.height = reader.uint32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: BlockHeightInput, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* uint32 height = 1; */
+        if (message.height !== 0)
+            writer.tag(1, WireType.Varint).uint32(message.height);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message metashrew_runes.BlockHeightInput
+ */
+export const BlockHeightInput = new BlockHeightInput$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Rune$Type extends MessageType<Rune> {
     constructor() {
