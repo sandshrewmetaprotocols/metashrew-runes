@@ -56,7 +56,7 @@ export class MetashrewRunes {
     return decoded;
   }
 
-  async runesByBlock (height: number) {
+  async runesByBlock ({height}: {height: number}) {
     const payload = encodeBlockHeightInput(height);
     const response = await this._call({
       method: 'runesbyheight',

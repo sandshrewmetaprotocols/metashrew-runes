@@ -11,7 +11,9 @@ export declare class MetashrewRunes {
         outpoints: OutPoint[];
         balanceSheet: RuneOutput[];
     }>;
-    runesByBlock(height: number): Promise<{
+    runesByBlock({ height }: {
+        height: number;
+    }): Promise<{
         runes: Array<{
             runeId: string;
             name: string;
