@@ -47,7 +47,6 @@ var getRunes = async (height) => {
   console.log(decodedResponse);
 };
 
-
 async function logRunes(height) {
   try {
     const blockRunes = []
